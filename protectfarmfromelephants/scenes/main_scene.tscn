@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://da2bvcg75chtw"]
+
+[ext_resource type="PackedScene" uid="uid://b7dj7517fth8g" path="res://background/base_background.tscn" id="1_c6rp7"]
+[ext_resource type="PackedScene" uid="uid://d0qgd502gu2p5" path="res://characters/player.tscn" id="2_8st4v"]
+[ext_resource type="PackedScene" uid="uid://xu182wpkxruu" path="res://background/base_wall.tscn" id="3_focf8"]
+
+[node name="Level" type="Node2D"]
+position = Vector2(210, -23)
+
+[node name="GroundTileMap" parent="." instance=ExtResource("1_c6rp7")]
+position = Vector2(-33, -33)
+
+[node name="Player" parent="." instance=ExtResource("2_8st4v")]
+position = Vector2(97, 172)
+
+[node name="ceiling" type="CollisionShape2D" parent="."]
+
+[node name="BaseWall_left" parent="." instance=ExtResource("3_focf8")]
+position = Vector2(-208, 29)
+
+[node name="BaseWal_right" parent="." instance=ExtResource("3_focf8")]
+position = Vector2(367, 36)
