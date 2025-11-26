@@ -1,3 +1,79 @@
-[gd_scene format=3 uid="uid://d0dif54itofdm"]
+[gd_scene load_steps=16 format=3 uid="uid://d0dif54itofdm"]
 
-[node name="Elephant" type="Node2D"]
+[ext_resource type="Script" path="res://scripts/Elephant.cs" id="1_66rpy"]
+[ext_resource type="Texture2D" uid="uid://der18or2hy4w5" path="res://assets/elephant_test.png" id="1_ej72v"]
+[ext_resource type="Texture2D" uid="uid://bibjk30onagkd" path="res://assets/elephant_animations/tile000.png" id="2_0jdan"]
+[ext_resource type="Texture2D" uid="uid://b5bj13d3pbjfu" path="res://assets/elephant_animations/tile001.png" id="3_8wbr1"]
+[ext_resource type="Texture2D" uid="uid://wqsxn287yl6l" path="res://assets/elephant_animations/tile002.png" id="4_7t55c"]
+[ext_resource type="Texture2D" uid="uid://b502vx4enynh3" path="res://assets/elephant_animations/tile003.png" id="5_1p5sw"]
+[ext_resource type="Texture2D" uid="uid://b5ugh87cc5tye" path="res://assets/elephant_animations/tile004.png" id="6_btdwd"]
+[ext_resource type="Texture2D" uid="uid://bvnwx5kxgq4pw" path="res://assets/elephant_animations/tile005.png" id="7_tb7gf"]
+[ext_resource type="Texture2D" uid="uid://bv0n6extr5767" path="res://assets/elephant_animations/tile006.png" id="8_7hw6p"]
+[ext_resource type="Texture2D" uid="uid://bpllaqdbuokbx" path="res://assets/elephant_animations/tile007.png" id="9_h4i5i"]
+[ext_resource type="Texture2D" uid="uid://2t320id7s5qv" path="res://assets/elephant_animations/tile008.png" id="10_8eta2"]
+[ext_resource type="Texture2D" uid="uid://ylpb4ul3p1ds" path="res://assets/elephant_animations/tile009.png" id="11_j20ja"]
+[ext_resource type="Texture2D" uid="uid://b6j144nlkqsv7" path="res://assets/elephant_animations/tile010.png" id="12_7av7f"]
+[ext_resource type="Texture2D" uid="uid://t6plblvw54em" path="res://assets/elephant_animations/tile011.png" id="13_patfj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u5phx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ej72v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0jdan")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8wbr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7t55c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1p5sw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_btdwd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tb7gf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_7hw6p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_h4i5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_8eta2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_j20ja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_7av7f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_patfj")
+}],
+"loop": true,
+"name": &"test_right",
+"speed": 10.0
+}]
+
+[node name="Elephant" type="CharacterBody2D"]
+script = ExtResource("1_66rpy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(67, 2)
+sprite_frames = SubResource("SpriteFrames_u5phx")
+animation = &"test_right"
+frame_progress = 0.126749
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

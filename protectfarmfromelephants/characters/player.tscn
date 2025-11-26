@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://1nvaekopqga8" path="res://assets/player_right_01.png" id="4_8kij3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgu2t"]
-size = Vector2(24, 30.1563)
+size = Vector2(19, 30.1563)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wbw8y"]
 animations = [{
@@ -48,17 +48,18 @@ position = Vector2(306, 86)
 script = ExtResource("1_6mhrc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-29, 5)
+position = Vector2(-30.5, 5)
 shape = SubResource("RectangleShape2D_tgu2t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 3
 texture_repeat = 1
-position = Vector2(-29, 5)
+position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)
-zoom = Vector2(2, 2)
+zoom = Vector2(2.5, 2.5)
+process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0

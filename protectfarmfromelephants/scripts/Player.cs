@@ -1,44 +1,62 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
+	public int speed { get; set; } = 200;
 	public const float JumpVelocity = -400.0f;
+	private AnimatedSprite2D _animatedSprite;
 
+	public Godot.Collections.Array<string> inventory = new Array<string>();
+
+	public override void _Ready()
+	{
+		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+	}
+	public void GetInput()
+	{
+		Vector2 inputDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		Velocity = inputDirection * speed;
+	}
+
+	public void AddToInventory(string item)
+    {
+        inventory.Add(item);
+    }
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-
-		// Add the gravity.
-		/* if (!IsOnFloor())
+		GetInput();
+		if (Input.IsActionPressed("move_left"))
 		{
-			velocity += GetGravity() * (float)delta;
-		} */
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-		{
-			velocity.Y = JumpVelocity; 
+			_animatedSprite.Play("walk_left");
 		}
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
+		else if (Input.IsActionPressed("move_right"))
 		{
-			velocity.X = direction.X * Speed;
+			_animatedSprite.Play("walk_right");
+		}
+		else if (Input.IsActionPressed("move_up"))
+		{
+			//_animatedSprite.Play("walk_up");
+		}
+		else if (Input.IsActionPressed("move_down"))
+		{
+			//_animatedSprite.Play("walk_down");
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			_animatedSprite.Play("default");
+		}
+		var collision = MoveAndCollide(Velocity * (float)delta);
+		if (collision != null)
+		{
+			GD.Print("Collided with: " + collision.GetCollider());
 		}
 
 
-		Velocity = velocity;
-		var collision = MoveAndCollide(Velocity * (float)delta);
+		/* var collision = MoveAndCollide(Velocity * (float)delta);
 		if (collision != null){
 			GD.Print("Caollided with: " + collision.GetCollider());
-		}
+		} */
 	}
 }
