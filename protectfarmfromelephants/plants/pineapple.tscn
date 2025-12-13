@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq8tbbddxi5b1"]
+
+[ext_resource type="Script" path="res://plants/Pineapple.cs" id="1_bq16l"]
+[ext_resource type="Texture2D" uid="uid://c83cwktg1mghx" path="res://assets/plants_animation_phases/pineapple/pineapple_frame_1.png" id="1_x67rs"]
+
+[node name="Pineapple" type="Area2D"]
+script = ExtResource("1_bq16l")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PineappleFrame1" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(19, 22)
+texture = ExtResource("1_x67rs")

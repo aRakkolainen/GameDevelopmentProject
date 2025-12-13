@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ima60t85dhj0"]
+
+[ext_resource type="Script" path="res://scripts/UpgradeShop.cs" id="1_tonjj"]
+
+[sub_resource type="Theme" id="Theme_b8c51"]
+
+[node name="UpgradeShop" type="PopupMenu"]
+mode = 3
+title = "Upgrades available"
+initial_position = 4
+size = Vector2i(126, 100)
+visible = true
+unfocusable = true
+theme = SubResource("Theme_b8c51")
+hide_on_item_selection = false
+hide_on_checkable_item_selection = false
+system_menu_id = 3
+item_count = 2
+item_0/text = "Defense"
+item_0/checkable = 1
+item_1/text = "Distraction"
+item_1/id = 1
+script = ExtResource("1_tonjj")

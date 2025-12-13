@@ -5,14 +5,16 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	public int speed { get; set; } = 200;
+	private bool playerIsAlive;
 	public const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D _animatedSprite;
 
-	public Godot.Collections.Array<string> inventory = new Array<string>();
+	private Godot.Collections.Array<string> inventory = new();
 
 	public override void _Ready()
 	{
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		playerIsAlive = true;
 	}
 	public void GetInput()
 	{
@@ -24,8 +26,25 @@ public partial class Player : CharacterBody2D
     {
         inventory.Add(item);
     }
+
+	public void RemoveFromInventory(string item)
+    {
+        inventory.Remove(item);
+    }
+
+	public void Die()
+    {
+		GD.Print("You runned out of time!");
+        playerIsAlive = false;
+        _animatedSprite.Stop();
+    }
+
 	public override void _PhysicsProcess(double delta)
 	{
+        if (!playerIsAlive)
+        {
+            return;
+        }
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
@@ -37,11 +56,11 @@ public partial class Player : CharacterBody2D
 		}
 		else if (Input.IsActionPressed("move_up"))
 		{
-			//_animatedSprite.Play("walk_up");
+			_animatedSprite.Play("walk_backward");
 		}
 		else if (Input.IsActionPressed("move_down"))
 		{
-			//_animatedSprite.Play("walk_down");
+			_animatedSprite.Play("walk_forward");
 		}
 		else
 		{
@@ -59,4 +78,14 @@ public partial class Player : CharacterBody2D
 			GD.Print("Caollided with: " + collision.GetCollider());
 		} */
 	}
+
+	public bool GetPlayerIsAlive()
+    {
+        return this.playerIsAlive;
+    }
+
+	public void SetPlayerIsAlive(bool status)
+    {
+        this.playerIsAlive = status;
+    }
 }

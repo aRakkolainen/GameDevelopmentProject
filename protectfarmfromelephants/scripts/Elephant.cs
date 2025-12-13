@@ -11,11 +11,11 @@ public partial class Elephant : CharacterBody2D
 	public override void _Ready()
 	{
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		_animatedSprite.Play("test_right");
+		_animatedSprite.Play("walk_right");
 	}
 	public override void _PhysicsProcess(double delta)
 	{
-		/*  */Vector2 velocity = Velocity;
+		/*  Vector2 velocity = Velocity;*/
 
 		
 

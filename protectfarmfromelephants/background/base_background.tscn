@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=4 uid="uid://b7dj7517fth8g"]
 
-[ext_resource type="Texture2D" uid="uid://b0hmmol7onmo4" path="res://assets/ground_tilemap.png" id="1_oa3rr"]
+[ext_resource type="Texture2D" uid="uid://b0hmmol7onmo4" path="res://assets/farm_tilemap.png" id="1_oa3rr"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_mt32b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tpwqu"]
