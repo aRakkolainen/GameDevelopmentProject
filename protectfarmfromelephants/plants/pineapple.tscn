@@ -1,16 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://cq8tbbddxi5b1"]
+[gd_scene load_steps=6 format=3 uid="uid://cq8tbbddxi5b1"]
 
-[ext_resource type="Script" path="res://plants/Pineapple.cs" id="1_bq16l"]
 [ext_resource type="Texture2D" uid="uid://c83cwktg1mghx" path="res://assets/plants_animation_phases/pineapple/pineapple_frame_1.png" id="1_x67rs"]
+[ext_resource type="Texture2D" uid="uid://c7d7qdguaf3io" path="res://assets/plants_animation_phases/pineapple/pineapple_frame_2.png" id="3_4o0h7"]
+[ext_resource type="Texture2D" uid="uid://45v03tlgb3m1" path="res://assets/plants_animation_phases/pineapple/pineapple_frame_3.png" id="4_tjyja"]
+[ext_resource type="Texture2D" uid="uid://cxjnuotystfpl" path="res://assets/plants_animation_phases/pineapple/pineapple_frame_4.png" id="5_y27vx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_psulj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_x67rs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4o0h7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tjyja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_y27vx")
+}],
+"loop": false,
+"name": &"grow",
+"speed": 5.0
+}]
 
 [node name="Pineapple" type="Area2D"]
-script = ExtResource("1_bq16l")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PineappleFrame1" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(19, 22)
+collision_layer = 2
+
+[node name="Pineapple" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = ExtResource("1_x67rs")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-6, -3, 5, -3, 5, -2, 7, -2, 7, -1, 8, -1, 8, 2, 6, 2, 6, 3, -7, 3, -7, 2, -8, 2, -8, -1, -7, -1, -7, -2, -6, -2)
+
+[node name="PineappleBody" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_psulj")
+animation = &"grow"

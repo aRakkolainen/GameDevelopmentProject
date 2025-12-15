@@ -9,6 +9,8 @@ public partial class Plants : TileMapLayer
 	[Export] private Level1 level1;
 	private int plantedPlants;
 
+	private int plantSourceId = 1;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -29,35 +31,34 @@ public partial class Plants : TileMapLayer
 			
         	Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
-			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
-			GD.Print(atlas_coords);
 			int sourceId = GetCellSourceId(mouse_map_pos);
 			if (sourceId > -1)
 			{
-				TileSetSource source = TileSet.GetSource(sourceId);
-				if (source is TileSetScenesCollectionSource sceneSource)
+				/* if (source is TileSetScenesCollectionSource sceneSource)
 				{
-					int altId = GetCellAlternativeTile(mouse_map_pos));
+					int altId = GetCellAlternativeTile(mouse_map_pos);
 					PackedScene scene = sceneSource.GetSceneTileScene(altId);
-				}
-			}
-			TileData tile = GetCellTileData(mouse_map_pos);
+					int id = sceneSource.CreateSceneTile(scene);
+					SetCell(mouse_map_pos,plantSourceId, new Vector2I(0,0), id);
+				} */
+			} 
+
+			TileSetSource source = TileSet.GetSource(sourceId);
+			GD.Print(source);
+			//TileData tile = GetCellTileData(mouse_map_pos);
             //bool isPlantable = (bool)tile.GetCustomData("isPlantable");
             //bool isAlreadyPlanted = (bool)tile.GetCustomData("isAlreadyPlanted");
 			//string plantType = (string)tile.GetCustomData("plantType");
 			//int plantGrowthPhase = (int) tile.GetCustomData("phase");
                 
-			if(atlas_coords == new Vector2I(0, 0))
-            {
 				GD.Print("You can plant your seed here!");
-                SetCell(mouse_map_pos,0, new Vector2I(1,0),0);
+                SetCell(mouse_map_pos,plantSourceId, new Vector2I(0,0), 1);
 				plantedPlants++;
 				//tile.SetCustomData("isAlreadyPlanted", true);
 				//tile.SetCustomData("isPlantable", false);
 				//tile.SetCustomData("phase", 1);
 				GD.Print(plantedPlants);
             }
-        d
     }
 
 }

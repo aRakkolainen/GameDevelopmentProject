@@ -44,13 +44,13 @@ public partial class FarmTiles : TileMapLayer
 			string plantType = (string)tile.GetCustomData("plantType");
 			int plantGrowthPhase = (int) tile.GetCustomData("phase");
                 
-			if(atlas_coords == new Vector2I(1, 0) && isPlantable && !isAlreadyPlanted)
+			if(atlas_coords == new Vector2I(0, 0) && isPlantable)
             {
 				GD.Print("You can plant your seed here!");
                 plants.SetCell(mouse_map_pos,0, new Vector2I(0,0),0);
 				plantedPlants++;
-				tile.SetCustomData("isAlreadyPlanted", true);
-				tile.SetCustomData("isPlantable", false);
+				//tile.SetCustomData("isAlreadyPlanted", true);
+				//tile.SetCustomData("isPlantable", false);
 				tile.SetCustomData("phase", 1);
 				GD.Print(plantedPlants);
             }
