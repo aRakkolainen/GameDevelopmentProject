@@ -1,0 +1,146 @@
+[gd_scene load_steps=8 format=3 uid="uid://dlrnsallt5tfv"]
+
+[ext_resource type="Texture2D" uid="uid://ddr1biyrusl2w" path="res://assets/sunflower_upgrade_item.png" id="1_pcb0p"]
+[ext_resource type="Texture2D" uid="uid://c6okogpqskdwr" path="res://assets/fence_upgrade_item.png" id="2_2ev2f"]
+[ext_resource type="Texture2D" uid="uid://bf6y072vah72a" path="res://assets/chili_item.png" id="3_eijqu"]
+[ext_resource type="Texture2D" uid="uid://cdvovtpom5knp" path="res://assets/noise_machine_upgrade_item.png" id="4_f4bg4"]
+[ext_resource type="Texture2D" uid="uid://sn0y812e1vnp" path="res://assets/stone_wall.png" id="5_ev1y0"]
+[ext_resource type="Texture2D" uid="uid://d4l3pw27sxkrf" path="res://assets/beehive_upgrade_item.png" id="6_g34y5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fl71p"]
+bg_color = Color(0.600324, 0.562307, 0.199946, 1)
+
+[node name="UpgradeInventory" type="CanvasLayer"]
+
+[node name="NumOfChilis" type="RichTextLabel" parent="."]
+offset_left = 194.0
+offset_top = 189.0
+offset_right = 259.0
+offset_bottom = 247.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_left = 8.0
+offset_top = 33.0
+offset_right = 461.0
+offset_bottom = 83.0
+theme_override_font_sizes/font_size = 36
+text = "Your upgrade items:"
+
+[node name="SunflowerItem" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 5.0
+offset_top = 178.0
+offset_right = 73.0
+offset_bottom = 247.0
+texture = ExtResource("1_pcb0p")
+
+[node name="NumberOfSunflowers" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = 81.0
+offset_top = 188.0
+offset_right = 110.0
+offset_bottom = 233.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="DefenseLabel" type="Label" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 1.0
+offset_top = 59.0
+offset_right = 69.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 32
+text = "Defense:"
+
+[node name="Label2" type="Label" parent="."]
+visible = false
+offset_left = 17.0
+offset_top = 224.0
+offset_right = 115.0
+offset_bottom = 247.0
+text = "Distractions:"
+
+[node name="Fence" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 3.0
+offset_top = 93.0
+offset_right = 74.0
+offset_bottom = 161.0
+texture = ExtResource("2_2ev2f")
+
+[node name="NumberOfFences" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = 85.0
+offset_top = 112.0
+offset_right = 114.0
+offset_bottom = 157.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="ChiliItem" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 116.0
+offset_top = 180.0
+offset_right = 192.0
+offset_bottom = 250.0
+texture = ExtResource("3_eijqu")
+
+[node name="Noisemaker" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 8.0
+offset_top = 262.0
+offset_right = 60.0
+offset_bottom = 356.0
+texture = ExtResource("4_f4bg4")
+
+[node name="Stonewall" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 125.0
+offset_top = 91.0
+offset_right = 183.0
+offset_bottom = 161.0
+texture = ExtResource("5_ev1y0")
+
+[node name="NumberOfNoisemachines" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = 75.0
+offset_top = 283.0
+offset_right = 104.0
+offset_bottom = 328.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="NumOfStonewalls" type="RichTextLabel" parent="."]
+offset_left = 197.0
+offset_top = 112.0
+offset_right = 262.0
+offset_bottom = 170.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="Beehive" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 108.0
+offset_top = 256.0
+offset_right = 190.0
+offset_bottom = 357.0
+texture = ExtResource("6_g34y5")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 194.0
+offset_top = 276.0
+offset_right = 248.0
+offset_bottom = 334.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0"
+
+[node name="Button" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_fl71p")
+text = "Buy upgrades"

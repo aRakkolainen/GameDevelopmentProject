@@ -1,0 +1,156 @@
+using Godot;
+using ProtectFarm;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+//Source for this was this YouTube tutorial: https://www.youtube.com/watch?v=4qEOdviP1yA
+public partial class FarmManager : TileMapLayer
+{
+	private int default_plant_phase = 1; 
+
+	private int farm_source_id = 0;
+	
+	private Godot.Collections.Array<Vector2I> farm_tile_coordinates;
+
+	private List<Plant> plants;
+	[Export] Level1 _level1;
+
+	[Export] Player _player;
+
+	[Export] Timer timer;
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		plants = new List<Plant>();
+		farm_tile_coordinates = GetUsedCellsById(farm_source_id);
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _PhysicsProcess(double delta)
+	{
+		var random = new RandomNumberGenerator();
+		random.Randomize();
+		if(farm_tile_coordinates.Count > 0)
+		{
+			//Checking if player tries to plant..
+
+			if (_level1.GetDayChanged())
+			{
+				GD.Print("Day changed, has to update plant growth phases!");
+			}
+		if (Input.IsActionJustPressed("mouse_right_click") && !_level1.GetDayChanged())
+		{
+			Godot.Vector2 mousePos = GetLocalMousePosition();
+			Vector2I mouse_map_pos = LocalToMap(mousePos);
+			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
+			GD.Print(atlas_coords);
+			//Checking if there already is a plant in clicked coordinates.
+			GD.Print("Checking if you can plant here..");
+			if (atlas_coords != new Vector2I(1, 0))
+				{
+					return;
+				}
+			if(plants != null && plants.Count > 0)
+					{
+						GD.Print("Need to check if this tile is already planted!");
+						int index = FindPlantAtCoordinates(mouse_map_pos);
+						if(index != -1)
+					{
+						GD.Print("This tile is already planted, checking if it is ready to pickup");
+						if(plants[index].GetGrowthPhase() == 4)
+						{
+							GD.Print("Your plant is fully grown!");
+						} else
+						{
+							GD.Print("Your plant is not ready yet!");
+						}
+					} else
+					{
+						GD.Print("You can plant here!");
+						PlacePlant(mouse_map_pos);
+					}
+					} else
+					{
+						GD.Print("You can plant your plant here!");
+						PlacePlant(mouse_map_pos);
+					}
+				}
+			}
+
+	}
+
+	private void PlacePlant(Vector2I position)
+	{
+		int plantable_tiles = farm_tile_coordinates.Count;
+		int id = (int) (GD.Randi() % plantable_tiles);
+		string plantType = _level1.GetPlantType();
+		Plant newPlant = new Plant(id, plantType, default_plant_phase, position); 
+		plants.Add(newPlant);
+		SetCell(position, 0, new Vector2I(2,0));
+	}
+
+	private void DestroyPlantAtCoordinates(Vector2I coordinates)
+	{
+		int index = FindPlantAtCoordinates(coordinates);
+		if(index != -1)
+		{
+			GD.Print("Plant not foun!");
+			return;
+		} else
+		{	
+			plants.RemoveAt(index);
+			SetCell(coordinates,0, new Vector2I(1,0));
+		}
+	}
+
+	private int FindPlantAtCoordinates(Vector2I coordinates)
+	{
+		return plants.FindIndex(plant => plant.GetCoordinates() == coordinates);
+	}
+
+	private void UpdatePlantToNextPhase(Vector2I coordinates)
+	{
+		int index = FindPlantAtCoordinates(coordinates);
+		if (index == -1)
+		{
+			GD.Print("Plant not found");
+			return;
+		} else
+		{
+			Plant foundPlant = plants[index];
+			int newPhase = foundPlant.GetGrowthPhase() + 1;
+			foundPlant.SetGrowthPhase(newPhase);
+		}
+	}
+	//This method can be used in case of implementing fertilizer so that the plant would skip some phase.
+	private void UpdatePlantToCustomPhase(Vector2I coordinates, int phase)
+	{
+		int index = FindPlantAtCoordinates(coordinates);
+		if (index == -1)
+		{
+			GD.Print("Plant not found at this position!");
+			return;
+		} else
+		{
+			Plant foundPlant = plants[index];
+			if (foundPlant.GetGrowthPhase() == phase)
+			{
+				GD.Print("Plant is already in this phase!");
+				return;
+			} else if (phase < foundPlant.GetGrowthPhase())
+			{
+				GD.Print("Plant cannot grow backwards!");
+			} else
+			{
+				GD.Print("Changing plant phase!");
+				SetCell(coordinates, 0, new Vector2I(phase,0));
+			}
+		}
+	}
+
+}

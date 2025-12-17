@@ -5,7 +5,11 @@ public partial class Level1 : Node2D
 {
 
     /* [Export] private FarmManager _timer; */
-    private int days_left = 5;
+    private int total_days = 5;
+
+    private string plant_type = "pineapple";
+
+    private int quota = 20;
 
     private bool day_changed = false;
 
@@ -30,14 +34,29 @@ public partial class Level1 : Node2D
             
     }
 
-    public int GetDaysLeft()
+    public int GetTotalDays()
     {
-        return days_left;
+        return total_days;
     }
 
     public bool GetDayChanged()
     {
         return day_changed;
+    }
+
+    public void SetDayChanged(bool changed)
+    {
+        day_changed = changed;
+    }
+
+    public string GetPlantType()
+    {
+        return plant_type;
+    }
+
+    public int GetPlantQuota()
+    {
+        return quota;
     }
 
 }
