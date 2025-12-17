@@ -1,24 +1,57 @@
 using Godot;
 using System;
 
-public partial class InventoryItem : TextureButton
+public class InventoryItem 
 {
-    [Export] Inventory inventory;
-    [Export] int id;
-    [Export] string name;
-    [Export] Texture2D icon;
-    [Export] int maxQuantity;
-    [Export] int quantity;
+    // [Export] Inventory inventory;
+    int ID;
+    string name;
+    int maxQuantity;
+    int quantity;
 
-
-    public override void _Ready()
+    public InventoryItem(int id, string item_name, int max, int amount)
     {
-        Pressed += () => AddNewItem();
+        ID = id; 
+        name = item_name;
+        maxQuantity = max;
+        quantity = amount;
     }
 
-    private void AddNewItem()
+
+    public int GetID()
     {
-        Inventory.Item item = new Inventory.Item(id, name, icon, maxQuantity, quantity);
-        inventory.AddInventoryItem(item);
+        return ID;
     }
+
+    public string GetItemName()
+    {
+        return name;
+    }
+
+    public int GetMaxQuantity()
+    {
+        return maxQuantity;
+    }
+
+    public int GetQuantity()
+    {
+        return quantity;
+    }
+
+    public void SetQuantity(int num)
+    {
+        quantity = num;
+    }
+
+
+    // public override void _Ready()
+    // {
+    //     Pressed += () => AddNewItem();
+    // }
+
+    // private void AddNewItem()
+    // {
+    //     Inventory.Item item = new Inventory.Item(id, name, icon, maxQuantity, quantity);
+    //     inventory.AddInventoryItem(item);
+    // }
 }

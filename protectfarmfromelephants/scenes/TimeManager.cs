@@ -1,38 +1,64 @@
 using Godot;
 using System;
-
+//Copilot discussion used to troubleshoot and implement the signaling.
 public partial class TimeManager : Node2D
 {
+	[Signal] public delegate void TimerFinishedEventHandler();
 	private RichTextLabel timer_text;
-	private Timer timer;
+	[Export] private Timer timer;
 
-	private int total_days;
+	[Export] private int total_days;
 	private int days_left;
-	[Export] Level1 _level1;
+
+	private bool dayChanged;
+	
+	private int currentDay = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		total_days = _level1.GetTotalDays();
 		timer_text = GetNode<RichTextLabel>("%TimerText");
-		timer_text.Text = "Days left: " + total_days;
-		timer = GetNode<Timer>("%Timer");
-		StartTimer();
+		timer ??= GetNode<Timer>("%Timer");
+
+		timer.Timeout += () => EmitSignal(SignalName.TimerFinished);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if(timer.IsStopped() && days_left > 0)
-		{
-			days_left = total_days--;
-			timer_text.Text = "Days left: " + days_left;
-			_level1.SetDayChanged(true);
-			StartTimer();
-		}
 	}
 
-	public void StartTimer()
+	public void UpdateTimerText(int days_left)
 	{
+		timer_text.Text = "Days left: " + days_left;
+	}
+	public void StartTimer(int days_left)
+	{
+		++currentDay;
+		if(currentDay > days_left)
+		{
+			GD.Print("Time is up!");
+		}
+		UpdateTimerText(days_left);
 		timer.Start();
+	}
+
+	public bool GetDayChanged()
+	{
+		return dayChanged;
+	}
+
+	public void SetDayChanged(bool changed)
+	{
+		dayChanged = changed;
+	}
+
+	public int GetCurrentDay()
+	{
+		return currentDay;
+	}
+
+	public void SetCurrentDay(int day)
+	{
+		currentDay = day;
 	}
 }

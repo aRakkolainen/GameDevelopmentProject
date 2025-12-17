@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://jsxv38vvcyrp"]
+
+[node name="Control" type="VFlowContainer"]
+offset_bottom = 31.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "Day X is over!"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 2
+text = "Stats of the day"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Continue to next day"

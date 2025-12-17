@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -9,12 +10,16 @@ public partial class Player : CharacterBody2D
 	public const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D _animatedSprite;
 
-	private Godot.Collections.Array<string> inventory = new();
+	private List<InventoryItem> inventory;
+
+	private int max_inventory_size = 5;
+	private int max_stack = 32;
 
 	public override void _Ready()
 	{
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		playerIsAlive = true;
+		inventory = new List<InventoryItem>();
 	}
 	public void GetInput()
 	{
@@ -22,15 +27,47 @@ public partial class Player : CharacterBody2D
 		Velocity = inputDirection * speed;
 	}
 
-	public void AddToInventory(string item)
+	public void AddToInventory(InventoryItem item)
     {
-        inventory.Add(item);
+		int index = FindItemFromInventory(item);
+		if(inventory.Count < max_inventory_size)
+		{
+		if(index != -1)
+		{
+        	inventory.Add(item);
+			GD.Print(inventory);
+		} else
+		{
+			GD.Print(index);
+			//InventoryItem currentItem = inventory[index];
+			// int currentQuantity = currentItem.GetQuantity();
+			// int max = currentItem.GetMaxQuantity();
+			// if(currentQuantity < max)
+			// {
+			// 	inventory[index].SetQuantity(++currentQuantity);
+			// }
+		}
+		} else
+		{
+			GD.Print("Inventory full, drop something!");
+			
+		}
     }
 
-	public void RemoveFromInventory(string item)
+	public void RemoveFromInventory(InventoryItem item)
     {
         inventory.Remove(item);
     }
+
+	public int FindItemFromInventory(InventoryItem item)
+	{
+		return inventory.FindIndex(i=> i.GetItemName() == item.GetItemName());
+	}
+
+	public  List<InventoryItem> GetInventoryList()
+	{
+		return inventory;
+	}
 
 	public void Die()
     {
@@ -88,4 +125,6 @@ public partial class Player : CharacterBody2D
     {
         this.playerIsAlive = status;
     }
+
+    
 }
