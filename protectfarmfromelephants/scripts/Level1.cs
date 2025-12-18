@@ -67,14 +67,8 @@ public partial class Level1 : Node2D
             _change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
             _change_day_dialog.DialogText = "Sold fruits: " + sold_quota + "/" + quota;
             _change_day_dialog.OkButtonText = "Restart";
-            timer.SetCurrentDay(1);
-            timer.StartTimer(total_days);
-            Godot.Collections.Array<Vector2I> farm_tile_coordinates = _farmManager.GetFarmTileCoordinates();
-            for (int i=0; i < farm_tile_coordinates.Count; i++)
-        {
-            _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);
-                
-        }
+            ResetLevel();
+            
         }
         } else {
                 
@@ -91,6 +85,7 @@ public partial class Level1 : Node2D
             if (sold_quota < quota)
             {
                 _player.Die();
+                ResetLevel();
                 //To-do instiate death scene
             } else
             {
@@ -110,6 +105,7 @@ public partial class Level1 : Node2D
             if (sold_quota < quota)
             {
                 _player.Die();
+                ResetLevel();
                 //To-do instiate death scene
             } else
             {
@@ -150,6 +146,18 @@ public partial class Level1 : Node2D
         
         timer.StartTimer(timer.GetDaysLeft());
         _player.SetPlayerIsAlive(true);
+    }
+
+    private void ResetLevel()
+    {
+         timer.SetCurrentDay(1);
+            timer.StartTimer(total_days);
+            Godot.Collections.Array<Vector2I> farm_tile_coordinates = _farmManager.GetFarmTileCoordinates();
+            for (int i=0; i < farm_tile_coordinates.Count; i++)
+        {
+            _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
+        }
+        _player.ClearInventory();
     }
 
     public int GetTotalDays()

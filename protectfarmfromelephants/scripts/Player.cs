@@ -30,22 +30,23 @@ public partial class Player : CharacterBody2D
 	public bool AddToInventory(InventoryItem item)
     {
 		int index = FindItemFromInventory(item);
+		GD.Print(inventory.Count);
 		if(inventory.Count < max_inventory_size)
 		{
 		if(index == -1)
 		{
         	inventory.Add(item);
-			GD.Print(inventory);
+			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
 			return true;
 		} else
 		{
-			GD.Print(index);
 			InventoryItem currentItem = inventory[index];
 			int currentQuantity = currentItem.GetQuantity();
 			int max = currentItem.GetMaxQuantity();
 			if(currentQuantity < max)
 			{
-				inventory[index].SetQuantity(++currentQuantity);
+				currentItem.SetQuantity(++currentQuantity);
+				GD.Print("You collected item" + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
 				return true;
 			}
 			return false;
@@ -66,6 +67,11 @@ public partial class Player : CharacterBody2D
 	public int FindItemFromInventory(InventoryItem item)
 	{
 		return inventory.FindIndex(i=> i.GetItemName() == item.GetItemName());
+	}
+
+	public void ClearInventory()
+	{
+		inventory.Clear();
 	}
 
 	public  List<InventoryItem> GetInventoryList()
