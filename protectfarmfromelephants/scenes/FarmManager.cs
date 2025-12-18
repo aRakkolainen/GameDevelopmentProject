@@ -81,7 +81,11 @@ public partial class FarmManager : TileMapLayer
 						GD.Print("Your plant is fully grown!");
 
 						InventoryItem item = new InventoryItem(1, plants[index].GetPlantType(), 32, 1);
-						_player.AddToInventory(item);
+							if (_player.AddToInventory(item))
+							{
+								RemovePlantAtCoordinates(mouse_map_pos);
+							}
+						
 						
 					} else
 					{
@@ -117,17 +121,18 @@ public partial class FarmManager : TileMapLayer
 		SetCell(position, 0, new Vector2I(2,0));
 	}
 
-	private void DestroyPlantAtCoordinates(Vector2I coordinates)
+
+	public void RemovePlantAtCoordinates(Vector2I coordinates)
 	{
 		int index = FindPlantAtCoordinates(coordinates);
-		if(index != -1)
+		if(index == -1)
 		{
-			GD.Print("Plant not foun!");
+			GD.Print("Plant not found!");
 			return;
 		} else
 		{	
-			plants.RemoveAt(index);
 			SetCell(coordinates,0, new Vector2I(1,0));
+			plants.RemoveAt(index);
 		}
 	}
 
@@ -157,7 +162,7 @@ public partial class FarmManager : TileMapLayer
 			{
 				Vector2I correctTile = phasesOfSelectedPlant.GetValueOrDefault(newPhase);
 				SetCell(foundPlant.GetCoordinates(), 0, correctTile);
-				GD.Print("Plant" + foundPlant.GetPlantType() + " is updated to phase " + foundPlant.GetGrowthPhase());
+				GD.Print("Plant " + foundPlant.GetPlantType() + " is updated to phase " + foundPlant.GetGrowthPhase());
 			}
 			
 		}

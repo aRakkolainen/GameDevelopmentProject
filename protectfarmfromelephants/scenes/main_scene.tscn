@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=17 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/Level1.cs" id="1_cam72"]
 [ext_resource type="PackedScene" uid="uid://d0qgd502gu2p5" path="res://characters/player.tscn" id="2_8st4v"]
@@ -7,10 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d27xy0iak1jn" path="res://assets/base_house.png" id="3_yd6xm"]
 [ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://characters/elephant.tscn" id="5_322dc"]
 [ext_resource type="Script" path="res://scenes/FarmManager.cs" id="5_rtw3u"]
-[ext_resource type="Script" path="res://scenes/TestButton.cs" id="6_3nq5h"]
 [ext_resource type="PackedScene" uid="uid://0eqe8fgfo1nx" path="res://scenes/Timer.tscn" id="9_ywyt4"]
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="11_rrh8e"]
-[ext_resource type="PackedScene" uid="uid://jsxv38vvcyrp" path="res://scenes/ChangeDay.tscn" id="12_y1six"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("3_is4gg")
@@ -199,14 +197,6 @@ position = Vector2(207, 328)
 [node name="Elephant4" parent="." instance=ExtResource("5_322dc")]
 position = Vector2(208, 373)
 
-[node name="Button" type="Button" parent="."]
-offset_left = -333.0
-offset_top = 85.0
-offset_right = -219.0
-offset_bottom = 116.0
-text = "Buy upgrades"
-script = ExtResource("6_3nq5h")
-
 [node name="Timer" parent="." instance=ExtResource("9_ywyt4")]
 unique_name_in_owner = true
 position = Vector2(-73, 47)
@@ -224,13 +214,6 @@ text = "Default"
 fit_content = true
 
 [node name="UpgradeInventory" parent="." instance=ExtResource("11_rrh8e")]
-
-[node name="ChangeDay" parent="." instance=ExtResource("12_y1six")]
-unique_name_in_owner = true
-offset_left = 199.0
-offset_top = 109.0
-offset_right = 199.0
-offset_bottom = 140.0
 
 [node name="ChangeDayDialog" type="AcceptDialog" parent="."]
 unique_name_in_owner = true

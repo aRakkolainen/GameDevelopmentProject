@@ -27,29 +27,33 @@ public partial class Player : CharacterBody2D
 		Velocity = inputDirection * speed;
 	}
 
-	public void AddToInventory(InventoryItem item)
+	public bool AddToInventory(InventoryItem item)
     {
 		int index = FindItemFromInventory(item);
 		if(inventory.Count < max_inventory_size)
 		{
-		if(index != -1)
+		if(index == -1)
 		{
         	inventory.Add(item);
 			GD.Print(inventory);
+			return true;
 		} else
 		{
 			GD.Print(index);
-			//InventoryItem currentItem = inventory[index];
-			// int currentQuantity = currentItem.GetQuantity();
-			// int max = currentItem.GetMaxQuantity();
-			// if(currentQuantity < max)
-			// {
-			// 	inventory[index].SetQuantity(++currentQuantity);
-			// }
+			InventoryItem currentItem = inventory[index];
+			int currentQuantity = currentItem.GetQuantity();
+			int max = currentItem.GetMaxQuantity();
+			if(currentQuantity < max)
+			{
+				inventory[index].SetQuantity(++currentQuantity);
+				return true;
+			}
+			return false;
 		}
 		} else
 		{
 			GD.Print("Inventory full, drop something!");
+			return false;
 			
 		}
     }

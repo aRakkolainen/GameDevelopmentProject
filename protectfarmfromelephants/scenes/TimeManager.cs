@@ -1,9 +1,10 @@
 using Godot;
 using System;
-//Copilot discussion used to troubleshoot and implement the signaling.
+//Copilot discussion used to troubleshoot and implement the signaling for timer timeout.
 public partial class TimeManager : Node2D
 {
 	[Signal] public delegate void TimerFinishedEventHandler();
+
 	private RichTextLabel timer_text;
 	[Export] private Timer timer;
 
@@ -12,7 +13,7 @@ public partial class TimeManager : Node2D
 
 	private bool dayChanged;
 	
-	private int currentDay = 0;
+	private int currentDay = 1;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -33,11 +34,7 @@ public partial class TimeManager : Node2D
 	}
 	public void StartTimer(int days_left)
 	{
-		++currentDay;
-		if(currentDay > days_left)
-		{
-			GD.Print("Time is up!");
-		}
+		SetDaysLeft(days_left);
 		UpdateTimerText(days_left);
 		timer.Start();
 	}
@@ -60,5 +57,15 @@ public partial class TimeManager : Node2D
 	public void SetCurrentDay(int day)
 	{
 		currentDay = day;
+	}
+
+	public int GetDaysLeft()
+	{
+		return days_left;
+	}
+
+	public void SetDaysLeft(int days)
+	{
+		days_left = days;
 	}
 }
