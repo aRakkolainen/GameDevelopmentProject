@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpi8m7nrm6pes"]
+
+[ext_resource type="Texture2D" uid="uid://ddpqus41yug3x" path="res://assets/selling_desk.png" id="1_j3und"]
+[ext_resource type="Script" path="res://scripts/SellingDeskManager.cs" id="1_r4rbh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rwkmk"]
+size = Vector2(63, 58)
+
+[node name="SellingDesk" type="Node2D"]
+script = ExtResource("1_r4rbh")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Texture" type="TextureRect" parent="Area2D"]
+texture_filter = 1
+texture = ExtResource("1_j3und")
+
+[node name="QuotaText" type="Label" parent="Area2D/Texture"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 25.0
+offset_top = -2.0
+offset_right = 74.0
+offset_bottom = 21.0
+text = "0/0"
+
+[node name="Fruit" type="TextureRect" parent="Area2D"]
+unique_name_in_owner = true
+texture_filter = 1
+offset_left = 7.0
+offset_top = 3.0
+offset_right = 22.0
+offset_bottom = 17.0
+expand_mode = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(32.5, 30)
+shape = SubResource("RectangleShape2D_rwkmk")

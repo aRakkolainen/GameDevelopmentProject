@@ -8,16 +8,23 @@ public partial class Player : CharacterBody2D
 	public int speed { get; set; } = 200;
 	private bool playerIsAlive;
 	public const float JumpVelocity = -400.0f;
-	private AnimatedSprite2D _animatedSprite;
+	private AnimatedSprite2D player;
 
 	private List<InventoryItem> inventory;
 
 	private int max_inventory_size = 5;
 	private int max_stack = 32;
 
+	private bool watercan_filled;
+
+	private int watercan_fill_level = 0;
+
+	private int max_watercan_fill_level = 5;
+
+	[Signal] public delegate void PlayerSellFruitEventHandler();
 	public override void _Ready()
 	{
-		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		player = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		playerIsAlive = true;
 		inventory = new List<InventoryItem>();
 	}
@@ -83,8 +90,13 @@ public partial class Player : CharacterBody2D
     {
 		GD.Print("You runned out of time!");
         playerIsAlive = false;
-        _animatedSprite.Stop();
+        player.Stop();
     }
+
+	public void UseWaterCan()
+	{
+		player.Play();
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -95,23 +107,23 @@ public partial class Player : CharacterBody2D
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
-			_animatedSprite.Play("walk_left");
+			player.Play("walk_left");
 		}
 		else if (Input.IsActionPressed("move_right"))
 		{
-			_animatedSprite.Play("walk_right");
+			player.Play("walk_right");
 		}
 		else if (Input.IsActionPressed("move_up"))
 		{
-			_animatedSprite.Play("walk_backward");
+			player.Play("walk_backward");
 		}
 		else if (Input.IsActionPressed("move_down"))
 		{
-			_animatedSprite.Play("walk_forward");
+			player.Play("walk_forward");
 		}
 		else
 		{
-			_animatedSprite.Play("default");
+			player.Play("default");
 		}
 		var collision = MoveAndCollide(Velocity * (float)delta);
 		if (collision != null)

@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="ProtectFarmFromElephants"
-run/main_scene="res://scenes/main_scene.tscn"
+run/main_scene="res://scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+LevelManager="*res://scripts/LevelManager.cs"
+LevelData="*res://scripts/LevelData.cs"
 
 [dotnet]
 

@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgu6ommdupkm"]
+
+[ext_resource type="Script" path="res://scripts/DeathScene.cs" id="1_74887"]
+
+[node name="DeathScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_74887")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 246.0
+offset_top = 200.0
+offset_right = 971.0
+offset_bottom = 242.0
+theme_override_font_sizes/font_size = 30
+text = "Oh no! You failed to fill quota and you were eaten!"
+
+[node name="MainMenuButton" type="Button" parent="."]
+offset_left = 357.0
+offset_top = 284.0
+offset_right = 546.0
+offset_bottom = 356.0
+text = "Back to main menu"
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 568.0
+offset_top = 286.0
+offset_right = 755.0
+offset_bottom = 354.0
+text = "Restart level"
+
+[connection signal="pressed" from="MainMenuButton" to="." method="On_main_menu_button_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="On_restart_button_pressed"]

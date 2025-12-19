@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0qgd502gu2p5"]
+[gd_scene load_steps=19 format=3 uid="uid://d0qgd502gu2p5"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_6mhrc"]
 [ext_resource type="Texture2D" uid="uid://doiucyiynt1hm" path="res://assets/player_forward.png" id="1_46j3o"]
@@ -7,7 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://c10l4ptr5vf2y" path="res://assets/player_forward_with_seed_pack.png" id="3_68frl"]
 [ext_resource type="Texture2D" uid="uid://brrhu3jtuj4hh" path="res://assets/player_right_00.png" id="3_gifqq"]
 [ext_resource type="Texture2D" uid="uid://1nvaekopqga8" path="res://assets/player_right_01.png" id="4_8kij3"]
+[ext_resource type="Texture2D" uid="uid://dpi816jl77map" path="res://assets/player_watering_can_1.png" id="4_agyjm"]
+[ext_resource type="Texture2D" uid="uid://kh5sb5yp2k4y" path="res://assets/player/player_forward_with_watering_can.png" id="4_nn645"]
 [ext_resource type="Texture2D" uid="uid://sgkx3cy4cus4" path="res://assets/player_backward_walk_1.png" id="4_rvr4t"]
+[ext_resource type="Texture2D" uid="uid://c22oey1mhnx5x" path="res://assets/player_watering_can_2.png" id="5_t4xl7"]
 [ext_resource type="Texture2D" uid="uid://1ik88dval1u5" path="res://assets/player_backward_walk_2.png" id="5_w31al"]
 [ext_resource type="Texture2D" uid="uid://dwfa1bhhxl84d" path="res://assets/player_forward_walk_1.png" id="6_mkpnr"]
 [ext_resource type="Texture2D" uid="uid://b1xby5opvoueb" path="res://assets/player_forward_walk_2.png" id="7_1r6kq"]
@@ -33,6 +36,30 @@ animations = [{
 }],
 "loop": true,
 "name": &"stand_with_seed_pack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_nn645")
+}],
+"loop": true,
+"name": &"stand_with_water_can",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"use_water_can_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_agyjm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_t4xl7")
+}],
+"loop": true,
+"name": &"use_water_can_right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -105,7 +132,6 @@ texture_filter = 3
 texture_repeat = 1
 position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
-animation = &"walk_backward"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)

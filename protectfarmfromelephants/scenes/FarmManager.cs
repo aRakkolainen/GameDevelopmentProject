@@ -19,7 +19,12 @@ public partial class FarmManager : TileMapLayer
 
 	private string[] plant_types = {"pineapple", "watermelon"};
 
-	[Export] Level1 _level1;
+	private string active_level; 
+
+	private string plant_type;
+	private LevelData level_data;
+
+	private LevelManager level_manager;
 
 	[Export] Player _player;
 
@@ -28,9 +33,17 @@ public partial class FarmManager : TileMapLayer
 	public override void _Ready()
 	{
 		plants = new List<Plant>();
+		level_manager = LevelManager.Instance;
 		farm_tile_coordinates = GetUsedCellsById(farm_source_id);
 		initializePlantTypesAndPhases();
-		
+		active_level = level_manager.GetCurrentActiveLevel();
+		level_data = level_manager.GetLevelData(active_level);
+		if(level_data != null)
+		{
+			plant_type = level_data.GetPlantType();
+			GD.Print(level_data);
+		}
+		plant_type = "";
 
 	}
 
@@ -48,12 +61,7 @@ public partial class FarmManager : TileMapLayer
 		{
 			//Checking if player tries to plant..
 
-			if (timer.GetDayChanged())
-			{
-				GD.Print("Day changed, has to update plant growth phases!");
-				plants.ForEach(plant => UpdatePlantToNextPhase(plant.GetCoordinates()));
-			}
-		if (Input.IsActionJustPressed("mouse_right_click") && !_level1.GetDayChanged())
+		if (Input.IsActionJustPressed("mouse_right_click"))
 		{
 			Godot.Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
@@ -113,12 +121,24 @@ public partial class FarmManager : TileMapLayer
 	}
 	private void PlacePlant(Vector2I position)
 	{
+		level_data = level_manager.GetLevelData(active_level);
+		string plant_type = level_data.GetPlantType();
 		int plantable_tiles = farm_tile_coordinates.Count;
 		int id = (int) (GD.Randi() % plantable_tiles);
-		string plantType = _level1.GetPlantType();
-		Plant newPlant = new Plant(id, plantType, default_plant_phase, position); 
-		plants.Add(newPlant);
-		SetCell(position, 0, new Vector2I(2,0));
+		if(plant_type == null || plant_type == "")
+		{
+			GD.Print("Plant type undefined!");
+		} else
+		{
+			Plant newPlant = new Plant(id, plant_type, default_plant_phase, position); 
+			plants.Add(newPlant);
+			SetCell(position, 0, new Vector2I(2,0));
+		}
+	}
+
+	private void CollectWater()
+	{
+		
 	}
 
 

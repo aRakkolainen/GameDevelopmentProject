@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://bufe6ybvhhudj"]
 
-[ext_resource type="Script" path="res://scripts/Inventory.cs" id="1_sqj83"]
-[ext_resource type="Texture2D" uid="uid://cqn65ooy088s8" path="res://assets/inventory_blank.png" id="2_0u72w"]
-[ext_resource type="Script" path="res://scripts/InventoryItem.cs" id="3_bwvjs"]
-[ext_resource type="Texture2D" uid="uid://bh0cdbq0jhgg3" path="res://assets/pineapple.png" id="4_qu5pp"]
+[ext_resource type="Script" path="res://scripts/Inventory.cs" id="1_lvonq"]
+[ext_resource type="Texture2D" uid="uid://cqn65ooy088s8" path="res://assets/inventory_blank.png" id="2_5shfg"]
+[ext_resource type="Script" path="res://scripts/InventoryItem.cs" id="3_tjsd5"]
+[ext_resource type="Texture2D" uid="uid://bh0cdbq0jhgg3" path="res://assets/pineapple.png" id="4_gk4m3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_708m5"]
 
@@ -26,18 +26,17 @@ max_columns = 5
 same_column_width = true
 fixed_column_width = 32
 icon_mode = 0
-script = ExtResource("1_sqj83")
+script = ExtResource("1_lvonq")
 inventorySize = 10
-blankIcon = ExtResource("2_0u72w")
+blankIcon = ExtResource("2_5shfg")
 
 [node name="Seeds" type="TextureButton" parent="CanvasLayer" node_paths=PackedStringArray("inventory")]
 offset_left = 88.0
 offset_top = 25.0
 offset_right = 128.0
 offset_bottom = 65.0
-script = ExtResource("3_bwvjs")
+script = ExtResource("3_tjsd5")
 inventory = NodePath("../ItemList")
-name = "Seeds"
 
 [node name="Hoe" type="TextureButton" parent="CanvasLayer"]
 offset_left = 46.0
@@ -51,8 +50,8 @@ offset_left = 94.0
 offset_top = 31.0
 offset_right = 116.0
 offset_bottom = 56.0
-script = ExtResource("3_bwvjs")
-inventory = NodePath("../ItemList")
-icon = ExtResource("4_qu5pp")
+script = ExtResource("3_tjsd5")
+icon = ExtResource("4_gk4m3")
 maxQuantity = 20
 quantity = 2
+inventory = NodePath("../ItemList")
