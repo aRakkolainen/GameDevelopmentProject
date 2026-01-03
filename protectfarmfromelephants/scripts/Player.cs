@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 public partial class Player : CharacterBody2D
 {
@@ -12,7 +13,7 @@ public partial class Player : CharacterBody2D
 
 	private List<InventoryItem> inventory;
 
-	private int max_inventory_size = 5;
+	private int max_inventory_size = 10;
 	private int max_stack = 32;
 
 	private bool watercan_filled;
@@ -21,17 +22,32 @@ public partial class Player : CharacterBody2D
 
 	private int max_watercan_fill_level = 5;
 
+	private LevelData level;
+
 	[Signal] public delegate void PlayerSellFruitEventHandler();
+
+	[Signal] public delegate void PlayerAddInventoryEventHandler();
 	public override void _Ready()
 	{
+		level = LevelManager.Instance.GetLevelDataForActiveLevel();
 		player = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		playerIsAlive = true;
 		inventory = new List<InventoryItem>();
+		AddDefaultItemsToInventory();
+		LevelManager.Instance.SetPlayerInventory(inventory);
 	}
 	public void GetInput()
 	{
 		Vector2 inputDirection = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		Velocity = inputDirection * speed;
+	}
+
+	public void AddDefaultItemsToInventory()
+	{
+		InventoryItem watering_can_item = new InventoryItem(0, "watering_can", 1, 1);
+		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", max_stack, level.GetLevelAvailableSeeds());
+		inventory.Add(watering_can_item);
+		inventory.Add(plant_seeds);
 	}
 
 	public bool AddToInventory(InventoryItem item)
@@ -44,6 +60,7 @@ public partial class Player : CharacterBody2D
 		{
         	inventory.Add(item);
 			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
+			LevelManager.Instance.SetPlayerInventory(inventory);
 			return true;
 		} else
 		{
@@ -53,7 +70,8 @@ public partial class Player : CharacterBody2D
 			if(currentQuantity < max)
 			{
 				currentItem.SetQuantity(++currentQuantity);
-				GD.Print("You collected item" + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
+				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
+				LevelManager.Instance.SetPlayerInventory(inventory);
 				return true;
 			}
 			return false;
@@ -84,6 +102,11 @@ public partial class Player : CharacterBody2D
 	public  List<InventoryItem> GetInventoryList()
 	{
 		return inventory;
+	}
+
+	public int GetInventoryCount()
+	{
+		return inventory.Count;
 	}
 
 	public void Die()
@@ -131,21 +154,16 @@ public partial class Player : CharacterBody2D
 			GD.Print("Collided with: " + collision.GetCollider());
 		}
 
-
-		/* var collision = MoveAndCollide(Velocity * (float)delta);
-		if (collision != null){
-			GD.Print("Caollided with: " + collision.GetCollider());
-		} */
 	}
 
 	public bool GetPlayerIsAlive()
     {
-        return this.playerIsAlive;
+        return playerIsAlive;
     }
 
 	public void SetPlayerIsAlive(bool status)
     {
-        this.playerIsAlive = status;
+        playerIsAlive = status;
     }
 
     

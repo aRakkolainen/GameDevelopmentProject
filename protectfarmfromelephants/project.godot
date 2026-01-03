@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 LevelManager="*res://scripts/LevelManager.cs"
-LevelData="*res://scripts/LevelData.cs"
 
 [dotnet]
 

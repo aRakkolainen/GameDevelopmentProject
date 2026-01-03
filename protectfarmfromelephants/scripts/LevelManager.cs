@@ -22,6 +22,24 @@ public static class Scenes
     {
         public const string main_menu = "uid://nedc84ruy5lu";
     }
+
+    public static class ItemTextures
+    {
+        public const string pineapple = "uid://ciktrkurgbo8u";
+
+        public const string mango = "uid://vko05a0ksb6u";
+
+        public const string watermelon = "uid://3apjvumdby6d";
+
+        public const string watering_can = "uid://c3ihe0pog17dn";
+
+        public const string pineapple_seeds = "uid://us6jgf8ncy05";
+
+        public const string watermelon_seeds = "uid://dmknr85vipb6w";
+
+        public const string mango_seeds = "uid://w6xhmdwunej0";
+
+    }
 }
 
 // Source for singleton: https://csharpindepth.com/articles/singleton 
@@ -30,6 +48,8 @@ public partial class LevelManager : Node
 {
     public static LevelManager Instance {get; private set; }
     private Dictionary<string, LevelData> levels;
+
+    private List<InventoryItem> player_inventory = new List<InventoryItem>();
 
     private string current_active_Level;
 
@@ -50,12 +70,13 @@ public Dictionary<string, LevelData> GetAllLevels()
 public void InitializeLevelData()
     {
         levels = new Dictionary<string, LevelData>();
-        LevelData level_1 = new(1, 20, 0, 5, "pineapple");
-        LevelData level_2 = new(2, 40, 0, 5, "watermelon");
-        LevelData level_3 = new(3, 60, 0, 4, "mango");
+        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple");
+        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon");
+        LevelData level_3 = new(3, 60, 0, 4, 64, "mango");
         levels.Add("level_1", level_1);
         levels.Add("level_2", level_2);
         levels.Add("level_3", level_3);
+        player_inventory = new List<InventoryItem>();
     }
 
 public string GetCurrentActiveLevel()
@@ -66,9 +87,25 @@ public void SetCurrentActiveLevel(string level)
     {
         current_active_Level = level;
     }
+public List<InventoryItem> GetPlayerInventory()
+    {
+        return player_inventory;
+    }
 
+public void SetPlayerInventory(List<InventoryItem> items)
+    {
+        player_inventory = items;
+    }
 
-
+public LevelData GetLevelDataForActiveLevel()
+    {
+        LevelData level = levels.GetValueOrDefault(current_active_Level);
+        if(level == null)
+        {
+            return null;
+        }
+        return level;
+    }
 public LevelData GetLevelData(string level_num)
     {
         LevelData level = levels.GetValueOrDefault(level_num);

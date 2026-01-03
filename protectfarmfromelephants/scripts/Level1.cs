@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using Godot;
@@ -30,9 +31,14 @@ public partial class Level1 : Node2D
         _change_day_dialog.Confirmed += OnDialogConfirmed;
         timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
         timer.StartTimer(level1.GetLevelTotalDays());
+        _player.Connect(Player.SignalName.PlayerAddInventory, new Callable(this, nameof(UpdatePlayerInventory)));
     }
 
-    
+    private void UpdatePlayerInventory()
+    {
+        List<InventoryItem> items = _player.GetInventoryList();
+        LevelManager.Instance.SetPlayerInventory(items);
+    }
 
 
     private void OnDayEnd()

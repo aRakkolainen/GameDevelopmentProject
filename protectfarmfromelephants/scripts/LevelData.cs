@@ -8,15 +8,18 @@ public partial class LevelData : Node
     private int Level_Sold_Quota = 0;
 
     private int Level_Total_Days;
+    private int Level_Seeds_Available;
 
     private string Level_Plant_Type;
 
-    public LevelData(int num, int expected_quota, int current_quota, int days, string type)
+
+    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type)
     {
         Level_Number = num;
         Level_Expected_Quota = expected_quota;
         Level_Sold_Quota = current_quota;
         Level_Total_Days = days;
+        Level_Seeds_Available = number_of_seeds;
         Level_Plant_Type = type;
     }
 
@@ -59,6 +62,18 @@ public partial class LevelData : Node
     {
         Level_Total_Days = days;
     }
+
+    public int GetLevelAvailableSeeds()
+    {
+        return Level_Seeds_Available;
+    }
+
+    public void SetLevelAvailableSeeds(int seeds_num)
+    {
+        Level_Seeds_Available = seeds_num;
+    }
+
+
 
     public string GetPlantType()
     {

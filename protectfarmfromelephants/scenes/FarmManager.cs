@@ -61,18 +61,17 @@ public partial class FarmManager : TileMapLayer
 		{
 			//Checking if player tries to plant..
 
-		if (Input.IsActionJustPressed("mouse_right_click"))
+		if (Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
 		{
 			Godot.Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
 			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
-			GD.Print(atlas_coords);
 			//Checking if there already is a plant in clicked coordinates.
 
 			//Checking player position
 			Godot.Vector2 player_position = _player.GetPositionDelta();
-			GD.Print("Checking if you can plant here..");
-			GD.Print(atlas_coords);
+			Vector2I player_map_pos = LocalToMap(player_position);
+			GD.Print(player_position);
 			if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1))
 				{
 					return;
@@ -87,8 +86,8 @@ public partial class FarmManager : TileMapLayer
 					if(plants[index].GetGrowthPhase() == 4)
 					{
 						GD.Print("Your plant is fully grown!");
-
-						InventoryItem item = new InventoryItem(1, plants[index].GetPlantType(), 32, 1);
+						int inventory_size = _player.GetInventoryCount();
+						InventoryItem item = new InventoryItem(inventory_size+1, plants[index].GetPlantType(), 32, 1);
 							if (_player.AddToInventory(item))
 							{
 								RemovePlantAtCoordinates(mouse_map_pos);

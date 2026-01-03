@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=19 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/Level1.cs" id="1_qn07i"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://characters/elephant.tscn" id="8_vubro"]
 [ext_resource type="PackedScene" uid="uid://0eqe8fgfo1nx" path="res://scenes/Timer.tscn" id="9_mtud7"]
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="10_tyd27"]
+[ext_resource type="PackedScene" uid="uid://fsodys2gvaa2" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -231,3 +232,5 @@ initial_position = 1
 size = Vector2i(200, 100)
 ok_button_text = "Start Next Day"
 dialog_close_on_escape = false
+
+[node name="SimpleInventory" parent="." instance=ExtResource("11_47718")]

@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bufe6ybvhhudj"]
+[gd_scene load_steps=7 format=3 uid="uid://bufe6ybvhhudj"]
 
+[ext_resource type="Texture2D" uid="uid://c3ihe0pog17dn" path="res://assets/player/watering_can.png" id="1_ks0k8"]
 [ext_resource type="Script" path="res://scripts/Inventory.cs" id="1_lvonq"]
 [ext_resource type="Texture2D" uid="uid://cqn65ooy088s8" path="res://assets/inventory_blank.png" id="2_5shfg"]
 [ext_resource type="Script" path="res://scripts/InventoryItem.cs" id="3_tjsd5"]
@@ -12,6 +13,7 @@
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ItemList" type="ItemList" parent="CanvasLayer"]
+texture_filter = 1
 material = SubResource("CanvasItemMaterial_708m5")
 layout_direction = 2
 offset_left = 337.0
@@ -21,11 +23,12 @@ offset_bottom = 643.0
 allow_search = false
 max_text_lines = 5
 auto_height = true
-item_count = 1
+item_count = 2
 max_columns = 5
 same_column_width = true
 fixed_column_width = 32
 icon_mode = 0
+item_0/icon = ExtResource("1_ks0k8")
 script = ExtResource("1_lvonq")
 inventorySize = 10
 blankIcon = ExtResource("2_5shfg")
@@ -44,7 +47,7 @@ offset_top = 21.0
 offset_right = 86.0
 offset_bottom = 61.0
 
-[node name="Pineapple" type="TextureButton" parent="CanvasLayer" node_paths=PackedStringArray("inventory")]
+[node name="Fruit" type="TextureButton" parent="CanvasLayer" node_paths=PackedStringArray("inventory")]
 texture_filter = 1
 offset_left = 94.0
 offset_top = 31.0

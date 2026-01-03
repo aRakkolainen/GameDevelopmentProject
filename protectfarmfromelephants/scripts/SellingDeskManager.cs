@@ -25,8 +25,8 @@ public partial class SellingDeskManager : Node2D
 		if (currentLevelData != null)
 		{
 			UpdateLevelQuotaText();
-			var texturePath= GetTexturePath(currentLevelData.GetPlantType());
-			var texture2d = (Texture2D) GD.Load(texturePath);
+			var texture= GetTexture(currentLevelData.GetPlantType());
+			var texture2d = (Texture2D) GD.Load(texture);
 			fruit_image.Texture = texture2d;
 		}
 
@@ -39,20 +39,20 @@ public partial class SellingDeskManager : Node2D
 		
 	}
 
-	private string GetTexturePath(string plant_type)
+	private string GetTexture(string plant_type)
 	{
 		string path = "";
 		switch (plant_type)
 		{
-			case("pineapple"):
-				path = "res://assets/fruits/pineapple.png";
+			case "pineapple":
+				path = Scenes.ItemTextures.pineapple;
 				break;
-			case("watermelon"):
-				path = "res://assets/fruits/watermelon.png";
+			case"watermelon":
+				path = Scenes.ItemTextures.watermelon;
 				break;
-			case("mango"):
-				path = "res://assets/fruits/mango.png";
-				break;	
+			case "mango":
+				path = Scenes.ItemTextures.mango;
+				break;
 		}
 		return path;
 	}

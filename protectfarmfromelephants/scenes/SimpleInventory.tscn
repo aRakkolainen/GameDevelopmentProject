@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://fsodys2gvaa2"]
+
+[ext_resource type="Script" path="res://scenes/SimpleInventory.cs" id="1_jt86l"]
+
+[node name="SimpleInventory" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Inventory" type="ItemList" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 320.0
+offset_top = 546.0
+offset_right = 665.0
+offset_bottom = 642.0
+allow_search = false
+max_columns = 5
+same_column_width = true
+fixed_column_width = 64
+script = ExtResource("1_jt86l")
