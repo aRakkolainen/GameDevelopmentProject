@@ -22,6 +22,8 @@ public partial class FarmManager : TileMapLayer
 	private string active_level; 
 
 	private string plant_type;
+
+	private int number_of_seeds_in_player_inventory = 0;
 	private LevelData level_data;
 
 	private LevelManager level_manager;
@@ -29,6 +31,9 @@ public partial class FarmManager : TileMapLayer
 	[Export] Player _player;
 
 	[Export] TimeManager timer;
+
+
+	[Signal] public delegate void UpdatedSeedCountEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -41,9 +46,10 @@ public partial class FarmManager : TileMapLayer
 		if(level_data != null)
 		{
 			plant_type = level_data.GetPlantType();
-			GD.Print(level_data);
+		} else
+		{
+			plant_type = "";
 		}
-		plant_type = "";
 
 	}
 
@@ -57,12 +63,10 @@ public partial class FarmManager : TileMapLayer
 	{
 		var random = new RandomNumberGenerator();
 		random.Randomize();
-		if(farm_tile_coordinates.Count > 0)
-		{
-			//Checking if player tries to plant..
 
-		if (Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
+		if (farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
 		{
+			number_of_seeds_in_player_inventory = _player.GetNumberOfSeedsAvailable();
 			Godot.Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
 			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
@@ -72,14 +76,18 @@ public partial class FarmManager : TileMapLayer
 			Godot.Vector2 player_position = _player.GetPositionDelta();
 			Vector2I player_map_pos = LocalToMap(player_position);
 			GD.Print(player_position);
+
 			if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1))
 				{
+					GD.Print("You cannot plant here!");
 					return;
 				}
+			//Checking if there already are plants in this farm:
 			if(plants != null && plants.Count > 0 )
 				{
 					GD.Print("Need to check if this tile is already planted!");
 					int index = FindPlantAtCoordinates(mouse_map_pos);
+
 					if(index != -1)
 				{
 					GD.Print("This tile is already planted, checking if it is ready to pickup");
@@ -87,7 +95,7 @@ public partial class FarmManager : TileMapLayer
 					{
 						GD.Print("Your plant is fully grown!");
 						int inventory_size = _player.GetInventoryCount();
-						InventoryItem item = new InventoryItem(inventory_size+1, plants[index].GetPlantType(), 32, 1);
+						InventoryItem item = new InventoryItem(inventory_size+1, plants[index].GetPlantType(), 1, 32);
 							if (_player.AddToInventory(item))
 							{
 								RemovePlantAtCoordinates(mouse_map_pos);
@@ -98,18 +106,18 @@ public partial class FarmManager : TileMapLayer
 					{
 						GD.Print("Your plant is not ready yet!");
 					}
+				} else {
+							GD.Print("You can plant here!");
+							PlacePlant(mouse_map_pos);
+							
+						} 
+
 				} else
-					{
-						GD.Print("You can plant here!");
-						PlacePlant(mouse_map_pos);
-					}
-					} else
 					{
 						GD.Print("You can plant your plant here!");
 						PlacePlant(mouse_map_pos);
 					}
 				}
-			}
 
 	}
 
@@ -129,9 +137,17 @@ public partial class FarmManager : TileMapLayer
 			GD.Print("Plant type undefined!");
 		} else
 		{
-			Plant newPlant = new Plant(id, plant_type, default_plant_phase, position); 
-			plants.Add(newPlant);
-			SetCell(position, 0, new Vector2I(2,0));
+			if (_player.GetNumberOfSeedsAvailable() > 0 && _player.GetNumberOfSeedsAvailable() <= level_data.GetLevelAvailableSeeds())
+			{
+				Plant newPlant = new Plant(id, plant_type, default_plant_phase, position); 
+				plants.Add(newPlant);
+				SetCell(position, 0, new Vector2I(2,0));
+				_player.SetNumberOfSeedsAvailable(_player.GetNumberOfSeedsAvailable()-1);
+				EmitSignal(SignalName.UpdatedSeedCount);
+			} else
+			{
+				GD.Print("Cannot plant, you don't have enough seeds!");
+			}
 		}
 	}
 
@@ -193,14 +209,12 @@ public partial class FarmManager : TileMapLayer
 		if (index == -1)
 		{
 			GD.Print("Plant not found at this position!");
-			return;
 		} else
 		{
 			Plant foundPlant = plants[index];
 			if (foundPlant.GetGrowthPhase() == phase)
 			{
 				GD.Print("Plant is already in this phase!");
-				return;
 			} else if (phase < foundPlant.GetGrowthPhase())
 			{
 				GD.Print("Plant cannot grow backwards!");

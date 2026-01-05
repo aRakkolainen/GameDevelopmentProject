@@ -26,7 +26,7 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerSellFruitEventHandler();
 
-	[Signal] public delegate void PlayerAddInventoryEventHandler();
+	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
 	public override void _Ready()
 	{
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -45,14 +45,16 @@ public partial class Player : CharacterBody2D
 	public void AddDefaultItemsToInventory()
 	{
 		InventoryItem watering_can_item = new InventoryItem(0, "watering_can", 1, 1);
-		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", max_stack, level.GetLevelAvailableSeeds());
+		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
 		inventory.Add(watering_can_item);
 		inventory.Add(plant_seeds);
+		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", 1, 1);
+		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
 	}
 
 	public bool AddToInventory(InventoryItem item)
     {
-		int index = FindItemFromInventory(item);
+		int index = FindIndexForItemInInventory(item);
 		GD.Print(inventory.Count);
 		if(inventory.Count < max_inventory_size)
 		{
@@ -61,6 +63,7 @@ public partial class Player : CharacterBody2D
         	inventory.Add(item);
 			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
 			LevelManager.Instance.SetPlayerInventory(inventory);
+			EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetQuantity(), item.GetMaxQuantity());
 			return true;
 		} else
 		{
@@ -72,6 +75,7 @@ public partial class Player : CharacterBody2D
 				currentItem.SetQuantity(++currentQuantity);
 				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
 				LevelManager.Instance.SetPlayerInventory(inventory);
+				EmitSignal(SignalName.PlayerAddToInventory, currentItem.GetID(), currentItem.GetItemName(), currentItem.GetQuantity(), currentItem.GetMaxQuantity());
 				return true;
 			}
 			return false;
@@ -89,10 +93,38 @@ public partial class Player : CharacterBody2D
         inventory.Remove(item);
     }
 
-	public int FindItemFromInventory(InventoryItem item)
+	public int FindIndexForItemInInventory(InventoryItem item)
 	{
 		return inventory.FindIndex(i=> i.GetItemName() == item.GetItemName());
 	}
+
+	public int GetNumberOfSeedsAvailable()
+	{
+		
+		int index = inventory.FindIndex(i => i.GetItemName() == level.GetPlantType()+"_seeds");
+		if (index == -1)
+		{
+			GD.Print("No seeds in inventory!");
+			return 0;
+		} else
+		{
+			return inventory[index].GetQuantity();
+		}
+	}
+
+	public void SetNumberOfSeedsAvailable(int count)
+	{
+		int index = inventory.FindIndex(i => i.GetItemName() == level.GetPlantType()+"_seeds");
+		if (index == -1)
+		{
+			GD.Print("No seeds found, cannot update");
+		} else
+		{
+			inventory[index].SetQuantity(count);
+		}
+	}
+
+
 
 	public void ClearInventory()
 	{
@@ -130,11 +162,13 @@ public partial class Player : CharacterBody2D
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
-			player.Play("walk_left");
+			player.Animation = "walk";
+			player.FlipH = true;
 		}
 		else if (Input.IsActionPressed("move_right"))
 		{
-			player.Play("walk_right");
+			player.FlipH = false;
+			player.Play("walk");
 		}
 		else if (Input.IsActionPressed("move_up"))
 		{

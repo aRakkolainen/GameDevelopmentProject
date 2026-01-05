@@ -16,9 +16,12 @@ public partial class Level1 : Node2D
     [Export] private AcceptDialog _change_day_dialog;
     [Export] private Player _player;
 
+    [Export] SellPopup _sell_popup;
+
     [Export] private Elephant _elephant;
     [Export] private FarmManager _farmManager;
 
+    [Signal] public delegate void SellPopUpOpenedEventHandler();
 
     public override void _Ready()
     {
@@ -29,9 +32,9 @@ public partial class Level1 : Node2D
         _change_day_dialog = GetNode<AcceptDialog>("%ChangeDayDialog");
         _change_day_dialog.CloseRequested += OnDialogCloseRequested;
         _change_day_dialog.Confirmed += OnDialogConfirmed;
+        _sell_popup = GetNode<SellPopup>("SellPopup");
         timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
         timer.StartTimer(level1.GetLevelTotalDays());
-        _player.Connect(Player.SignalName.PlayerAddInventory, new Callable(this, nameof(UpdatePlayerInventory)));
     }
 
     private void UpdatePlayerInventory()
@@ -43,7 +46,6 @@ public partial class Level1 : Node2D
 
     private void OnDayEnd()
     {
-        // LevelData level1 = LevelManager.Instance.GetLevelData("level_1");
         timer.SetDaysLeft(timer.GetDaysLeft()-1);
         int sold_quota = level1.GetCurrentQuota();
         int expected_quota = level1.GetExpectedQuota();
@@ -171,6 +173,16 @@ public partial class Level1 : Node2D
         return level1;
     }
 
+
+    private void OnSellPopupConfirmed()
+    {
+        
+    }
+
+    private void OnSellPopupItemAmountChanged(float value)
+    {
+        
+    }
    
 
 }

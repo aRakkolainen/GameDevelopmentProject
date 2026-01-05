@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://dv3yusfsmynat"]
+
+[ext_resource type="Script" path="res://scripts/SellPopup.cs" id="1_ivcsa"]
+
+[node name="SellPopup" type="AcceptDialog"]
+title = "How many fruits do you want to sell?"
+position = Vector2i(0, 36)
+size = Vector2i(377, 150)
+visible = true
+unfocusable = true
+ok_button_text = "Sell"
+script = ExtResource("1_ivcsa")
+
+[node name="NumberOfItemsToBeSold" type="SpinBox" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 369.0
+offset_bottom = 101.0
+alignment = 1
+update_on_text_changed = true
+
+[connection signal="value_changed" from="NumberOfItemsToBeSold" to="." method="OnNumberOfItemsToBeSoldValueChanged"]

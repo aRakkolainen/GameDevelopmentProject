@@ -9,12 +9,12 @@ public class InventoryItem
     int maxQuantity;
     int quantity;
 
-    public InventoryItem(int id, string item_name, int max, int amount)
+    public InventoryItem(int id, string item_name,  int amount, int max)
     {
         ID = id; 
         name = item_name;
-        maxQuantity = max;
         quantity = amount;
+        maxQuantity = max;
     }
 
 

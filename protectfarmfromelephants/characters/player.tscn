@@ -46,20 +46,15 @@ animations = [{
 "name": &"stand_with_water_can",
 "speed": 5.0
 }, {
-"frames": [],
-"loop": true,
-"name": &"use_water_can_left",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_agyjm")
+"texture": ExtResource("3_gifqq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_t4xl7")
+"texture": ExtResource("4_8kij3")
 }],
 "loop": true,
-"name": &"use_water_can_right",
+"name": &"walk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -97,24 +92,24 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_gifqq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_8kij3")
-}],
-"loop": true,
-"name": &"walk_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("12_kvmu7")
 }, {
 "duration": 1.0,
 "texture": ExtResource("13_r7sfj")
 }],
 "loop": true,
-"name": &"walk_with_seed_pack_right",
+"name": &"walk_with_seed_pack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_agyjm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_t4xl7")
+}],
+"loop": true,
+"name": &"walk_with_watering_can",
 "speed": 5.0
 }]
 
@@ -132,6 +127,7 @@ texture_filter = 3
 texture_repeat = 1
 position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
+animation = &"walk_left"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)

@@ -1,13 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://fsodys2gvaa2"]
+[gd_scene load_steps=2 format=3 uid="uid://bwkv1na22m6s5"]
 
 [ext_resource type="Script" path="res://scenes/SimpleInventory.cs" id="1_jt86l"]
 
-[node name="SimpleInventory" type="Node2D"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Inventory" type="ItemList" parent="CanvasLayer"]
-unique_name_in_owner = true
+[node name="Inventory" type="ItemList"]
+texture_filter = 1
 offset_left = 320.0
 offset_top = 546.0
 offset_right = 665.0
@@ -16,4 +12,7 @@ allow_search = false
 max_columns = 5
 same_column_width = true
 fixed_column_width = 64
+icon_scale = 3.0
 script = ExtResource("1_jt86l")
+
+[connection signal="item_activated" from="." to="." method="OnInventoryItemActivated"]

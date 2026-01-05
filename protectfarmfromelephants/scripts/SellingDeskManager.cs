@@ -1,16 +1,21 @@
 using Godot;
 using System;
 
-public partial class SellingDeskManager : Node2D
+public partial class SellingDeskManager : TextureButton
 {
 	[Export] Label quota_text;
 
 	[Export] TextureRect fruit_image;
 
-	[Export] Area2D desk;
 
-	string currentLevel;
-	LevelData currentLevelData; 
+	[Signal] public delegate void SellPopUpOpenedEventHandler();
+
+	
+
+	private SpinBox fruitAmountToBeSoldSpinBox;
+	private string currentLevel;
+	private LevelData currentLevelData; 
+
 
 	string display_quota_text;
 
@@ -21,7 +26,6 @@ public partial class SellingDeskManager : Node2D
 		currentLevelData = LevelManager.Instance.GetLevelData(currentLevel);
 		quota_text ??= GetNode<Label>("%QuotaText");
 		fruit_image ??= GetNode<TextureRect>("%Fruit");
-		desk ??= GetNode<Area2D>("Area2D");
 		if (currentLevelData != null)
 		{
 			UpdateLevelQuotaText();
@@ -61,5 +65,10 @@ public partial class SellingDeskManager : Node2D
 	{
 		string text = currentLevelData.GetCurrentQuota() + "/" + currentLevelData.GetExpectedQuota();
 		quota_text.Text = text;
+	}
+
+	private void OnPressed()
+	{
+		EmitSignal(SignalName.SellPopUpOpened);
 	}
 }

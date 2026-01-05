@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=20 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/Level1.cs" id="1_qn07i"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -10,7 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://characters/elephant.tscn" id="8_vubro"]
 [ext_resource type="PackedScene" uid="uid://0eqe8fgfo1nx" path="res://scenes/Timer.tscn" id="9_mtud7"]
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="10_tyd27"]
-[ext_resource type="PackedScene" uid="uid://fsodys2gvaa2" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
+[ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
+[ext_resource type="PackedScene" uid="uid://dv3yusfsmynat" path="res://sell_popup.tscn" id="12_3xfhx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -187,7 +188,11 @@ _player = NodePath("../../Player")
 timer = NodePath("../../Timer")
 
 [node name="SellingDesk" parent="." instance=ExtResource("6_si6ec")]
-position = Vector2(-301, 74)
+unique_name_in_owner = true
+offset_left = -301.0
+offset_top = 74.0
+offset_right = -237.0
+offset_bottom = 138.0
 
 [node name="Player" parent="." instance=ExtResource("7_6qfd7")]
 unique_name_in_owner = true
@@ -233,4 +238,19 @@ size = Vector2i(200, 100)
 ok_button_text = "Start Next Day"
 dialog_close_on_escape = false
 
-[node name="SimpleInventory" parent="." instance=ExtResource("11_47718")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SimpleInventory" parent="CanvasLayer" instance=ExtResource("11_47718")]
+offset_left = 381.0
+offset_top = 549.0
+offset_right = 726.0
+offset_bottom = 645.0
+
+[node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
+
+[connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
+[connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
+[connection signal="mouse_entered" from="SellingDesk" to="." method="OnSellingDeskMouseEntered"]
+[connection signal="PlayerAddToInventory" from="Player" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
+[connection signal="ItemAmountChanged" from="SellPopup" to="." method="OnSellPopupItemAmountChanged"]
+[connection signal="confirmed" from="SellPopup" to="." method="OnSellPopupConfirmed"]

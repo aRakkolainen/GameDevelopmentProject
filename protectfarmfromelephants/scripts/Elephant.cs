@@ -1,17 +1,17 @@
 using Godot;
 using System;
 
-public partial class Elephant : CharacterBody2D
+public partial class Elephant : RigidBody2D
 {
 	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D _animatedSprite;
 
 
 	public override void _Ready()
 	{
+		var velocity = Vector2.Zero;
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		_animatedSprite.Play("walk_right");
+		_animatedSprite.Play("walk");
 	}
 	public override void _PhysicsProcess(double delta)
 	{
