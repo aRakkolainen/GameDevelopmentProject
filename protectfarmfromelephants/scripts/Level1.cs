@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Godot;
 
@@ -12,6 +13,9 @@ public partial class Level1 : Node2D
 
     private RichTextLabel _timer_text;
 
+    private int total_enemies;
+
+    private int spawned_enemies;
     private Node2D changeDay; 
     [Export] private AcceptDialog _change_day_dialog;
     [Export] private Player _player;
@@ -21,20 +25,43 @@ public partial class Level1 : Node2D
     [Export] private Elephant _elephant;
     [Export] private FarmManager _farmManager;
 
+    [Export] private Godot.Timer _elephant_timer;
+
     [Signal] public delegate void SellPopUpOpenedEventHandler();
+
+    [Export]
+    public PackedScene ElephantScene { get; set; }
+
+    public List<string> elephant_move_directions;
+
+    private string elephant_move_direction;
+
+    private PathFollow2D elephantSpawnLocation;
+
+    private Godot.Vector2 elephantMoveDirection;
 
     public override void _Ready()
     {
         //Receiving data of this level: 
+        GD.Randomize();
         level1 = LevelManager.Instance.GetLevelData("level_1");
         _farmManager = GetNode<FarmManager>("%Farm");
         timer = GetNode<TimeManager>("%Timer");
+        _elephant_timer = GetNode<Godot.Timer>("ElephantTimer");
         _change_day_dialog = GetNode<AcceptDialog>("%ChangeDayDialog");
         _change_day_dialog.CloseRequested += OnDialogCloseRequested;
         _change_day_dialog.Confirmed += OnDialogConfirmed;
         _sell_popup = GetNode<SellPopup>("SellPopup");
         timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
         timer.StartTimer(level1.GetLevelTotalDays());
+        _elephant_timer.Start();
+        total_enemies = GD.RandRange(level1.GetLevelMininumEnemies(), level1.GetLevelMaximumEnemies());
+        elephant_move_directions = new List<string>
+        {
+            "Left",
+            "Right"
+        };
+        elephant_move_direction = elephant_move_directions[GD.RandRange(0,1)];
     }
 
     private void UpdatePlayerInventory()
@@ -154,6 +181,7 @@ public partial class Level1 : Node2D
         
         timer.StartTimer(timer.GetDaysLeft());
         _player.SetPlayerIsAlive(true);
+        //GetTree().CallGroup("elephants", Node.MethodName.QueueFree);
     }
 
     private void ResetLevel()
@@ -183,6 +211,37 @@ public partial class Level1 : Node2D
     {
         
     }
-   
+    //Implemented based on Godot tutorial and Copilot discussion about what Nodes should be used for simple object that spawns on its own and moves to specific direction
+    private void OnElephantTimerTimeout()
+	{
+		Elephant elephant = ElephantScene.Instantiate<Elephant>();
+        if (elephant_move_direction.Equals("Left"))
+        {
+            elephantSpawnLocation = GetNode<PathFollow2D>("ElephantPathRight/ElephantSpawnLocation");
+            elephantMoveDirection = Godot.Vector2.Left;
+        } else
+        {
+            elephantSpawnLocation = GetNode<PathFollow2D>("ElephantPathLeft/ElephantSpawnLocation");
+            elephantMoveDirection = Godot.Vector2.Right;
+        }
+        elephantSpawnLocation.ProgressRatio = GD.Randf();
+        elephant.GlobalPosition = elephantSpawnLocation.Position;
+        if(spawned_enemies < total_enemies)
+        {
+		    AddChild(elephant);
+            elephant.CollidedWithFarm += _farmManager.OnCollidedWithFarm;
+            spawned_enemies++;
+            if(elephant is Elephant elephantScript)
+            {
+                elephantScript.MoveDirection = elephantMoveDirection;
+            }
+             _elephant_timer.Start();
+        } else
+        {
+            _elephant_timer.Stop();
+        }
+
+    }
+     
 
 }

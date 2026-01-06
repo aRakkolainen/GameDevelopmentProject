@@ -12,8 +12,12 @@ public partial class LevelData : Node
 
     private string Level_Plant_Type;
 
+    private int Level_minimum_enemies;
 
-    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type)
+    private int Level_maximum_enemies;
+
+
+    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max)
     {
         Level_Number = num;
         Level_Expected_Quota = expected_quota;
@@ -21,6 +25,8 @@ public partial class LevelData : Node
         Level_Total_Days = days;
         Level_Seeds_Available = number_of_seeds;
         Level_Plant_Type = type;
+        Level_minimum_enemies = min;
+        Level_maximum_enemies = max;
     }
 
     public int GetLevelNumber()
@@ -84,6 +90,29 @@ public partial class LevelData : Node
     {
         Level_Plant_Type = plant;
     }
+
+    public int GetLevelMininumEnemies()
+    {
+        return Level_minimum_enemies;
+    }
+
+    public void SetLevelMininumEnemies(int min)
+    {
+        Level_minimum_enemies = min;
+    }
+
+
+    public int GetLevelMaximumEnemies()
+    {
+        return Level_maximum_enemies;
+    }
+
+     public void SetLevelMaximumEnemies(int max)
+    {
+        Level_maximum_enemies = max;
+    }
+
+
 
     
 }

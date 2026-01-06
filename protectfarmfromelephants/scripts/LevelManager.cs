@@ -70,9 +70,9 @@ public Dictionary<string, LevelData> GetAllLevels()
 public void InitializeLevelData()
     {
         levels = new Dictionary<string, LevelData>();
-        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple");
-        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon");
-        LevelData level_3 = new(3, 60, 0, 4, 64, "mango");
+        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5);
+        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 10);
+        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15);
         levels.Add("level_1", level_1);
         levels.Add("level_2", level_2);
         levels.Add("level_3", level_3);

@@ -50,11 +50,13 @@ public partial class FarmManager : TileMapLayer
 		{
 			plant_type = "";
 		}
+		//Connect(Elephant.SignalName.CollidedWithFarm, new Callable(this, nameof(DestroyPlants)));
 
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
@@ -120,6 +122,27 @@ public partial class FarmManager : TileMapLayer
 				}
 
 	}
+
+	public void OnCollidedWithFarm()
+	{
+		int plantCount = plants.Count;
+		if (plantCount > 0)
+		{
+			
+		int plantsToBeDestroyedMaximum = (int) plantCount/4;
+		int plantsToBeDestroyedTotal = GD.RandRange(1, plantsToBeDestroyedMaximum);
+		for (int i=0; i < plantsToBeDestroyedTotal; i++)
+		{
+			int randomIndex = (int) GD.RandRange(0, plantCount-1);
+			Plant plantToBeDestroyed = plants[randomIndex];
+			RemovePlantAtCoordinates(plantToBeDestroyed.GetCoordinates());
+		}
+		GD.Print("Elephant destroyed " + plantsToBeDestroyedTotal + " plants.");
+		}
+		
+		
+	}
+
 
 	public Godot.Collections.Array<Vector2I> GetFarmTileCoordinates()
 	{

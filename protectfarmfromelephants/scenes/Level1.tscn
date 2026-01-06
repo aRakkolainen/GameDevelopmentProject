@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=22 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/Level1.cs" id="1_qn07i"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -7,11 +7,11 @@
 [ext_resource type="Script" path="res://scenes/FarmManager.cs" id="5_6n2kv"]
 [ext_resource type="PackedScene" uid="uid://bpi8m7nrm6pes" path="res://scenes/SellingDesk.tscn" id="6_si6ec"]
 [ext_resource type="PackedScene" uid="uid://d0qgd502gu2p5" path="res://characters/player.tscn" id="7_6qfd7"]
-[ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://characters/elephant.tscn" id="8_vubro"]
+[ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://scenes/elephant.tscn" id="8_vubro"]
 [ext_resource type="PackedScene" uid="uid://0eqe8fgfo1nx" path="res://scenes/Timer.tscn" id="9_mtud7"]
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="10_tyd27"]
 [ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
-[ext_resource type="PackedScene" uid="uid://dv3yusfsmynat" path="res://sell_popup.tscn" id="12_3xfhx"]
+[ext_resource type="PackedScene" uid="uid://bodvpt1hnpm0j" path="res://sell_popup.tscn" id="12_3xfhx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -74,19 +74,24 @@ texture_region_size = Vector2i(32, 32)
 1:0/0 = 0
 1:0/0/custom_data_0 = true
 2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 2:0/0/custom_data_1 = true
 3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 3:0/0/custom_data_1 = true
 3:0/0/custom_data_3 = 1
 4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 4:0/0/custom_data_1 = true
 4:0/0/custom_data_3 = 2
 5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 5:0/0/custom_data_1 = true
 5:0/0/custom_data_2 = "pineapple"
 5:0/0/custom_data_3 = 3
 5:0/0/custom_data_4 = true
 6:0/0 = 0
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:0/0/custom_data_1 = true
 6:0/0/custom_data_2 = "melon"
 6:0/0/custom_data_3 = 3
@@ -104,16 +109,20 @@ texture_region_size = Vector2i(32, 32)
 1:3/0 = 0
 2:3/0 = 0
 3:3/0 = 0
+3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 3:3/0/custom_data_1 = true
 3:3/0/custom_data_2 = "mango"
 3:3/0/custom_data_3 = 1
 4:3/0 = 0
+4:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 4:3/0/custom_data_2 = "mango"
 4:3/0/custom_data_3 = 2
 5:3/0 = 0
+5:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 5:3/0/custom_data_2 = "mango"
 5:3/0/custom_data_3 = 3
 6:3/0 = 0
+6:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:3/0/custom_data_2 = "mango"
 6:3/0/custom_data_3 = 4
 6:3/0/custom_data_4 = true
@@ -134,14 +143,26 @@ custom_data_layer_4/name = "isFullyGrown"
 custom_data_layer_4/type = 1
 sources/0 = SubResource("TileSetAtlasSource_pnyd4")
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("timer", "_change_day_dialog", "_player", "_elephant", "_farmManager")]
+[sub_resource type="Curve2D" id="Curve2D_80gck"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -162, 142, 0, 0, 0, 0, -162, 118, 0, 0, 0, 0, -162, 94, 0, 0, 0, 0, -162, 78, 0, 0, 0, 0, -162, 54, 0, 0, 0, 0, -162, 30, 0, 0, 0, 0, -162, 14, 0, 0, 0, 0, -162, -2)
+}
+point_count = 8
+
+[sub_resource type="Curve2D" id="Curve2D_8k1v8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 318, 158, 0, 0, 0, 0, 318, 142, 0, 0, 0, 0, 318, 126, 0, 0, 0, 0, 318, 102, 0, 0, 0, 0, 318, 78, 0, 0, 0, 0, 318, 62, 0, 0, 0, 0, 318, 46, 0, 0, 0, 0, 318, 30, 0, 0, 0, 0, 318, 14, 0, 0, 0, 0, 318, -2)
+}
+point_count = 10
+
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("timer", "_change_day_dialog", "_player", "_farmManager")]
 position = Vector2(194, -30)
 script = ExtResource("1_qn07i")
 timer = NodePath("Timer")
 _change_day_dialog = NodePath("ChangeDayDialog")
 _player = NodePath("Player")
-_elephant = NodePath("Elephant")
 _farmManager = NodePath("Level1Map/Farm")
+ElephantScene = ExtResource("8_vubro")
 
 [node name="Level1Map" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -159,13 +180,23 @@ position = Vector2(-178, 8)
 disable_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Level1Map/House"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -203.0
+offset_top = 3.0
+offset_right = -75.0
+offset_bottom = 131.0
 texture = ExtResource("3_8so1m")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Level1Map/House"]
-visible = false
+position = Vector2(-203, 5)
 polygon = PackedVector2Array(7, 125, 44, 125, 44, 123, 68, 123, 68, 126, 103, 126, 102, 80, 105, 80, 105, 59, 56, 35, 32, 46, 33, 38, 18, 37, 18, 44, 20, 45, 19, 53, 4, 60, 5, 80, 8, 79, 8, 118)
+
+[node name="Label" type="Label" parent="Level1Map/House"]
+visible = false
+offset_left = -184.0
+offset_top = 65.0
+offset_right = -110.0
+offset_bottom = 88.0
+text = "Upgrades"
 
 [node name="Details" type="TileMapLayer" parent="Level1Map"]
 position = Vector2(107, 72)
@@ -189,10 +220,10 @@ timer = NodePath("../../Timer")
 
 [node name="SellingDesk" parent="." instance=ExtResource("6_si6ec")]
 unique_name_in_owner = true
-offset_left = -301.0
-offset_top = 74.0
-offset_right = -237.0
-offset_bottom = 138.0
+offset_left = -258.0
+offset_top = 6.0
+offset_right = -194.0
+offset_bottom = 70.0
 
 [node name="Player" parent="." instance=ExtResource("7_6qfd7")]
 unique_name_in_owner = true
@@ -200,20 +231,9 @@ z_index = 1
 position = Vector2(-89, 129)
 disable_mode = 1
 
-[node name="Elephant" parent="." instance=ExtResource("8_vubro")]
-position = Vector2(103, 328)
-
-[node name="Elephant2" parent="." instance=ExtResource("8_vubro")]
-position = Vector2(103, 368)
-
-[node name="Elephant3" parent="." instance=ExtResource("8_vubro")]
-position = Vector2(207, 328)
-
-[node name="Elephant4" parent="." instance=ExtResource("8_vubro")]
-position = Vector2(208, 373)
-
 [node name="Timer" parent="." instance=ExtResource("9_mtud7")]
 unique_name_in_owner = true
+visible = false
 position = Vector2(-73, 47)
 
 [node name="TimerText" type="RichTextLabel" parent="."]
@@ -229,6 +249,7 @@ text = "Default"
 fit_content = true
 
 [node name="UpgradeInventory" parent="." instance=ExtResource("10_tyd27")]
+visible = false
 
 [node name="ChangeDayDialog" type="AcceptDialog" parent="."]
 unique_name_in_owner = true
@@ -247,6 +268,25 @@ offset_right = 726.0
 offset_bottom = 645.0
 
 [node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
+visible = false
+
+[node name="ElephantPathLeft" type="Path2D" parent="."]
+curve = SubResource("Curve2D_80gck")
+
+[node name="ElephantSpawnLocation" type="PathFollow2D" parent="ElephantPathLeft"]
+position = Vector2(-162, 142)
+rotation = -1.5708
+
+[node name="ElephantTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[node name="ElephantPathRight" type="Path2D" parent="."]
+curve = SubResource("Curve2D_8k1v8")
+
+[node name="ElephantSpawnLocation" type="PathFollow2D" parent="ElephantPathRight"]
+position = Vector2(318, 158)
+rotation = -1.5708
 
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
@@ -254,3 +294,4 @@ offset_bottom = 645.0
 [connection signal="PlayerAddToInventory" from="Player" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
 [connection signal="ItemAmountChanged" from="SellPopup" to="." method="OnSellPopupItemAmountChanged"]
 [connection signal="confirmed" from="SellPopup" to="." method="OnSellPopupConfirmed"]
+[connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]

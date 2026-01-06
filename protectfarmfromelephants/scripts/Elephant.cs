@@ -1,49 +1,45 @@
 using Godot;
 using System;
 
-public partial class Elephant : RigidBody2D
+public partial class Elephant : CharacterBody2D
 {
-	public const float Speed = 300.0f;
+	[Export] public float Speed = 100.0f;
+
+	[Export] public Vector2 MoveDirection = Vector2.Right;
 	private AnimatedSprite2D _animatedSprite;
+
+	private CollisionShape2D _collisionShape;
+
+	[Signal]
+
+	public delegate void CollidedWithFarmEventHandler();
 
 
 	public override void _Ready()
 	{
-		var velocity = Vector2.Zero;
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		_animatedSprite.Play("walk");
+		MoveDirection = MoveDirection.Normalized();
 	}
 	public override void _PhysicsProcess(double delta)
 	{
-		/*  Vector2 velocity = Velocity;*/
 
+		Velocity = MoveDirection * Speed;
+		if(Velocity.X < 0)
+		{
+			_animatedSprite.FlipH = true;
+		}
+
+
+		var collisionInfo = MoveAndCollide(Velocity * (float) delta);
+		if(collisionInfo != null && collisionInfo.GetCollider() is TileMapLayer)
+		{
+				GD.Print("Collided with the farm!");
+				EmitSignal(SignalName.CollidedWithFarm);
+				_collisionShape.Disabled = true;
+				
+		}
 		
-
-		// Add the gravity.
-		/* if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-		{
-			velocity.Y = JumpVelocity;
-		}
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
-		{
-			velocity.X = direction.X * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide(); */
 	}
 }
