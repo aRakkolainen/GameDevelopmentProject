@@ -11,20 +11,34 @@ public partial class SimpleInventory : ItemList
 
 	private string seed_type;
 
-	private int inventory_size = 10;
+	private LevelData level;
+
+	private int max_inventory_size = 10;
+	private int max_stack = 32;
 	// Called when the node enters the scene tree for the first time.
 
 
 	[Signal]
 	public delegate void InventoryItemActivatedEventHandler();
 
+	[Signal]
+	public delegate void FruitsSoldEventHandler();
+
+	[Signal]
+	public delegate void InventoryItemsChangedEventHandler();
+
 
 	public override void _Ready()
 	{
-		items = new Item[inventory_size];
-		LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
+		items = new Item[max_inventory_size];
+		level = LevelManager.Instance.GetLevelDataForActiveLevel();
 		seed_type = level.GetPlantType() + "_seeds";
     }
+
+	public List<InventoryItem> GetInventoryItems()
+	{
+		return inventory_items;
+	}
 
     private void DisplayNewItems()
     {
@@ -40,11 +54,6 @@ public partial class SimpleInventory : ItemList
             }
         } 
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
-	}
 
 	private string GetTextureByItemName(string name)
 	{
@@ -88,26 +97,53 @@ public partial class SimpleInventory : ItemList
 		GD.Print("Trying to add item " + item_name + " with quantity " + quantity);
 		if(inventory_items != null)
         {
-			int index = inventory_items.FindIndex(item => item.GetItemName() == item_name);
-			if (index == -1) {
-				inventory_items.Add(item);
-			} else
-			{
-				InventoryItem current = inventory_items[index];
-				if (current.GetQuantity() <= current.GetMaxQuantity())
-				{
-					current.SetQuantity(quantity);
-				}
-			}
+			AddToInventory(item);
 			Clear();
             DisplayNewItems();
-			GD.Print(inventory_items.Count);
         }
 	}
 
 	public void OnFarmUpdatedSeedCount()
 	{
 		GD.Print("Trying to update seed counts");
+		SetNumberOfSeedsInInventory();
+		Clear();
+		DisplayNewItems();
+	}
+
+	public void OnSellPopupSoldAllItemsFromInventory()
+	{
+		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
+		if(indexOfFruit == -1)
+		{
+			GD.Print("Fruit not found, cannot sell!");
+		} else
+		{
+			InventoryItem fruit = inventory_items[indexOfFruit];
+			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(fruit.GetQuantity());
+			if(quotaUpdated) {
+				fruit.SetQuantity(0);
+				EmitSignal(SignalName.FruitsSold);
+				Clear();
+				DisplayNewItems();
+			}
+		
+		}
+	}
+
+	public void OnSellPopupSoldNumberOfItemsFromInventory(float amount)
+	{
+		
+	}
+
+	public int GetNumberOfSeedsInInventory()
+	{
+		InventoryItem seeds = inventory_items.Find(item => item.GetItemName() == seed_type);
+		return seeds.GetQuantity();
+	}
+
+	public void SetNumberOfSeedsInInventory()
+	{
 		InventoryItem seeds = inventory_items.Find(item => item.GetItemName() == seed_type);
 		if (seeds != null)
 		{
@@ -116,9 +152,67 @@ public partial class SimpleInventory : ItemList
 			{
 				seeds.SetQuantity(currentQuantity-1);
 			}
-			Clear();
-			DisplayNewItems();
 		}
+	}
+
+	public bool AddToInventory(InventoryItem item)
+    {
+		
+		int index = FindIndexForItemInInventory(item);
+
+
+		if(inventory_items.Count < max_inventory_size)
+		{
+		if(index == -1)
+		{
+        	inventory_items.Add(item);
+			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
+			return true;
+		} else
+		{
+			InventoryItem currentItem = inventory_items[index];
+			int currentQuantity = currentItem.GetQuantity();
+			int max = currentItem.GetMaxQuantity();
+			if(currentQuantity < max)
+			{
+				currentItem.SetQuantity(++currentQuantity);
+				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
+				return true;
+			}
+			return false;
+		}
+		} else
+		{
+			GD.Print("Inventory full, drop something!");
+			return false;
+			
+		}
+    }
+
+	public void UpdateItemQuantity(string name, int quantity)
+	{
+		int index = inventory_items.FindIndex(i => i.GetItemName() == name);
+		if(index == -1)
+		{
+			GD.Print("Item not found!");
+		} else
+		{
+			InventoryItem current = inventory_items[index];
+			if (quantity > 0 && quantity < current.GetMaxQuantity())
+			{
+				inventory_items[index].SetQuantity(quantity);
+			}
+		}
+	}
+
+	public void RemoveFromInventory(InventoryItem item)
+    {
+        inventory_items.Remove(item);
+    }
+
+	public int FindIndexForItemInInventory(InventoryItem item)
+	{
+		return inventory_items.FindIndex(i=> i.GetItemName() == item.GetItemName());
 	}
 }
 

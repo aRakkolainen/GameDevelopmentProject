@@ -32,6 +32,7 @@ public partial class FarmManager : TileMapLayer
 
 	[Export] TimeManager timer;
 
+	[Export] SimpleInventory _inventory;
 
 	[Signal] public delegate void UpdatedSeedCountEventHandler();
 	// Called when the node enters the scene tree for the first time.
@@ -50,6 +51,7 @@ public partial class FarmManager : TileMapLayer
 		{
 			plant_type = "";
 		}
+		_inventory = GetNode<SimpleInventory>("%SimpleInventory");
 		//Connect(Elephant.SignalName.CollidedWithFarm, new Callable(this, nameof(DestroyPlants)));
 
 	}
@@ -68,7 +70,7 @@ public partial class FarmManager : TileMapLayer
 
 		if (farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
 		{
-			number_of_seeds_in_player_inventory = _player.GetNumberOfSeedsAvailable();
+			number_of_seeds_in_player_inventory = _inventory.GetNumberOfSeedsInInventory();
 			Godot.Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
 			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
@@ -98,11 +100,8 @@ public partial class FarmManager : TileMapLayer
 						GD.Print("Your plant is fully grown!");
 						int inventory_size = _player.GetInventoryCount();
 						InventoryItem item = new InventoryItem(inventory_size+1, plants[index].GetPlantType(), 1, 32);
-							if (_player.AddToInventory(item))
-							{
-								RemovePlantAtCoordinates(mouse_map_pos);
-							}
-						
+						_player.AddToInventory(item);
+						RemovePlantAtCoordinates(mouse_map_pos);
 						
 					} else
 					{
@@ -160,12 +159,12 @@ public partial class FarmManager : TileMapLayer
 			GD.Print("Plant type undefined!");
 		} else
 		{
-			if (_player.GetNumberOfSeedsAvailable() > 0 && _player.GetNumberOfSeedsAvailable() <= level_data.GetLevelAvailableSeeds())
+			int seeds_in_inventory = _inventory.GetNumberOfSeedsInInventory();
+			if (seeds_in_inventory > 0 && seeds_in_inventory <= level_data.GetLevelAvailableSeeds())
 			{
 				Plant newPlant = new Plant(id, plant_type, default_plant_phase, position); 
 				plants.Add(newPlant);
 				SetCell(position, 0, new Vector2I(2,0));
-				_player.SetNumberOfSeedsAvailable(_player.GetNumberOfSeedsAvailable()-1);
 				EmitSignal(SignalName.UpdatedSeedCount);
 			} else
 			{

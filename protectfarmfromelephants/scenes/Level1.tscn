@@ -262,13 +262,11 @@ dialog_close_on_escape = false
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SimpleInventory" parent="CanvasLayer" instance=ExtResource("11_47718")]
+unique_name_in_owner = true
 offset_left = 381.0
 offset_top = 549.0
 offset_right = 726.0
 offset_bottom = 645.0
-
-[node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
-visible = false
 
 [node name="ElephantPathLeft" type="Path2D" parent="."]
 curve = SubResource("Curve2D_80gck")
@@ -288,10 +286,13 @@ curve = SubResource("Curve2D_8k1v8")
 position = Vector2(318, 158)
 rotation = -1.5708
 
+[node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
+
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
 [connection signal="mouse_entered" from="SellingDesk" to="." method="OnSellingDeskMouseEntered"]
 [connection signal="PlayerAddToInventory" from="Player" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
-[connection signal="ItemAmountChanged" from="SellPopup" to="." method="OnSellPopupItemAmountChanged"]
-[connection signal="confirmed" from="SellPopup" to="." method="OnSellPopupConfirmed"]
+[connection signal="FruitsSold" from="CanvasLayer/SimpleInventory" to="SellingDesk" method="OnSimpleInventoryFruitsSold"]
 [connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]
+[connection signal="SoldAllItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldAllItemsFromInventory"]
+[connection signal="SoldNumberOfItemsFromInventory" from="SellPopup" to="." method="OnSellPopupSoldNumberOfItemsFromInventory"]

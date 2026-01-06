@@ -123,6 +123,8 @@ public partial class Level1 : Node2D
             } else
             {
                 GD.Print("Move to next level");
+                LevelManager.Instance.SetCurrentActiveLevel("level_2");
+                LevelManager.Instance.LoadLevel(Scenes.Levels.level_2);
                 //To-do: Instiate the next level scene
             }
         } else
@@ -145,6 +147,8 @@ public partial class Level1 : Node2D
             } else
             {
                 GD.Print("Move to next level");
+                LevelManager.Instance.SetCurrentActiveLevel("level_2");
+                LevelManager.Instance.LoadLevel(Scenes.Levels.level_2);
                 //To-do: Instiate the next level scene
             }
         } else
@@ -194,6 +198,7 @@ public partial class Level1 : Node2D
             _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
         }
         _player.ClearInventory();
+        LevelManager.Instance.ResetLevelQuota();
     }
 
     public LevelData GetLevelData()
@@ -202,15 +207,6 @@ public partial class Level1 : Node2D
     }
 
 
-    private void OnSellPopupConfirmed()
-    {
-        
-    }
-
-    private void OnSellPopupItemAmountChanged(float value)
-    {
-        
-    }
     //Implemented based on Godot tutorial and Copilot discussion about what Nodes should be used for simple object that spawns on its own and moves to specific direction
     private void OnElephantTimerTimeout()
 	{

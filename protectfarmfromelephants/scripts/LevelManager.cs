@@ -116,13 +116,24 @@ public LevelData GetLevelData(string level_num)
         return level;
     }
 
-public void UpdateLevelQuota(string level, int sold_fruits)
+public bool UpdateLevelQuota(int sold_fruits)
     {
-        LevelData levelData = levels.GetValueOrDefault(level);
-        if(level != null)
+        LevelData levelData = GetLevelDataForActiveLevel();
+        if(levelData != null)
         {
             int current = levelData.GetCurrentQuota();
             levelData.SetCurrentQuota(current+sold_fruits);
+            return true;
+        }
+        return false;
+    }
+
+public void ResetLevelQuota()
+    {
+        LevelData levelData = GetLevelDataForActiveLevel();
+        if(levelData != null)
+        {
+            levelData.SetCurrentQuota(0);
         }
     }
 

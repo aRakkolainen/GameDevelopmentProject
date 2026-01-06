@@ -71,4 +71,9 @@ public partial class SellingDeskManager : TextureButton
 	{
 		EmitSignal(SignalName.SellPopUpOpened);
 	}
+
+	public void OnSimpleInventoryFruitsSold()
+	{
+		UpdateLevelQuotaText();
+	}
 }

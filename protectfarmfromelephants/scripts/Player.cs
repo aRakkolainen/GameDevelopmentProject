@@ -44,25 +44,27 @@ public partial class Player : CharacterBody2D
 
 	public void AddDefaultItemsToInventory()
 	{
-		InventoryItem watering_can_item = new InventoryItem(0, "watering_can", 1, 1);
+		/* InventoryItem watering_can_item = new InventoryItem(0, "watering_can", 1, 1);
 		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
 		inventory.Add(watering_can_item);
-		inventory.Add(plant_seeds);
+		inventory.Add(plant_seeds); */
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", 1, 1);
 		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
 	}
 
-	public bool AddToInventory(InventoryItem item)
+	public void AddToInventory(InventoryItem item)
     {
-		int index = FindIndexForItemInInventory(item);
-		GD.Print(inventory.Count);
-		if(inventory.Count < max_inventory_size)
+		EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetQuantity(), item.GetMaxQuantity());
+		//int index = FindIndexForItemInInventory(item);
+
+
+		/* if(inventory.Count < max_inventory_size)
 		{
 		if(index == -1)
 		{
-        	inventory.Add(item);
+        	//inventory.Add(item);
 			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
-			LevelManager.Instance.SetPlayerInventory(inventory);
+			//LevelManager.Instance.SetPlayerInventory(inventory);
 			EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetQuantity(), item.GetMaxQuantity());
 			return true;
 		} else
@@ -74,7 +76,7 @@ public partial class Player : CharacterBody2D
 			{
 				currentItem.SetQuantity(++currentQuantity);
 				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
-				LevelManager.Instance.SetPlayerInventory(inventory);
+				//LevelManager.Instance.SetPlayerInventory(inventory);
 				EmitSignal(SignalName.PlayerAddToInventory, currentItem.GetID(), currentItem.GetItemName(), currentItem.GetQuantity(), currentItem.GetMaxQuantity());
 				return true;
 			}
@@ -85,7 +87,7 @@ public partial class Player : CharacterBody2D
 			GD.Print("Inventory full, drop something!");
 			return false;
 			
-		}
+		} */
     }
 
 	public void RemoveFromInventory(InventoryItem item)
