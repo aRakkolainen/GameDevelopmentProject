@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=3 uid="uid://bodvpt1hnpm0j"]
+
+[ext_resource type="Script" path="res://scripts/SellPopup.cs" id="1_ivcsa"]
+
+[node name="SellPopup" type="CanvasLayer"]
+script = ExtResource("1_ivcsa")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -218.0
+offset_top = -149.0
+offset_right = 258.0
+offset_bottom = 198.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.94, 0.874513, 0.7332, 1)
+
+[node name="Fruit" type="TextureRect" parent="ColorRect"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 27.0
+offset_top = 68.0
+offset_right = 155.0
+offset_bottom = 250.0
+
+[node name="Label" type="Label" parent="ColorRect"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -165.5
+offset_top = 15.0
+offset_right = 191.5
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "How many fruits do you want to sell?"
+
+[node name="NumberOfItemsToBeSold" type="SpinBox" parent="ColorRect"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -47.0
+offset_right = 192.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+update_on_text_changed = true
+
+[node name="SellCustomButton" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -181.0
+offset_top = -70.0
+offset_right = -13.0
+offset_bottom = -39.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Sell custom amount"
+
+[node name="SellAllButton" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -70.0
+offset_right = 231.0
+offset_bottom = -39.0
+grow_vertical = 0
+text = "Sell all fruits from inventory"
+
+[node name="CloseButton" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Close"
+flat = true
+
+[connection signal="value_changed" from="ColorRect/NumberOfItemsToBeSold" to="." method="OnNumberOfItemsToBeSoldValueChanged"]
+[connection signal="pressed" from="ColorRect/SellCustomButton" to="." method="OnSellCustomButtonPressed"]
+[connection signal="pressed" from="ColorRect/SellAllButton" to="." method="OnSellAllButtonPressed"]
+[connection signal="pressed" from="ColorRect/CloseButton" to="." method="OnCloseButtonPressed"]
