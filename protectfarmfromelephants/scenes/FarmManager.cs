@@ -34,7 +34,7 @@ public partial class FarmManager : TileMapLayer
 
 	[Export] SimpleInventory _inventory;
 
-	[Signal] public delegate void UpdatedSeedCountEventHandler();
+	[Signal] public delegate void UpdatedSeedCountEventHandler(int quantity, string update_type);
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -161,12 +161,12 @@ public partial class FarmManager : TileMapLayer
 		} else
 		{
 			int seeds_in_inventory = _inventory.GetNumberOfSeedsInInventory();
-			if (seeds_in_inventory > 0 && seeds_in_inventory <= level_data.GetLevelAvailableSeeds())
+			if (seeds_in_inventory > 0)
 			{
 				Plant newPlant = new Plant(id, plant_type, default_plant_phase, position); 
 				plants.Add(newPlant);
 				SetCell(position, 0, new Vector2I(2,0));
-				EmitSignal(SignalName.UpdatedSeedCount);
+				EmitSignal(SignalName.UpdatedSeedCount, 1, "decrease");
 			} else
 			{
 				GD.Print("Cannot plant, you don't have enough seeds!");

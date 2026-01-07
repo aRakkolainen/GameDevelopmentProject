@@ -104,7 +104,7 @@ public void InitializeLevelData()
             new UpgradeItem("003", "noise_maker", "distraction", 2, 4),
             new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
             new UpgradeItem("005", "chili", "distraction", 10, 6),
-            new UpgradeItem("006", "extra_seeds", "boost", 10, 10),
+            new UpgradeItem("006", "seeds", "boost", 10, 10),
         };
 
         List<UpgradeItem> level_2_upgrades = new()
@@ -114,7 +114,7 @@ public void InitializeLevelData()
             new UpgradeItem("002", "stone_wall", "defense", 10, 2),
             new UpgradeItem("003", "camp_fire", "distraction", 2, 4),
             new UpgradeItem("004", "sun_flower", "distraction", 15, 6),
-            new UpgradeItem("005", "extra_seeds", "boost", 10, 10),
+            new UpgradeItem("005", "seeds", "boost", 10, 10),
         };
 
         List<UpgradeItem> level_3_upgrades = new()
@@ -125,7 +125,7 @@ public void InitializeLevelData()
             new UpgradeItem("003", "camp_fire", "distraction", 1, 4),
             new UpgradeItem("004", "noise_maker", "distraction", 1, 4),
             new UpgradeItem("005", "sun_flower", "distraction", 15, 8),
-            new UpgradeItem("006", "extra_seeds", "boost", 15, 8),
+            new UpgradeItem("006", "seeds", "boost", 15, 8),
         };
 
         LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5, 30, 1, level_1_upgrades);
@@ -222,32 +222,44 @@ public void MinusFromTotalMoney(int amount)
 
 public string GetTextureByItemName(string item_type)
 	{
-		string path = "";
+		string texture = "";
 		switch (item_type)
 		{
+            case "watering_can":
+				texture = Scenes.ItemTextures.watering_can;
+				break;
+            case "pineapple_seeds":
+				texture = Scenes.ItemTextures.pineapple_seeds;
+				break;
+			case "watermelon_seeds":
+				texture = Scenes.ItemTextures.watermelon_seeds;
+				break;
+			case "mango_seeds":
+				texture = Scenes.ItemTextures.mango_seeds;
+				break;
 			case "fence":
-				path = Scenes.UpgradeItemTextures.fence;
+				texture = Scenes.UpgradeItemTextures.fence;
 				break;
 			case"stone_wall":
-				path = Scenes.UpgradeItemTextures.stone_wall;
+				texture = Scenes.UpgradeItemTextures.stone_wall;
 				break;
 			case "camp_fire":
-				path = Scenes.UpgradeItemTextures.camp_fire;
+				texture = Scenes.UpgradeItemTextures.camp_fire;
 				break;
 			case "noise_maker":
-				path = Scenes.UpgradeItemTextures.noise_maker;
+				texture = Scenes.UpgradeItemTextures.noise_maker;
 				break;
 			case "beehive":
-				path = Scenes.UpgradeItemTextures.beehive;
+				texture = Scenes.UpgradeItemTextures.beehive;
 				break;
 			case "chili":
-				path = Scenes.UpgradeItemTextures.chili;
+				texture = Scenes.UpgradeItemTextures.chili;
 				break;	
 			case "sunflower":
-				path = Scenes.UpgradeItemTextures.sunflower;
+				texture = Scenes.UpgradeItemTextures.sunflower;
 				break;	
 
-			case "extra_seeds":
+			case "seeds":
 				LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
 				if (level == null || (level != null && level.GetPlantType() == null))
 				{
@@ -258,19 +270,19 @@ public string GetTextureByItemName(string item_type)
 				string plant_type = LevelManager.Instance.GetLevelDataForActiveLevel().GetPlantType();
 				if (plant_type.Equals("pineapple"))
 				{
-					path = Scenes.ItemTextures.pineapple_seeds;
+					texture = Scenes.ItemTextures.pineapple_seeds;
 				} else if (plant_type.Equals("watermelon"))
 				{
-					path = Scenes.ItemTextures.watermelon_seeds;
+					texture = Scenes.ItemTextures.watermelon_seeds;
 				} else if (plant_type.Equals("mango"))
 				{
-					path = Scenes.ItemTextures.mango_seeds;
+					texture = Scenes.ItemTextures.mango_seeds;
 				}
 				}
 				break;
 
 		}
-		return path;
+		return texture;
 	}
 
 }

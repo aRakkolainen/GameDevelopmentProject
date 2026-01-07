@@ -51,7 +51,7 @@ public partial class Player : CharacterBody2D
 		inventory.Add(watering_can_item);
 		inventory.Add(plant_seeds); */
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", 1, 1);
-		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", level.GetLevelAvailableSeeds(), max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)

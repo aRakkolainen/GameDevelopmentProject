@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text;
 
 public partial class SimpleInventory : ItemList
 {
@@ -50,8 +51,9 @@ public partial class SimpleInventory : ItemList
             InventoryItem currentItem = inventory_items[i];
             if (currentItem != null)
             {
-                var texture = GetTextureByItemName(currentItem.GetItemName());
+                var texture = LevelManager.Instance.GetTextureByItemName(currentItem.GetItemName());
                 var icon = (Texture2D)GD.Load(texture);
+				GD.Print(currentItem.GetItemName());
                 Item new_item = new Item(currentItem.GetID(), currentItem.GetItemName(), icon, currentItem.GetMaxQuantity(), currentItem.GetQuantity());
                 AddItem(new_item.Quantity.ToString(), new_item.Icon);
             }
@@ -152,10 +154,10 @@ public partial class SimpleInventory : ItemList
         }
 	}
 
-	public void OnFarmUpdatedSeedCount()
+	public void OnFarmUpdatedSeedCount(int quantity, string update_type)
 	{
 		GD.Print("Trying to update seed counts");
-		SetNumberOfSeedsInInventory();
+		SetNumberOfSeedsInInventory(quantity, update_type);
 		Clear();
 		DisplayNewItems();
 	}
@@ -213,15 +215,15 @@ public partial class SimpleInventory : ItemList
 		return seeds.GetQuantity();
 	}
 
-	public void SetNumberOfSeedsInInventory()
+	public void SetNumberOfSeedsInInventory(int quantity, string type)
 	{
 		InventoryItem seeds = inventory_items.Find(item => item.GetItemName() == seed_type);
 		if (seeds != null)
 		{
 			int currentQuantity = seeds.GetQuantity();
-			if (currentQuantity > 0)
+			if (currentQuantity >= 0)
 			{
-				seeds.SetQuantity(currentQuantity-1);
+				UpdateItemQuantity(seeds.GetItemName(), type, quantity);
 			}
 		}
 	}
@@ -260,7 +262,7 @@ public partial class SimpleInventory : ItemList
 		}
     }
 
-	public void UpdateItemQuantity(string name, int quantity)
+	public void UpdateItemQuantity(string name, string update_type, int quantity)
 	{
 		int index = inventory_items.FindIndex(i => i.GetItemName() == name);
 		if(index == -1)
@@ -269,10 +271,26 @@ public partial class SimpleInventory : ItemList
 		} else
 		{
 			InventoryItem current = inventory_items[index];
-			if (quantity > 0 && quantity < current.GetMaxQuantity())
+			int current_quantity = current.GetQuantity();
+
+			if (update_type.Equals("increase"))
+				{
+					if (quantity >= 0 && quantity + current_quantity < current.GetMaxQuantity())
+				{
+					inventory_items[index].SetQuantity(current_quantity + quantity);
+				}
+					
+				} else if (update_type.Equals("decrease"))
+			{
+				if (quantity >= 0 && current_quantity - quantity >= 0 && current_quantity - quantity < current.GetMaxQuantity())
+				{
+					inventory_items[index].SetQuantity(current_quantity - quantity);
+				}
+			} else if (update_type.Equals("custom") && quantity >= 0 && quantity < current.GetMaxQuantity())
 			{
 				inventory_items[index].SetQuantity(quantity);
 			}
+			
 		}
 	}
 

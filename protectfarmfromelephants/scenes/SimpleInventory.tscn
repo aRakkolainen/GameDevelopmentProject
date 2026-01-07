@@ -4,13 +4,13 @@
 
 [node name="Inventory" type="ItemList"]
 texture_filter = 1
-offset_left = 320.0
 offset_top = 546.0
-offset_right = 665.0
+offset_right = 1151.0
 offset_bottom = 642.0
 allow_search = false
 max_columns = 5
 fixed_column_width = 64
+icon_mode = 0
 icon_scale = 2.0
 script = ExtResource("1_jt86l")
 

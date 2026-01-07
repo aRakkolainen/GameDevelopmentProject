@@ -311,7 +311,7 @@ public partial class Level1 : Node2D
 
     public void OnContinueTimer()
     {
-        _elephant_timer.Stop();
+        _elephant_timer.Start();
         timer.StartTimer(timer.GetDaysLeft());
         _player.Continue();
 

@@ -33,6 +33,10 @@ public partial class UpgradeShop : CanvasLayer
 	public delegate void UpdatedItemsInStockTextEventHandler(int quantity);
 	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
 
+	[Signal] public delegate void UpdatedSeedCountEventHandler();
+
+	[Signal] public delegate void UpdatedItemQuantityEventHandler();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
     {
@@ -68,9 +72,13 @@ public partial class UpgradeShop : CanvasLayer
 	{
 		int money_available = LevelManager.Instance.GetMoneyAvailable();
 		UpgradeItem selected_item = upgrade_items[index];
-		if (money_available > 0 && selected_item.GetPrice() < money_available && selected_item.GetTotalInStock() > 0)
+		if (money_available > 0 && selected_item.GetPrice() <= money_available && selected_item.GetTotalInStock() > 0)
 		{
-			EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), 1, 0);
+			if (selected_item.GetItemName().Equals("seeds"))
+			{
+				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), 1, 0);
+				EmitSignal(SignalName.UpdatedSeedCount, 1, "increase");
+			}
 			LevelManager.Instance.MinusFromTotalMoney(selected_item.GetPrice());
 			EmitSignal(SignalName.UpdatedMoneyText);
 			selected_item.SetTotalInStock(selected_item.GetTotalInStock()-1);
@@ -85,63 +93,6 @@ public partial class UpgradeShop : CanvasLayer
 		EmitSignal(SignalName.ContinueTimer);
 		Hide();
 	}
-	
-
-
-	/* public void AddUpgradeItem(UpgradeItem item)
-    {
-        /* if (item == null || item.Quantity <= 0)
-        {
-            return;
-        }
-
-		//bool possibleToPickup = AddStackableItem(item);
-		for (int i = 0; i < upgradeNumber; i++)
-		{
-			if(upgradeItems[i] != null) continue;
-
-			upgradeItems[i] = item;
-			SetItemIcon(i, item.Icon);
-
-			if (item.MaxQuantity > 1)
-            {
-                SetItemText(i, upgradeItems[i].Quantity.ToString());
-            }
-
-		} 
-
-		//return possibleToPickup;
-
-    } */
-
-	/* private void OnUpgradeItemClicked(long index, Vector2 pos, long mouseButtonIndex)
-    {
-		/* if (mouseButtonIndex == 1)
-        {
-        UpgradeItem item = GetUpgradeItem((int) index);
-		if(item == null)
-        	{
-            	GD.Print("No item available!");
-				return;
-            }  
-		GD.Print($"You clicked {item.Name}!");
-        } */
-    //} 
-   /*  private void RemoveInventoryItem(int index)
-    {
-        throw new NotImplementedException();
-    } */
-
-
-    /* private UpgradeItem GetUpgradeItem(int index)
-    {
-        UpgradeItem upgrade = upgradeItems[index];
-		if(upgrade == null)
-        {
-            return null;
-        } 
-		return upgrade;
-    } */
 
 }
 public class ShopItem {
