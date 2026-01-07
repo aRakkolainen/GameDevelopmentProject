@@ -73,8 +73,8 @@ height = 120.0
 
 [node name="Elephant" type="CharacterBody2D" groups=["elephants"]]
 disable_mode = 1
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_66rpy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

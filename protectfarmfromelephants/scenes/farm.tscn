@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=4 uid="uid://dmy86o0h4u4se"]
+[gd_scene load_steps=5 format=4 uid="uid://dxv03iictcmly"]
 
-[ext_resource type="PackedScene" uid="uid://jplwiukrto1s" path="res://scenes/ground.tscn" id="1_l3bwn"]
-[ext_resource type="Texture2D" uid="uid://b0hmmol7onmo4" path="res://assets/farm_tilemap.png" id="2_3msg5"]
-[ext_resource type="Script" path="res://scenes/FarmManager.cs" id="3_kyigf"]
+[ext_resource type="Texture2D" uid="uid://b0hmmol7onmo4" path="res://assets/farm_tilemap.png" id="1_j0igi"]
+[ext_resource type="Script" path="res://scenes/FarmManager.cs" id="2_auokg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pnyd4"]
 resource_name = "farm"
-texture = ExtResource("2_3msg5")
+texture = ExtResource("1_j0igi")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -81,25 +80,10 @@ custom_data_layer_4/name = "isFullyGrown"
 custom_data_layer_4/type = 1
 sources/0 = SubResource("TileSetAtlasSource_pnyd4")
 
-[node name="Level2" type="Node2D"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="LevelTitle" type="Label" parent="CanvasLayer"]
-offset_left = 11.0
-offset_top = 8.0
-offset_right = 65.0
-offset_bottom = 31.0
-text = "Level 2"
-
-[node name="Level2Map" type="TileMapLayer" parent="."]
-
-[node name="ground" parent="Level2Map" instance=ExtResource("1_l3bwn")]
-
-[node name="Farm" type="TileMapLayer" parent="Level2Map"]
+[node name="Farm" type="TileMapLayer"]
 texture_filter = 1
-position = Vector2(536, 64)
+position = Vector2(-13, 14)
 scale = Vector2(1.0067, 1.0039)
-tile_map_data = PackedByteArray("AAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAFAAEAAAABAAAAAAAEAAEAAAABAAAAAAADAAEAAAABAAAAAAACAAEAAAABAAAAAAABAAEAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAABAAIAAAABAAAAAAACAAIAAAABAAAAAAADAAIAAAABAAAAAAAEAAIAAAABAAAAAAAFAAIAAAABAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAACAAMAAAABAAAAAAADAAMAAAABAAAAAAAEAAMAAAABAAAAAAAFAAMAAAABAAAAAAD//wAAAAABAAAAAAD//wEAAAABAAAAAAD//wIAAAABAAAAAAD//wMAAAABAAAAAAAGAAAAAAABAAAAAAAGAAEAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAD//wQAAAABAAAAAAAAAAQAAAABAAAAAAABAAQAAAABAAAAAAACAAQAAAABAAAAAAADAAQAAAABAAAAAAAEAAQAAAABAAAAAAAFAAQAAAABAAAAAAAGAAQAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAFAAEAAAABAAAAAAAEAAEAAAABAAAAAAADAAEAAAABAAAAAAACAAEAAAABAAAAAAABAAEAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAABAAIAAAABAAAAAAACAAIAAAABAAAAAAADAAIAAAABAAAAAAAEAAIAAAABAAAAAAAFAAIAAAABAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAACAAMAAAABAAAAAAADAAMAAAABAAAAAAAEAAMAAAABAAAAAAAFAAMAAAABAAAAAAAGAAAAAAABAAAAAAAGAAEAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAAAAAQAAAABAAAAAAABAAQAAAABAAAAAAACAAQAAAABAAAAAAADAAQAAAABAAAAAAAEAAQAAAABAAAAAAAFAAQAAAABAAAAAAAGAAQAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAA=")
 tile_set = SubResource("TileSet_xu0f7")
-script = ExtResource("3_kyigf")
+script = ExtResource("2_auokg")

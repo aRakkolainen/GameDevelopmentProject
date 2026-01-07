@@ -62,6 +62,11 @@ public void LoadLevel(string uid)
     {
         GetTree().ChangeSceneToFile(uid);
     }
+
+public void QuitGame()
+    {
+        GetTree().Quit();
+    }
 public Dictionary<string, LevelData> GetAllLevels()
 {
     return levels;

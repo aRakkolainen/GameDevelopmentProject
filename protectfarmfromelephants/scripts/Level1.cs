@@ -40,6 +40,9 @@ public partial class Level1 : Node2D
 
     private Godot.Vector2 elephantMoveDirection;
 
+    //How far from the farm elephants spawn
+    private int elephant_spawn_point_from_farm = 15;
+
     public override void _Ready()
     {
         //Receiving data of this level: 
@@ -210,18 +213,22 @@ public partial class Level1 : Node2D
     //Implemented based on Godot tutorial and Copilot discussion about what Nodes should be used for simple object that spawns on its own and moves to specific direction
     private void OnElephantTimerTimeout()
 	{
+        bool spawnRight = false;
 		Elephant elephant = ElephantScene.Instantiate<Elephant>();
         if (elephant_move_direction.Equals("Left"))
         {
-            elephantSpawnLocation = GetNode<PathFollow2D>("ElephantPathRight/ElephantSpawnLocation");
             elephantMoveDirection = Godot.Vector2.Left;
+            spawnRight = true;
         } else
         {
-            elephantSpawnLocation = GetNode<PathFollow2D>("ElephantPathLeft/ElephantSpawnLocation");
             elephantMoveDirection = Godot.Vector2.Right;
         }
-        elephantSpawnLocation.ProgressRatio = GD.Randf();
-        elephant.GlobalPosition = elephantSpawnLocation.Position;
+        Vector2I spawnLocation = GetElephantSpawnPoint(elephant_move_direction, spawnRight);
+
+        Godot.Vector2 localSpawnPosition =_farmManager.MapToLocal(spawnLocation) + _farmManager.TileSet.TileSize / 2;
+        Godot.Vector2 worldSpawnPosition = _farmManager.ToGlobal(localSpawnPosition);
+        elephant.GlobalPosition = worldSpawnPosition;
+        GD.Print("Elephant should spawn at location:" + spawnLocation);
         if(spawned_enemies < total_enemies)
         {
 		    AddChild(elephant);
@@ -238,6 +245,61 @@ public partial class Level1 : Node2D
         }
 
     }
-     
+
+    private Vector2I GetElephantSpawnPoint(string move_direction, bool spawnRight)
+    {
+        Godot.Collections.Array<Vector2I> farm_tiles = _farmManager.GetFarmTileCoordinates();
+       farm_tiles.Sort();
+       Godot.Collections.Array<Vector2I> farm_tiles_left_side = new Godot.Collections.Array<Vector2I>();
+       Godot.Collections.Array<Vector2I> farm_tiles_right_side = new Godot.Collections.Array<Vector2I>();
+       Vector2I max_value = farm_tiles.Max();
+       
+       Vector2I min_value = farm_tiles.Min();
+       foreach ( Vector2I tile in farm_tiles)
+        {
+            if (tile.X == max_value.X)
+            {
+                farm_tiles_right_side.Add(tile);
+            }
+            else if (tile.X == min_value.X)
+            {
+                farm_tiles_left_side.Add(tile);
+            }
+
+        }
+            GD.Print("Farm starts at tiles: " + farm_tiles_left_side);
+            GD.Print("Farm ends at tiles: " + farm_tiles_right_side);
+            Godot.Collections.Array<Vector2I> elephant_spawn_tiles_left = GetNewSpawnPoints(farm_tiles_left_side, spawnRight);
+            Godot.Collections.Array<Vector2I> elephant_spawn_tiles_right = GetNewSpawnPoints(farm_tiles_right_side, spawnRight);
+            //Spawnpoint needed from opposite side than the moving direction.
+            if (move_direction.Equals("Left"))
+            {
+                return elephant_spawn_tiles_right[GD.RandRange(0, elephant_spawn_tiles_right.Count-1)];
+            } else
+            {
+                return elephant_spawn_tiles_left[GD.RandRange(0, elephant_spawn_tiles_left.Count-1)];
+            }
+    }
+
+    private Godot.Collections.Array<Vector2I> GetNewSpawnPoints(Godot.Collections.Array<Vector2I> farm_tiles, bool spawnRight)
+    {
+        Godot.Collections.Array<Vector2I> elephant_spawn_tiles = new Godot.Collections.Array<Vector2I>();
+        for (int i = 0; i < farm_tiles.Count; i++)
+        {
+            Vector2I farm_tile = farm_tiles[i];
+            if (farm_tile.X >= 0 )
+            {
+                elephant_spawn_tiles.Add(new Vector2I(farm_tile.X + elephant_spawn_point_from_farm, farm_tile.Y));
+            } else if(spawnRight && farm_tile.X < 0) {
+                elephant_spawn_tiles.Add(new Vector2I(farm_tile.X + elephant_spawn_point_from_farm, farm_tile.Y));
+            }
+            else
+            {
+                elephant_spawn_tiles.Add(new Vector2I(farm_tile.X - elephant_spawn_point_from_farm, farm_tile.Y));
+            }
+        }
+        GD.Print(elephant_spawn_tiles);
+        return elephant_spawn_tiles;
+    }
 
 }

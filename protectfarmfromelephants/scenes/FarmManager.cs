@@ -52,6 +52,7 @@ public partial class FarmManager : TileMapLayer
 			plant_type = "";
 		}
 		_inventory = GetNode<SimpleInventory>("%SimpleInventory");
+		_player ??= GetNode<Player>("%Player");
 		//Connect(Elephant.SignalName.CollidedWithFarm, new Callable(this, nameof(DestroyPlants)));
 
 	}
@@ -67,8 +68,8 @@ public partial class FarmManager : TileMapLayer
 	{
 		var random = new RandomNumberGenerator();
 		random.Randomize();
-
-		if (farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
+		
+		if (farm_tile_coordinates != null && farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
 		{
 			number_of_seeds_in_player_inventory = _inventory.GetNumberOfSeedsInInventory();
 			Godot.Vector2 mousePos = GetLocalMousePosition();
@@ -77,9 +78,9 @@ public partial class FarmManager : TileMapLayer
 			//Checking if there already is a plant in clicked coordinates.
 
 			//Checking player position
-			Godot.Vector2 player_position = _player.GetPositionDelta();
-			Vector2I player_map_pos = LocalToMap(player_position);
-			GD.Print(player_position);
+			//Godot.Vector2 player_position = _player.GetPositionDelta();
+			//Vector2I player_map_pos = LocalToMap(player_position);
+			//GD.Print(player_position);
 
 			if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1))
 				{
@@ -125,14 +126,14 @@ public partial class FarmManager : TileMapLayer
 	public void OnCollidedWithFarm()
 	{
 		int plantCount = plants.Count;
-		if (plantCount > 0)
+		if (plantCount > 0 )
 		{
 			
 		int plantsToBeDestroyedMaximum = (int) plantCount/4;
 		int plantsToBeDestroyedTotal = GD.RandRange(1, plantsToBeDestroyedMaximum);
 		for (int i=0; i < plantsToBeDestroyedTotal; i++)
 		{
-			int randomIndex = (int) GD.RandRange(0, plantCount-1);
+			int randomIndex = (int) GD.RandRange(0, plants.Count-1);
 			Plant plantToBeDestroyed = plants[randomIndex];
 			RemovePlantAtCoordinates(plantToBeDestroyed.GetCoordinates());
 		}

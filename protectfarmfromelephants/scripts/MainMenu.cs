@@ -20,6 +20,7 @@ public partial class MainMenu : Control
 	}
 	public static void On_quit_button_pressed()
 	{
-		GD.Print("Pressed Quit Button");
+		GD.Print("Thanks for playing!");
+		LevelManager.Instance.QuitGame();
 	}
 }
