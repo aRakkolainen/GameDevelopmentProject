@@ -67,4 +67,5 @@ offset_right = 114.0
 offset_bottom = 102.0
 
 [connection signal="item_activated" from="UpgradeItems" to="." method="OnUpgradeItemPurchaseClicked"]
+[connection signal="item_selected" from="UpgradeItems" to="." method="OnUpgradeItemsItemSelected"]
 [connection signal="pressed" from="ExitButton" to="." method="OnExitButtonPressed"]

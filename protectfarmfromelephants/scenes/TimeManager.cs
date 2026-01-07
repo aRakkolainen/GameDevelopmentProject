@@ -1,9 +1,11 @@
 using Godot;
 using System;
 //Copilot discussion used to troubleshoot and implement the signaling for timer timeout.
-public partial class TimeManager : Node2D
+public partial class TimeManager : Timer
 {
 	[Signal] public delegate void TimerFinishedEventHandler();
+
+	[Signal] public delegate void UpdatedTimerTextEventHandler();
 
 	private RichTextLabel timer_text;
 	[Export] private Timer timer;
@@ -17,10 +19,8 @@ public partial class TimeManager : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		timer_text = GetNode<RichTextLabel>("%TimerText");
-		timer ??= GetNode<Timer>("%Timer");
 
-		timer.Timeout += () => EmitSignal(SignalName.TimerFinished);
+		Timeout += () => EmitSignal(SignalName.TimerFinished);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,18 +30,18 @@ public partial class TimeManager : Node2D
 
 	public void UpdateTimerText(int days_left)
 	{
-		timer_text.Text = "Days left: " + days_left;
+		EmitSignal(SignalName.UpdatedTimerText, days_left); 
 	}
 	public void StartTimer(int days_left)
 	{
 		SetDaysLeft(days_left);
 		UpdateTimerText(days_left);
-		timer.Start();
+		Start();
 	}
 
 	public void PauseTimer()
 	{
-		timer.Stop();
+		Stop();
 	}
 
 	public bool GetDayChanged()

@@ -49,7 +49,7 @@ public partial class Level1 : Node2D
         GD.Randomize();
         level1 = LevelManager.Instance.GetLevelData("level_1");
         _farmManager = GetNode<FarmManager>("%Farm");
-        timer = GetNode<TimeManager>("%Timer");
+        timer = GetNode<TimeManager>("Timer");
         _elephant_timer = GetNode<Godot.Timer>("ElephantTimer");
         _change_day_dialog = GetNode<AcceptDialog>("%ChangeDayDialog");
         _change_day_dialog.CloseRequested += OnDialogCloseRequested;
@@ -67,11 +67,11 @@ public partial class Level1 : Node2D
         elephant_move_direction = elephant_move_directions[GD.RandRange(0,1)];
     }
 
-    private void UpdatePlayerInventory()
+    /* private void UpdatePlayerInventory()
     {
         List<InventoryItem> items = _player.GetInventoryList();
         LevelManager.Instance.SetPlayerInventory(items);
-    }
+    } */
 
 
     private void OnDayEnd()
@@ -200,7 +200,7 @@ public partial class Level1 : Node2D
         {
             _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
         }
-        _player.ClearInventory();
+        //_player.ClearInventory();
         LevelManager.Instance.ResetLevelQuota();
     }
 

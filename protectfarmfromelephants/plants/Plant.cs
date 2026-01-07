@@ -9,12 +9,15 @@ public class Plant
 
 	private Vector2I Coordinates;
 
-	public Plant (int id, string name, int phase, Vector2I coordinates)
+    private bool IsWatered;
+
+	public Plant (int id, string name, int phase, Vector2I coordinates, bool watered)
     {
         ID = id;
 		Plant_type = name;
 		Growth_phase = phase;
 		Coordinates = coordinates;
+        IsWatered = watered;
     }
 
 	public int GetID()
@@ -37,6 +40,11 @@ public Vector2I GetCoordinates()
         return Coordinates;
     }
 
+public bool GetIsWatered()
+    {
+        return IsWatered;
+    }
+
 public void SetID(int id)
     {
         ID = id;
@@ -54,6 +62,12 @@ public void SetGrowthPhase(int phase)
 public void SetCoordinates(Vector2I coordinates)
     {
         Coordinates = coordinates;
+    }
+
+
+public void SetIsWatered(bool watered)
+    {
+        IsWatered = watered;
     }
 
 }

@@ -73,6 +73,8 @@ public partial class LevelManager : Node
 
     private int money_available;
 
+    private int watering_can_level;
+
     public override void _Ready()
     {
         Instance = this;
@@ -99,33 +101,33 @@ public void InitializeLevelData()
         List<UpgradeItem> level_1_upgrades = new()
 
         {
-            new UpgradeItem("001", "fence", "defense", 10, 1),
-            new UpgradeItem("002", "stone_wall", "defense", 10, 2),
-            new UpgradeItem("003", "noise_maker", "distraction", 2, 4),
-            new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
-            new UpgradeItem("005", "chili", "distraction", 10, 6),
-            new UpgradeItem("006", "seeds", "boost", 10, 10),
+            new UpgradeItem("002", "fence", "defense", 10, 1),
+            new UpgradeItem("003", "stone_wall", "defense", 10, 2),
+            new UpgradeItem("004", "noise_maker", "distraction", 2, 4),
+            new UpgradeItem("005", "camp_fire", "distraction", 1, 4),
+            new UpgradeItem("006", "chili", "distraction", 10, 6),
+            new UpgradeItem("001", "seeds", "boost", 10, 10),
         };
 
         List<UpgradeItem> level_2_upgrades = new()
 
         {
-            new UpgradeItem("001", "fence", "defense", 10, 1),
-            new UpgradeItem("002", "stone_wall", "defense", 10, 2),
-            new UpgradeItem("003", "camp_fire", "distraction", 2, 4),
-            new UpgradeItem("004", "sun_flower", "distraction", 15, 6),
-            new UpgradeItem("005", "seeds", "boost", 10, 10),
+            new UpgradeItem("002", "fence", "defense", 10, 1),
+            new UpgradeItem("003", "stone_wall", "defense", 10, 2),
+            new UpgradeItem("004", "camp_fire", "distraction", 2, 4),
+            new UpgradeItem("005", "sun_flower", "distraction", 15, 6),
+            new UpgradeItem("001", "seeds", "boost", 10, 10),
         };
 
         List<UpgradeItem> level_3_upgrades = new()
 
         {
-            new UpgradeItem("001", "stone_wall", "defense", 10, 1),
-            new UpgradeItem("002", "beehive", "defense", 10, 2),
-            new UpgradeItem("003", "camp_fire", "distraction", 1, 4),
-            new UpgradeItem("004", "noise_maker", "distraction", 1, 4),
-            new UpgradeItem("005", "sun_flower", "distraction", 15, 8),
-            new UpgradeItem("006", "seeds", "boost", 15, 8),
+            new UpgradeItem("002", "stone_wall", "defense", 10, 1),
+            new UpgradeItem("003", "beehive", "defense", 10, 2),
+            new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
+            new UpgradeItem("005", "noise_maker", "distraction", 1, 4),
+            new UpgradeItem("006", "sun_flower", "distraction", 15, 8),
+            new UpgradeItem("001", "seeds", "boost", 15, 8),
         };
 
         LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5, 30, 1, level_1_upgrades);
@@ -237,6 +239,15 @@ public string GetTextureByItemName(string item_type)
 			case "mango_seeds":
 				texture = Scenes.ItemTextures.mango_seeds;
 				break;
+            case "pineapple":
+				texture = Scenes.ItemTextures.pineapple;
+				break;
+			case "watermelon":
+				texture = Scenes.ItemTextures.watermelon;
+				break;
+			case "mango":
+				texture = Scenes.ItemTextures.mango;
+				break;
 			case "fence":
 				texture = Scenes.UpgradeItemTextures.fence;
 				break;
@@ -284,6 +295,16 @@ public string GetTextureByItemName(string item_type)
 		}
 		return texture;
 	}
+
+    public int GetWateringCanLevel()
+    {
+        return watering_can_level;
+    }
+
+    public void SetWateringCanLevel(int num)
+    {
+        watering_can_level = num;
+    }
 
 }
 

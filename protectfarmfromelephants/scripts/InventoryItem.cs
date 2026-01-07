@@ -4,15 +4,17 @@ using System;
 public class InventoryItem 
 {
     // [Export] Inventory inventory;
-    int ID;
-    string name;
-    int maxQuantity;
-    int quantity;
+    private int ID;
+    private string name;
+    private string type;
+    private int maxQuantity;
+    private int quantity;
 
-    public InventoryItem(int id, string item_name,  int amount, int max)
+    public InventoryItem(int id, string item_name, string item_type,  int amount, int max)
     {
         ID = id; 
         name = item_name;
+        type = item_type;    
         quantity = amount;
         maxQuantity = max;
     }
@@ -26,6 +28,11 @@ public class InventoryItem
     public string GetItemName()
     {
         return name;
+    }
+
+    public string GetItemType()
+    {
+        return type;
     }
 
     public int GetMaxQuantity()
@@ -43,15 +50,4 @@ public class InventoryItem
         quantity = num;
     }
 
-
-    // public override void _Ready()
-    // {
-    //     Pressed += () => AddNewItem();
-    // }
-
-    // private void AddNewItem()
-    // {
-    //     Inventory.Item item = new Inventory.Item(id, name, icon, maxQuantity, quantity);
-    //     inventory.AddInventoryItem(item);
-    // }
 }

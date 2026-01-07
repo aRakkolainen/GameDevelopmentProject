@@ -17,10 +17,9 @@ public partial class SimpleInventory : ItemList
 	private int max_inventory_size = 10;
 	private int max_stack = 32;
 	// Called when the node enters the scene tree for the first time.
-
-
+	
 	[Signal]
-	public delegate void InventoryItemActivatedEventHandler();
+	public delegate void InventoryItemActivatedForUseEventHandler(string item_name, string item_type, int quantity);
 
 	[Signal]
 	public delegate void FruitsSoldEventHandler();
@@ -135,16 +134,22 @@ public partial class SimpleInventory : ItemList
 
 	public void OnInventoryItemActivated(int index)
 	{
-		EmitSignal(SignalName.InventoryItemActivated, index);
+		InventoryItem item = inventory_items[index];
+		EmitSignal(SignalName.InventoryItemActivatedForUse, item.GetItemName(), item.GetItemType(), item.GetQuantity());
 	}
 
-	public void OnUpdatedPlayerInventory(int id, string item_name, int quantity, int max_quantity)
+	public void OnItemSelected(int index){
+		InventoryItem item = inventory_items[index];
+		EmitSignal(SignalName.InventoryItemActivatedForUse, item.GetItemName(), item.GetItemType(), item.GetQuantity());
+	}
+
+	public void OnUpdatedPlayerInventory(int id, string item_name, string item_type, int quantity, int max_quantity)
 	{
 		if (max_quantity == 0)
 		{
 			max_quantity = max_stack;
 		}
-		InventoryItem item = new InventoryItem(id, item_name, quantity, max_quantity);
+		InventoryItem item = new InventoryItem(id, item_name, item_type, quantity, max_quantity);
 		GD.Print("Trying to add item " + item_name + " with quantity " + quantity);
 		if(inventory_items != null)
         {

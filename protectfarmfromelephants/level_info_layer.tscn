@@ -11,13 +11,17 @@ offset_bottom = 23.0
 text = "Level "
 
 [node name="TotalMoneyLabel" type="Label" parent="."]
-offset_top = 23.0
-offset_right = 40.0
-offset_bottom = 46.0
-text = "0"
-
-[node name="TotalDaysLabel" type="Label" parent="."]
 offset_top = 48.0
 offset_right = 40.0
 offset_bottom = 71.0
 text = "0"
+
+[node name="WateringCanLabel" type="Label" parent="."]
+offset_top = 71.0
+offset_right = 40.0
+offset_bottom = 94.0
+
+[node name="DaysLeftLabel" type="Label" parent="."]
+offset_top = 24.0
+offset_right = 40.0
+offset_bottom = 47.0

@@ -26,9 +26,16 @@ public partial class Player : CharacterBody2D
 
 	private LevelData level;
 
+
+	//[Export] public FarmManager farm_manager;
+
 	[Signal] public delegate void PlayerSellFruitEventHandler();
 
 	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
+
+	[Signal] public delegate void PlayerTriedToWaterPlantEventHandler();
+
+	[Signal] public delegate void PlayerTriedToPlantSeedEventHandler();
 	public override void _Ready()
 	{
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -50,49 +57,38 @@ public partial class Player : CharacterBody2D
 		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
 		inventory.Add(watering_can_item);
 		inventory.Add(plant_seeds); */
-		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", 1, 1);
-		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", level.GetLevelAvailableSeeds(), max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
+		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)
     {
-		EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetQuantity(), item.GetMaxQuantity());
-		//int index = FindIndexForItemInInventory(item);
-
-
-		/* if(inventory.Count < max_inventory_size)
-		{
-		if(index == -1)
-		{
-        	//inventory.Add(item);
-			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
-			//LevelManager.Instance.SetPlayerInventory(inventory);
-			EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetQuantity(), item.GetMaxQuantity());
-			return true;
-		} else
-		{
-			InventoryItem currentItem = inventory[index];
-			int currentQuantity = currentItem.GetQuantity();
-			int max = currentItem.GetMaxQuantity();
-			if(currentQuantity < max)
-			{
-				currentItem.SetQuantity(++currentQuantity);
-				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
-				//LevelManager.Instance.SetPlayerInventory(inventory);
-				EmitSignal(SignalName.PlayerAddToInventory, currentItem.GetID(), currentItem.GetItemName(), currentItem.GetQuantity(), currentItem.GetMaxQuantity());
-				return true;
-			}
-			return false;
-		}
-		} else
-		{
-			GD.Print("Inventory full, drop something!");
-			return false;
-			
-		} */
+		EmitSignal(SignalName.PlayerAddToInventory, item.GetID(), item.GetItemName(), item.GetItemType(), item.GetQuantity(), item.GetMaxQuantity());
     }
 
-	public void RemoveFromInventory(InventoryItem item)
+	public void OnSimpleInventoryItemSelected(int index)
+	{
+		
+	}
+
+	public void OnInventoryItemActivatedForUse(string item_name, string item_type, int quantity)
+	{
+		GD.Print("You are trying to use item: " + item_name);
+		if (item_name.Equals("watering_can"))
+		{
+			EmitSignal(SignalName.PlayerTriedToWaterPlant);
+		} else if (item_type.Equals("seeds"))
+		{
+			EmitSignal(SignalName.PlayerTriedToPlantSeed);
+		}
+	}
+
+	public void UseItem()
+	{
+		
+	}
+
+	/* public void RemoveFromInventory(InventoryItem item)
     {
         inventory.Remove(item);
     }
@@ -100,9 +96,9 @@ public partial class Player : CharacterBody2D
 	public int FindIndexForItemInInventory(InventoryItem item)
 	{
 		return inventory.FindIndex(i=> i.GetItemName() == item.GetItemName());
-	}
+	} */
 
-	public int GetNumberOfSeedsAvailable()
+	/* public int GetNumberOfSeedsAvailable()
 	{
 		
 		int index = inventory.FindIndex(i => i.GetItemName() == level.GetPlantType()+"_seeds");
@@ -143,7 +139,7 @@ public partial class Player : CharacterBody2D
 	public int GetInventoryCount()
 	{
 		return inventory.Count;
-	}
+	} */
 
 	public void Die()
     {

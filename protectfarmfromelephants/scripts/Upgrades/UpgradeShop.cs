@@ -31,7 +31,7 @@ public partial class UpgradeShop : CanvasLayer
 
 	[Signal]
 	public delegate void UpdatedItemsInStockTextEventHandler(int quantity);
-	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
+	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, string type, int quantity, int maxQuantity);
 
 	[Signal] public delegate void UpdatedSeedCountEventHandler();
 
@@ -76,8 +76,11 @@ public partial class UpgradeShop : CanvasLayer
 		{
 			if (selected_item.GetItemName().Equals("seeds"))
 			{
-				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), 1, 0);
+				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 				EmitSignal(SignalName.UpdatedSeedCount, 1, "increase");
+			} else
+			{
+				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 			}
 			LevelManager.Instance.MinusFromTotalMoney(selected_item.GetPrice());
 			EmitSignal(SignalName.UpdatedMoneyText);
