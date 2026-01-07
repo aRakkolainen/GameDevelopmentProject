@@ -10,9 +10,8 @@ offset_right = 665.0
 offset_bottom = 642.0
 allow_search = false
 max_columns = 5
-same_column_width = true
 fixed_column_width = 64
-icon_scale = 3.0
+icon_scale = 2.0
 script = ExtResource("1_jt86l")
 
 [connection signal="item_activated" from="." to="." method="OnInventoryItemActivated"]

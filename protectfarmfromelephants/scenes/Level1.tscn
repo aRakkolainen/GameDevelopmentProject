@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=20 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/Level1.cs" id="1_qn07i"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="10_tyd27"]
 [ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
 [ext_resource type="PackedScene" uid="uid://bodvpt1hnpm0j" path="res://sell_popup.tscn" id="12_3xfhx"]
+[ext_resource type="PackedScene" uid="uid://bugdap2slktnw" path="res://level_info_layer.tscn" id="13_v8lej"]
+[ext_resource type="PackedScene" uid="uid://own1l2qsvex3" path="res://scenes/UpgradeShop.tscn" id="13_we4uu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -207,18 +209,16 @@ offset_right = 726.0
 offset_bottom = 645.0
 
 [node name="ElephantTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 15.0
 one_shot = true
 
 [node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="Level info" parent="." instance=ExtResource("13_v8lej")]
 
-[node name="Label" type="Label" parent="CanvasLayer2"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Level 1"
+[node name="UpgradeShop" parent="." instance=ExtResource("13_we4uu")]
 
+[connection signal="pressed" from="Level1Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
 [connection signal="mouse_entered" from="SellingDesk" to="." method="OnSellingDeskMouseEntered"]
@@ -227,3 +227,7 @@ text = "Level 1"
 [connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]
 [connection signal="SoldAllItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldAllItemsFromInventory"]
 [connection signal="SoldNumberOfItemsFromInventory" from="SellPopup" to="." method="OnSellPopupSoldNumberOfItemsFromInventory"]
+[connection signal="ContinueTimer" from="UpgradeShop" to="." method="OnContinueTimer"]
+[connection signal="PauseTimer" from="UpgradeShop" to="." method="OnPauseTimer"]
+[connection signal="PlayerAddToInventory" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
+[connection signal="UpdatedMoneyText" from="UpgradeShop" to="Level info" method="OnUpdatedMoneyText"]

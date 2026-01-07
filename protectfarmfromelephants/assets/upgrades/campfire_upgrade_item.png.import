@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4l3pw27sxkrf"
-path="res://.godot/imported/beehive_upgrade_item.png-bceba3ab4ec891e7aed8ca2907ed60fc.ctex"
+uid="uid://b177mp24kn5jp"
+path="res://.godot/imported/campfire_upgrade_item.png-53d377d45fb4e39779c96f1252bb469d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/beehive_upgrade_item.png"
-dest_files=["res://.godot/imported/beehive_upgrade_item.png-bceba3ab4ec891e7aed8ca2907ed60fc.ctex"]
+source_file="res://assets/upgrades/campfire_upgrade_item.png"
+dest_files=["res://.godot/imported/campfire_upgrade_item.png-53d377d45fb4e39779c96f1252bb469d.ctex"]
 
 [params]
 

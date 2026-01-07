@@ -8,6 +8,8 @@ public partial class Player : CharacterBody2D
 {
 	public int speed { get; set; } = 200;
 	private bool playerIsAlive;
+
+	private bool playerIsPaused;
 	public const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D player;
 
@@ -150,6 +152,16 @@ public partial class Player : CharacterBody2D
         player.Stop();
     }
 
+	public void Pause()
+	{
+		playerIsPaused = true;
+	}
+
+	public void Continue()
+	{
+		playerIsPaused = false;
+	}
+
 	public void UseWaterCan()
 	{
 		player.Play();
@@ -157,10 +169,11 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-        if (!playerIsAlive)
+        if (!playerIsAlive || playerIsPaused)
         {
             return;
-        }
+        } else
+		{
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
@@ -188,6 +201,8 @@ public partial class Player : CharacterBody2D
 		if (collision != null)
 		{
 			GD.Print("Collided with: " + collision.GetCollider());
+		}
+			
 		}
 
 	}

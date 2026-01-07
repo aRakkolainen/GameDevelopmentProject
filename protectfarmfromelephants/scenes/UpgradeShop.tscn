@@ -1,27 +1,70 @@
-[gd_scene load_steps=4 format=3 uid="uid://own1l2qsvex3"]
+[gd_scene load_steps=3 format=3 uid="uid://own1l2qsvex3"]
 
-[ext_resource type="Script" path="res://scripts/UpgradeShop.cs" id="1_tumpo"]
-[ext_resource type="Texture2D" uid="uid://sn0y812e1vnp" path="res://assets/stone_wall.png" id="4_6gu3n"]
-[ext_resource type="Texture2D" uid="uid://cqn65ooy088s8" path="res://assets/inventory_blank.png" id="8_qkrao"]
+[ext_resource type="Script" path="res://scripts/Upgrades/UpgradeShop.cs" id="1_fcqlg"]
+[ext_resource type="Texture2D" uid="uid://c6okogpqskdwr" path="res://assets/upgrades/fence_upgrade_item.png" id="2_ge53w"]
 
-[node name="Control" type="Node2D"]
+[node name="UpgradeShop" type="CanvasLayer"]
+script = ExtResource("1_fcqlg")
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 texture_filter = 1
-offset_right = 333.0
-offset_bottom = 73.0
-allow_search = false
-max_text_lines = 2
-auto_height = true
-max_columns = 5
-icon_mode = 0
-fixed_icon_size = Vector2i(32, 32)
-script = ExtResource("1_tumpo")
-blankIcon = ExtResource("8_qkrao")
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -327.0
+offset_top = -6.0
+offset_right = 329.0
+offset_bottom = 557.0
+grow_horizontal = 2
+color = Color(0.902869, 0.769478, 0.582946, 1)
 
-[node name="StoneWall" type="TextureButton" parent="ItemList"]
-layout_mode = 0
-offset_left = 4.0
-offset_right = 44.0
+[node name="UpgradeItems" type="ItemList" parent="."]
+layout_direction = 2
+offset_left = 321.0
+offset_top = 53.0
+offset_right = 836.0
+offset_bottom = 521.0
+max_columns = 3
+icon_mode = 0
+icon_scale = 2.0
+
+[node name="Icon" type="TextureRect" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 15.0
+offset_right = 51.0
+offset_bottom = 28.0
+texture = ExtResource("2_ge53w")
+
+[node name="ExitButton" type="Button" parent="."]
+offset_left = 264.0
+offset_top = 9.0
+offset_right = 332.0
 offset_bottom = 40.0
-texture_normal = ExtResource("4_6gu3n")
+text = "Exit
+"
+
+[node name="InfoBox" type="ColorRect" parent="."]
+visible = false
+offset_left = 431.0
+offset_top = 245.0
+offset_right = 554.0
+offset_bottom = 355.0
+
+[node name="Label" type="Label" parent="InfoBox"]
+offset_left = 18.0
+offset_top = 7.0
+offset_right = 105.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "About item"
+
+[node name="Description" type="Label" parent="InfoBox"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 35.0
+offset_right = 114.0
+offset_bottom = 102.0
+
+[connection signal="item_activated" from="UpgradeItems" to="." method="OnUpgradeItemPurchaseClicked"]
+[connection signal="pressed" from="ExitButton" to="." method="OnExitButtonPressed"]

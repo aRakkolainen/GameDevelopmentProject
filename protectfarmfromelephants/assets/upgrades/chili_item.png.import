@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b177mp24kn5jp"
-path="res://.godot/imported/campfire_upgrade_item.png-1e618f4b9ecb834a61c2cd137e49a9f7.ctex"
+uid="uid://bf6y072vah72a"
+path="res://.godot/imported/chili_item.png-379a7f02d4f8b52c40a13147c403683a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/campfire_upgrade_item.png"
-dest_files=["res://.godot/imported/campfire_upgrade_item.png-1e618f4b9ecb834a61c2cd137e49a9f7.ctex"]
+source_file="res://assets/upgrades/chili_item.png"
+dest_files=["res://.godot/imported/chili_item.png-379a7f02d4f8b52c40a13147c403683a.ctex"]
 
 [params]
 

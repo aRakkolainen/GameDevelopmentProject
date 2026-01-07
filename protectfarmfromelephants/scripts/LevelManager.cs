@@ -40,6 +40,24 @@ public static class Scenes
         public const string mango_seeds = "uid://w6xhmdwunej0";
 
     }
+
+    public static class UpgradeItemTextures
+    {
+        public const string fence = "uid://c6okogpqskdwr";
+
+        public const string stone_wall = "uid://sn0y812e1vnp";
+
+        public const string camp_fire = "uid://b177mp24kn5jp";
+
+        public const string noise_maker = "uid://cdvovtpom5knp";
+
+        public const string beehive = "uid://d4l3pw27sxkrf";
+
+        public const string chili = "uid://bf6y072vah72a";
+
+        public const string sunflower = "uid://ddr1biyrusl2w";
+
+    }
 }
 
 // Source for singleton: https://csharpindepth.com/articles/singleton 
@@ -52,6 +70,8 @@ public partial class LevelManager : Node
     private List<InventoryItem> player_inventory = new List<InventoryItem>();
 
     private string current_active_Level;
+
+    private int money_available;
 
     public override void _Ready()
     {
@@ -75,13 +95,47 @@ public Dictionary<string, LevelData> GetAllLevels()
 public void InitializeLevelData()
     {
         levels = new Dictionary<string, LevelData>();
-        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5);
-        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 10);
-        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15);
+
+        List<UpgradeItem> level_1_upgrades = new()
+
+        {
+            new UpgradeItem("001", "fence", "defense", 10, 1),
+            new UpgradeItem("002", "stone_wall", "defense", 10, 2),
+            new UpgradeItem("003", "noise_maker", "distraction", 2, 4),
+            new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
+            new UpgradeItem("005", "chili", "distraction", 10, 6),
+            new UpgradeItem("006", "extra_seeds", "boost", 10, 10),
+        };
+
+        List<UpgradeItem> level_2_upgrades = new()
+
+        {
+            new UpgradeItem("001", "fence", "defense", 10, 1),
+            new UpgradeItem("002", "stone_wall", "defense", 10, 2),
+            new UpgradeItem("003", "camp_fire", "distraction", 2, 4),
+            new UpgradeItem("004", "sun_flower", "distraction", 15, 6),
+            new UpgradeItem("005", "extra_seeds", "boost", 10, 10),
+        };
+
+        List<UpgradeItem> level_3_upgrades = new()
+
+        {
+            new UpgradeItem("001", "stone_wall", "defense", 10, 1),
+            new UpgradeItem("002", "beehive", "defense", 10, 2),
+            new UpgradeItem("003", "camp_fire", "distraction", 1, 4),
+            new UpgradeItem("004", "noise_maker", "distraction", 1, 4),
+            new UpgradeItem("005", "sun_flower", "distraction", 15, 8),
+            new UpgradeItem("006", "extra_seeds", "boost", 15, 8),
+        };
+
+        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5, 30, 1, level_1_upgrades);
+        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 10, 25, 2, level_2_upgrades);
+        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 20, 2, level_3_upgrades);
         levels.Add("level_1", level_1);
         levels.Add("level_2", level_2);
         levels.Add("level_3", level_3);
         player_inventory = new List<InventoryItem>();
+        money_available = GetStarterMoney();
     }
 
 public string GetCurrentActiveLevel()
@@ -141,8 +195,89 @@ public void ResetLevelQuota()
             levelData.SetCurrentQuota(0);
         }
     }
+public int GetStarterMoney()
+{
+     LevelData levelData = GetLevelDataForActiveLevel();
+        if(levelData == null)
+        {
+            return 0;
+        }
+            return levelData.GetLevelStarterMoney();
+}
+
+public int GetMoneyAvailable()
+{
+     return money_available;
+}
+
+public void AddToTotalMoney(int amount)
+    {
+        money_available += amount;
+    }
+
+public void MinusFromTotalMoney(int amount)
+    {
+        money_available -= amount;
+    }
+
+public string GetTextureByItemName(string item_type)
+	{
+		string path = "";
+		switch (item_type)
+		{
+			case "fence":
+				path = Scenes.UpgradeItemTextures.fence;
+				break;
+			case"stone_wall":
+				path = Scenes.UpgradeItemTextures.stone_wall;
+				break;
+			case "camp_fire":
+				path = Scenes.UpgradeItemTextures.camp_fire;
+				break;
+			case "noise_maker":
+				path = Scenes.UpgradeItemTextures.noise_maker;
+				break;
+			case "beehive":
+				path = Scenes.UpgradeItemTextures.beehive;
+				break;
+			case "chili":
+				path = Scenes.UpgradeItemTextures.chili;
+				break;	
+			case "sunflower":
+				path = Scenes.UpgradeItemTextures.sunflower;
+				break;	
+
+			case "extra_seeds":
+				LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
+				if (level == null || (level != null && level.GetPlantType() == null))
+				{
+					break;
+				} else
+				{
+					
+				string plant_type = LevelManager.Instance.GetLevelDataForActiveLevel().GetPlantType();
+				if (plant_type.Equals("pineapple"))
+				{
+					path = Scenes.ItemTextures.pineapple_seeds;
+				} else if (plant_type.Equals("watermelon"))
+				{
+					path = Scenes.ItemTextures.watermelon_seeds;
+				} else if (plant_type.Equals("mango"))
+				{
+					path = Scenes.ItemTextures.mango_seeds;
+				}
+				}
+				break;
+
+		}
+		return path;
+	}
 
 }
+
+
+
+
 
 
 

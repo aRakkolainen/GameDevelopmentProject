@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6okogpqskdwr"
-path="res://.godot/imported/fence_upgrade_item.png-d2d32be06698b841fc12211f7a4fbc2a.ctex"
+uid="uid://ddr1biyrusl2w"
+path="res://.godot/imported/sunflower_upgrade_item.png-38fb5aa01993be34ce1dab4e68653ef9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/fence_upgrade_item.png"
-dest_files=["res://.godot/imported/fence_upgrade_item.png-d2d32be06698b841fc12211f7a4fbc2a.ctex"]
+source_file="res://assets/upgrades/sunflower_upgrade_item.png"
+dest_files=["res://.godot/imported/sunflower_upgrade_item.png-38fb5aa01993be34ce1dab4e68653ef9.ctex"]
 
 [params]
 

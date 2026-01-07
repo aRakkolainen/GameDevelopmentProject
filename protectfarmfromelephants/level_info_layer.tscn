@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bugdap2slktnw"]
+
+[ext_resource type="Script" path="res://scripts/LevelInfo.cs" id="1_ae0gq"]
+
+[node name="Level info" type="CanvasLayer"]
+script = ExtResource("1_ae0gq")
+
+[node name="LevelTitleLabel" type="Label" parent="."]
+offset_right = 54.0
+offset_bottom = 23.0
+text = "Level "
+
+[node name="TotalMoneyLabel" type="Label" parent="."]
+offset_top = 23.0
+offset_right = 40.0
+offset_bottom = 46.0
+text = "0"
+
+[node name="TotalDaysLabel" type="Label" parent="."]
+offset_top = 48.0
+offset_right = 40.0
+offset_bottom = 71.0
+text = "0"

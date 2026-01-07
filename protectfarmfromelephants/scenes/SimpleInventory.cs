@@ -27,6 +27,9 @@ public partial class SimpleInventory : ItemList
 	[Signal]
 	public delegate void InventoryItemsChangedEventHandler();
 
+	[Signal]
+	public delegate void UpdatedMoneyTextEventHandler();
+
 
 	public override void _Ready()
 	{
@@ -81,6 +84,48 @@ public partial class SimpleInventory : ItemList
 			case "mango":
 				texture = Scenes.ItemTextures.mango;
 				break;
+			case "fence":
+				texture = Scenes.UpgradeItemTextures.fence;
+				break;
+			case"stone_wall":
+				texture = Scenes.UpgradeItemTextures.stone_wall;
+				break;
+			case "camp_fire":
+				texture = Scenes.UpgradeItemTextures.camp_fire;
+				break;
+			case "noise_maker":
+				texture = Scenes.UpgradeItemTextures.noise_maker;
+				break;
+			case "beehive":
+				texture = Scenes.UpgradeItemTextures.beehive;
+				break;
+			case "chili":
+				texture = Scenes.UpgradeItemTextures.chili;
+				break;	
+			case "sunflower":
+				texture = Scenes.UpgradeItemTextures.sunflower;
+				break;	
+
+			case "seeds":
+				if (level == null || (level != null && level.GetPlantType() == null))
+				{
+					break;
+				} else
+				{
+					
+				string plant_type = LevelManager.Instance.GetLevelDataForActiveLevel().GetPlantType();
+				if (plant_type.Equals("pineapple"))
+				{
+					texture = Scenes.ItemTextures.pineapple_seeds;
+				} else if (plant_type.Equals("watermelon"))
+				{
+					texture = Scenes.ItemTextures.watermelon_seeds;
+				} else if (plant_type.Equals("mango"))
+				{
+					texture = Scenes.ItemTextures.mango_seeds;
+				}
+				}
+				break;
 		}
 
 		return texture;
@@ -93,6 +138,10 @@ public partial class SimpleInventory : ItemList
 
 	public void OnUpdatedPlayerInventory(int id, string item_name, int quantity, int max_quantity)
 	{
+		if (max_quantity == 0)
+		{
+			max_quantity = max_stack;
+		}
 		InventoryItem item = new InventoryItem(id, item_name, quantity, max_quantity);
 		GD.Print("Trying to add item " + item_name + " with quantity " + quantity);
 		if(inventory_items != null)
@@ -114,6 +163,7 @@ public partial class SimpleInventory : ItemList
 	public void OnSellPopupSoldAllItemsFromInventory()
 	{
 		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
+		int fruit_sell_value = level.GetLevelFruitSellValue();
 		if(indexOfFruit == -1)
 		{
 			GD.Print("Fruit not found, cannot sell!");
@@ -123,7 +173,9 @@ public partial class SimpleInventory : ItemList
 			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(fruit.GetQuantity());
 			if(quotaUpdated) {
 				fruit.SetQuantity(0);
+				LevelManager.Instance.AddToTotalMoney(fruit.GetQuantity()*fruit_sell_value);
 				EmitSignal(SignalName.FruitsSold);
+				EmitSignal(SignalName.UpdatedMoneyText);
 				Clear();
 				DisplayNewItems();
 			}
@@ -131,8 +183,27 @@ public partial class SimpleInventory : ItemList
 		}
 	}
 
-	public void OnSellPopupSoldNumberOfItemsFromInventory(float amount)
+	public void OnSellPopupSoldNumberOfItemsFromInventory(int amount)
 	{
+		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
+		int fruit_sell_value = level.GetLevelFruitSellValue();
+		if(indexOfFruit == -1)
+		{
+			GD.Print("Fruit not found, cannot sell!");
+		} else
+		{
+			InventoryItem fruit = inventory_items[indexOfFruit];
+			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(amount);
+			if(quotaUpdated) {
+				fruit.SetQuantity(0);
+				LevelManager.Instance.AddToTotalMoney(amount*fruit_sell_value);
+				EmitSignal(SignalName.FruitsSold);
+				EmitSignal(SignalName.UpdatedMoneyText);
+				Clear();
+				DisplayNewItems();
+			}
+		
+		}
 		
 	}
 
@@ -166,7 +237,7 @@ public partial class SimpleInventory : ItemList
 		if(index == -1)
 		{
         	inventory_items.Add(item);
-			GD.Print("You collected item" + item.GetItemName() + " and total quantity is " + item.GetQuantity());
+			GD.Print("You collected new item " + item.GetItemName() + " and total quantity is " + item.GetQuantity());
 			return true;
 		} else
 		{
@@ -176,7 +247,7 @@ public partial class SimpleInventory : ItemList
 			if(currentQuantity < max)
 			{
 				currentItem.SetQuantity(++currentQuantity);
-				GD.Print("You collected item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
+				GD.Print("You collected existing item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
 				return true;
 			}
 			return false;

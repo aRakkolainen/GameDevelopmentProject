@@ -17,6 +17,13 @@ public partial class SellPopup : CanvasLayer
 
 	[Signal]
 	public delegate void SoldNumberOfItemsFromInventoryEventHandler(int amount);
+
+	[Signal]
+	public delegate void PauseTimerEventHandler();
+
+	[Signal]
+	public delegate void ContinueTimerEventHandler();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -34,6 +41,7 @@ public partial class SellPopup : CanvasLayer
 	private void OnSellingDeskSellPopUpOpened()
 	{
 		Show();
+		EmitSignal(SignalName.PauseTimer);
 	}
 
 	public void OnNumberOfItemsToBeSoldValueChanged(float amount)
@@ -59,12 +67,14 @@ public partial class SellPopup : CanvasLayer
 		GD.Print("Trying to sell all fruits from inventory..");
 		EmitSignal(SignalName.SoldAllItemsFromInventory);
 		Hide();
+		EmitSignal(SignalName.ContinueTimer);
 
 	}
 
 	public void OnCloseButtonPressed()
 	{
 		Hide();
+		EmitSignal(SignalName.ContinueTimer);
 	}
 
 	private static string GetTexture(string plant_type)

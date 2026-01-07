@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 public partial class LevelData : Node
 {
@@ -12,12 +13,18 @@ public partial class LevelData : Node
 
     private string Level_Plant_Type;
 
-    private int Level_minimum_enemies;
+    private int Level_Minimum_Enemies;
 
-    private int Level_maximum_enemies;
+    private int Level_Maximum_Enemies;
+
+    private int Level_Starter_Money;
+
+    private int Level_Fruit_Sell_Value;
+
+    private List<UpgradeItem> Level_Upgrades = new List<UpgradeItem>();
 
 
-    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max)
+    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max, int starter_money, int fruit_value, List<UpgradeItem> upgrades)
     {
         Level_Number = num;
         Level_Expected_Quota = expected_quota;
@@ -25,9 +32,12 @@ public partial class LevelData : Node
         Level_Total_Days = days;
         Level_Seeds_Available = number_of_seeds;
         Level_Plant_Type = type;
-        Level_minimum_enemies = min;
-        Level_maximum_enemies = max;
-    }
+        Level_Minimum_Enemies = min;
+        Level_Maximum_Enemies = max;
+        Level_Starter_Money = starter_money;
+        Level_Fruit_Sell_Value = fruit_value;
+        Level_Upgrades = upgrades;
+    }   
 
     public int GetLevelNumber()
     {
@@ -93,23 +103,49 @@ public partial class LevelData : Node
 
     public int GetLevelMininumEnemies()
     {
-        return Level_minimum_enemies;
+        return Level_Minimum_Enemies;
     }
 
     public void SetLevelMininumEnemies(int min)
     {
-        Level_minimum_enemies = min;
+        Level_Minimum_Enemies = min;
     }
 
 
     public int GetLevelMaximumEnemies()
     {
-        return Level_maximum_enemies;
+        return Level_Maximum_Enemies;
     }
 
      public void SetLevelMaximumEnemies(int max)
     {
-        Level_maximum_enemies = max;
+        Level_Maximum_Enemies = max;
+    }
+
+    public int GetLevelStarterMoney()
+    {
+        return Level_Starter_Money;
+    }
+
+    public void SetLevelStarterMoney(int money)
+    {
+        Level_Starter_Money = money;
+    }
+
+    public void SetLevelFruitSellValue(int value)
+    {
+        Level_Fruit_Sell_Value = value;
+    }
+
+
+     public int GetLevelFruitSellValue()
+    {
+        return Level_Fruit_Sell_Value;
+    }
+
+    public List<UpgradeItem> GetLevelUpgradeItems()
+    {
+        return Level_Upgrades;
     }
 
 

@@ -7,7 +7,6 @@ public class Plant
 	private string Plant_type="";
 	private int Growth_phase = 0;
 
-
 	private Vector2I Coordinates;
 
 	public Plant (int id, string name, int phase, Vector2I coordinates)

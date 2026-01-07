@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdvovtpom5knp"
-path="res://.godot/imported/noise_machine_upgrade_item.png-dbbded3e87a0a229dc141ce058b166d2.ctex"
+uid="uid://d4l3pw27sxkrf"
+path="res://.godot/imported/beehive_upgrade_item.png-b7c5b1c09752000cbdffffdbb50b8b54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/noise_machine_upgrade_item.png"
-dest_files=["res://.godot/imported/noise_machine_upgrade_item.png-dbbded3e87a0a229dc141ce058b166d2.ctex"]
+source_file="res://assets/upgrades/beehive_upgrade_item.png"
+dest_files=["res://.godot/imported/beehive_upgrade_item.png-b7c5b1c09752000cbdffffdbb50b8b54.ctex"]
 
 [params]
 

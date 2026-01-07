@@ -302,4 +302,19 @@ public partial class Level1 : Node2D
         return elephant_spawn_tiles;
     }
 
+    public void OnPauseTimer()
+    {
+        _elephant_timer.Stop();
+        _player.Pause();
+        timer.PauseTimer();
+    }
+
+    public void OnContinueTimer()
+    {
+        _elephant_timer.Stop();
+        timer.StartTimer(timer.GetDaysLeft());
+        _player.Continue();
+
+    }
+
 }

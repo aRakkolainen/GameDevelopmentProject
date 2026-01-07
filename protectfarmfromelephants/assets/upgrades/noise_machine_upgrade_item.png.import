@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf6y072vah72a"
-path="res://.godot/imported/chili_item.png-04f9c500efbfd01aff9cbe11f16ead5f.ctex"
+uid="uid://cdvovtpom5knp"
+path="res://.godot/imported/noise_machine_upgrade_item.png-23111eef44ec398478ff1a1ab3ef3e4f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/chili_item.png"
-dest_files=["res://.godot/imported/chili_item.png-04f9c500efbfd01aff9cbe11f16ead5f.ctex"]
+source_file="res://assets/upgrades/noise_machine_upgrade_item.png"
+dest_files=["res://.godot/imported/noise_machine_upgrade_item.png-23111eef44ec398478ff1a1ab3ef3e4f.ctex"]
 
 [params]
 

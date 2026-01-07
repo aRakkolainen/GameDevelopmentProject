@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://dlrnsallt5tfv"]
 
-[ext_resource type="Texture2D" uid="uid://ddr1biyrusl2w" path="res://assets/sunflower_upgrade_item.png" id="1_pcb0p"]
-[ext_resource type="Texture2D" uid="uid://c6okogpqskdwr" path="res://assets/fence_upgrade_item.png" id="2_2ev2f"]
-[ext_resource type="Texture2D" uid="uid://bf6y072vah72a" path="res://assets/chili_item.png" id="3_eijqu"]
-[ext_resource type="Texture2D" uid="uid://cdvovtpom5knp" path="res://assets/noise_machine_upgrade_item.png" id="4_f4bg4"]
-[ext_resource type="Texture2D" uid="uid://sn0y812e1vnp" path="res://assets/stone_wall.png" id="5_ev1y0"]
-[ext_resource type="Texture2D" uid="uid://d4l3pw27sxkrf" path="res://assets/beehive_upgrade_item.png" id="6_g34y5"]
+[ext_resource type="Texture2D" uid="uid://ddr1biyrusl2w" path="res://assets/upgrades/sunflower_upgrade_item.png" id="1_pcb0p"]
+[ext_resource type="Texture2D" uid="uid://c6okogpqskdwr" path="res://assets/upgrades/fence_upgrade_item.png" id="2_2ev2f"]
+[ext_resource type="Texture2D" uid="uid://bf6y072vah72a" path="res://assets/upgrades/chili_item.png" id="3_eijqu"]
+[ext_resource type="Texture2D" uid="uid://cdvovtpom5knp" path="res://assets/upgrades/noise_machine_upgrade_item.png" id="4_f4bg4"]
+[ext_resource type="Texture2D" uid="uid://sn0y812e1vnp" path="res://assets/upgrades/stone_wall.png" id="5_ev1y0"]
+[ext_resource type="Texture2D" uid="uid://d4l3pw27sxkrf" path="res://assets/upgrades/beehive_upgrade_item.png" id="6_g34y5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fl71p"]
 bg_color = Color(0.600324, 0.562307, 0.199946, 1)

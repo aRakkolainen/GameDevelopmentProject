@@ -39,6 +39,11 @@ public partial class TimeManager : Node2D
 		timer.Start();
 	}
 
+	public void PauseTimer()
+	{
+		timer.Stop();
+	}
+
 	public bool GetDayChanged()
 	{
 		return dayChanged;
