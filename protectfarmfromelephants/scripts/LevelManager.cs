@@ -123,7 +123,7 @@ public void InitializeLevelData()
 
         {
             new UpgradeItem("002", "stone_wall", "defense", 10, 1),
-            new UpgradeItem("003", "beehive", "defense", 10, 2),
+            new UpgradeItem("003", "beehive", "distraction", 10, 2),
             new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
             new UpgradeItem("005", "noise_maker", "distraction", 1, 4),
             new UpgradeItem("006", "sun_flower", "distraction", 15, 8),

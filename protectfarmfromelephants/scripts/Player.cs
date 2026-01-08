@@ -36,6 +36,10 @@ public partial class Player : CharacterBody2D
 	[Signal] public delegate void PlayerTriedToWaterPlantEventHandler();
 
 	[Signal] public delegate void PlayerTriedToPlantSeedEventHandler();
+
+	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler(string item_name);
+
+	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(string item_name);
 	public override void _Ready()
 	{
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -80,13 +84,15 @@ public partial class Player : CharacterBody2D
 		} else if (item_type.Equals("seeds"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantSeed);
+		} else if (item_type.Equals("defense"))
+		{
+			EmitSignal(SignalName.PlayerTriedToPlaceDefenseItem, item_name);
+		} else if (item_type.Equals("distraction"))
+		{
+			EmitSignal(SignalName.PlayerTriedToPlaceDistractionItem, item_name);
 		}
 	}
 
-	public void UseItem()
-	{
-		
-	}
 
 	/* public void RemoveFromInventory(InventoryItem item)
     {

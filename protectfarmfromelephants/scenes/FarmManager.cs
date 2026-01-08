@@ -11,6 +11,8 @@ public partial class FarmManager : TileMapLayer
 	private int farm_source_id = 0;
 
 	private int water_lake_id = 1;
+
+	private int usable_items_id = 2;
 	private Godot.Collections.Array<Vector2I> farm_tile_coordinates;
 
 	private Godot.Collections.Array<Vector2I> water_tile_coordinates;
@@ -18,6 +20,8 @@ public partial class FarmManager : TileMapLayer
 	private List<Plant> plants;
 
 	private Dictionary<string, Dictionary<int, Vector2I>> plant_growth_phases_by_type;
+
+	private Dictionary<String, Dictionary<string, Vector2I>> upgrade_items_by_name;
 
 	private string[] plant_types = {"pineapple", "watermelon"};
 
@@ -33,6 +37,15 @@ public partial class FarmManager : TileMapLayer
 
 	private bool watering_can_clicked;
 
+	private bool defense_item_clicked;
+
+	private bool distraction_item_clicked;
+
+	private string selected_defense_item; 
+
+	private string selected_distraction_item; 
+
+
 	private int water_level = 0;
 	[Export] Player _player;
 
@@ -44,6 +57,10 @@ public partial class FarmManager : TileMapLayer
 
 	[Signal]
 	public delegate void UpdatedWateringcanTextEventHandler();
+
+	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler();
+
+	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -52,6 +69,7 @@ public partial class FarmManager : TileMapLayer
 		farm_tile_coordinates = GetUsedCellsById(farm_source_id);
 		water_tile_coordinates = GetUsedCellsById(water_lake_id);
 		initializePlantTypesAndPhases();
+		initializeUpgradeItems();
 		active_level = level_manager.GetCurrentActiveLevel();
 		level_data = level_manager.GetLevelData(active_level);
 		if(level_data != null)
@@ -63,6 +81,8 @@ public partial class FarmManager : TileMapLayer
 		}
 		_inventory = GetNode<SimpleInventory>("%SimpleInventory");
 		_player ??= GetNode<Player>("%Player");
+		//Connect(Player.SignalName.PlayerTriedToPlaceDefenseItem, new Callable(this, nameof(OnPlayerTriedToPlaceDefenseItem)));
+		//Connect(Player.SignalName.PlayerTriedToPlaceDistractionItem, new Callable(this, nameof(OnPlayerTriedToPlaceDistractionItem)));
 		//Connect(Elephant.SignalName.CollidedWithFarm, new Callable(this, nameof(DestroyPlants)));
 
 	}
@@ -88,7 +108,6 @@ public partial class FarmManager : TileMapLayer
 			Godot.Vector2 mousePos = GetLocalMousePosition();
 			Vector2I mouse_map_pos = LocalToMap(mousePos);
 			Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
-			GD.Print(atlas_coords);
 			if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1))
 				{
 					GD.Print("You cannot collect water from here");
@@ -97,6 +116,7 @@ public partial class FarmManager : TileMapLayer
 			if (atlas_coords == new Vector2I(2, 0))
 			{
 				CollectWater();
+				GD.Print("Water collected!");
 			}
 		} 
 		
@@ -110,16 +130,14 @@ public partial class FarmManager : TileMapLayer
 
 				if (seeds_clicked)
 				{
-				if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1) && atlas_coords != new Vector2I(2,0))
+					if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1,-1) && atlas_coords != new Vector2I(2,0))
 					{
-						GD.Print("You cannot plant here!");
-						return;
-					} else
-				{
-					PlacePlant(mouse_map_pos);
-				}
-
-
+							GD.Print("You cannot plant here!");
+							return;
+						} else
+					{
+						PlacePlant(mouse_map_pos);
+					}
 					
 				}
 				if (watering_can_clicked)
@@ -127,10 +145,22 @@ public partial class FarmManager : TileMapLayer
 							WaterPlant(mouse_map_pos);
 						}
 
-			
+
+
 			//Checking if there already are plants in this farm:
 			if(plants != null && plants.Count > 0 )
 				{
+					if (defense_item_clicked)
+				{
+					GD.Print("Trying to place defense item ");
+					PlaceDefensiveItem(mouse_map_pos);
+				}
+
+				if (distraction_item_clicked)
+				{
+					GD.Print("Trying to place distraction item ");
+					PlaceDistractionItem(mouse_map_pos);
+				}
 					int index = FindPlantAtCoordinates(mouse_map_pos);
 
 					if(index != -1)
@@ -154,7 +184,39 @@ public partial class FarmManager : TileMapLayer
 	}
 	}
 
-	public void OnPlayerTriedToPlantSeed()
+    private void PlaceDefensiveItem(Vector2I mouse_map_pos)
+    {
+		Dictionary<string, Vector2I> defenses = upgrade_items_by_name.GetValueOrDefault("defense");
+        if (selected_defense_item.Equals("fence"))
+		{
+			Vector2I fence_tile = defenses.GetValueOrDefault("fence");
+			SetCell(mouse_map_pos, usable_items_id, fence_tile);
+		} else if (selected_defense_item.Equals("stone_wall"))
+		{
+			Vector2I stonewall_tile = defenses.GetValueOrDefault("stone_wall");
+			SetCell(mouse_map_pos, usable_items_id, stonewall_tile);
+		} 
+    }
+
+	 private void PlaceDistractionItem(Vector2I mouse_map_pos)
+    {
+		Dictionary<string, Vector2I> defenses = upgrade_items_by_name.GetValueOrDefault("distraction");
+        if (selected_distraction_item.Equals("camp_fire"))
+		{
+			Vector2I item_tile = defenses.GetValueOrDefault("camp_fire");
+			SetCell(mouse_map_pos, usable_items_id, item_tile);
+		} else if (selected_distraction_item.Equals("noise_maker"))
+		{
+			Vector2I noise_maker_tile = defenses.GetValueOrDefault("noise_maker");
+			SetCell(mouse_map_pos, usable_items_id, noise_maker_tile);
+		} else if (selected_distraction_item.Equals("beehive"))
+		{
+			Vector2I beehive_tile = defenses.GetValueOrDefault("beehive");
+			SetCell(mouse_map_pos, usable_items_id, beehive_tile);
+		} 
+    }
+
+    public void OnPlayerTriedToPlantSeed()
 	{
 		GD.Print("You are trying to plant seed");
 		watering_can_clicked = false;
@@ -169,6 +231,24 @@ public partial class FarmManager : TileMapLayer
 		watering_can_clicked = true;
 		seeds_clicked = false;
 	} 
+
+	public void OnPlayerTriedToPlaceDefenseItem(string name)
+	{
+		watering_can_clicked = false;
+		seeds_clicked = false;
+		selected_defense_item = name;
+		defense_item_clicked = true;
+		GD.Print("You tried to place defense item");
+	}
+
+	public void OnPlayerTriedToPlaceDistractionItem(string name)
+	{
+		watering_can_clicked = false;
+		seeds_clicked = false;
+		distraction_item_clicked = true;
+		selected_distraction_item = name;
+		GD.Print("You tried to place distraction item");
+	}
 
 	public void OnCollidedWithFarm()
 	{
@@ -199,7 +279,7 @@ public partial class FarmManager : TileMapLayer
 	private void PlacePlant(Vector2I position)
 	{
 		level_data = level_manager.GetLevelData(active_level);
-		string plant_type = level_data.GetPlantType();
+		plant_type = level_data.GetPlantType();
 		int plantable_tiles = farm_tile_coordinates.Count;
 		int id = (int) (GD.Randi() % plantable_tiles);
 		if(plant_type == null || plant_type == "")
@@ -364,6 +444,53 @@ public partial class FarmManager : TileMapLayer
         };
 		plant_growth_phases_by_type.Add("mango", mangoDic);
 
+	}
+
+	private void initializeUpgradeItems()
+	{
+		upgrade_items_by_name = new Dictionary<string, Dictionary<string, Vector2I>>();
+		Dictionary<string, Vector2I> distractionDic = new()
+
+        {
+            { "camp_fire", new Vector2I(0, 0) },
+            { "noise_maker", new Vector2I(0, 1) },
+            { "noise_maker_2", new Vector2I(1, 1) },
+            { "noise_maker_3", new Vector2I(2, 1) },
+			 { "beehive", new Vector2I(1, 0) },
+			{ "beehive_angry", new Vector2I(2, 0) },
+			{ "beehive_angry_2", new Vector2I(3, 0) }
+        };
+		upgrade_items_by_name.Add("distraction", distractionDic);
+
+		Dictionary<string, Vector2I> defenseDic = new()
+
+        {
+            { "fence", new Vector2I(1,2) },
+            { "stone_wall", new Vector2I(0, 2) },
+        };
+		upgrade_items_by_name.Add("defense", defenseDic);
+
+		/* plant_growth_phases_by_type.Add("watermelon", watermelonDic);
+
+		Dictionary<int, Vector2I> mangoDic = new()
+        {
+            { 1, new Vector2I(3, 3) },
+            { 2, new Vector2I(4, 3) },
+            { 3, new Vector2I(5, 3) },
+            { 4, new Vector2I(6, 3) }
+        };
+		plant_growth_phases_by_type.Add("mango", mangoDic); */
+
+	}
+
+	private void PlantDefensiveItem(string item_name)
+	{
+		
+	}
+
+	private void PlantDistractionItem(string item_name)
+	{
+		
 	}
 
 }
