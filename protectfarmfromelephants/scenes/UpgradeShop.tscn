@@ -52,6 +52,7 @@ offset_right = 554.0
 offset_bottom = 355.0
 
 [node name="Label" type="Label" parent="InfoBox"]
+layout_mode = 0
 offset_left = 18.0
 offset_top = 7.0
 offset_right = 105.0

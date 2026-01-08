@@ -139,25 +139,28 @@ texture_region_size = Vector2i(32, 32)
 texture = ExtResource("6_r8eak")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:0/animation_columns = 3
 1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 2:0/0 = 0
 3:0/0 = 0
 0:1/0 = 0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -16, -8, 16, 8, 16, 8, -16, -8, -16)
+0:1/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -16, -8, 16, 8, 16, 8, -16)
 1:1/0 = 0
 2:1/0 = 0
 0:2/0 = 0
-0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -16, -8, 16, 8, 16, 8, -16)
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 16, 16, 16, 16, 16)
+0:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, 16, 8, 16, 8, -16, -8, -16)
 1:2/0 = 0
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -16, 0, 16, 8, 16, 8, -16)
+1:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -16, 0, 16, 8, 16, 8, -16)
 
 [sub_resource type="TileSet" id="TileSet_xu0f7"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 2
+physics_layer_1/collision_layer = 4
+physics_layer_1/collision_mask = 4
 custom_data_layer_0/name = "isPlantable"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "isAlreadyPlanted"
@@ -200,11 +203,15 @@ unique_name_in_owner = true
 texture_filter = 1
 position = Vector2(-13, 14)
 scale = Vector2(1.0067, 1.0039)
-tile_map_data = PackedByteArray("AADz/wMAAAABAAAAAAD0/wMAAAABAAAAAAD1/wMAAAABAAAAAAD2/wMAAAABAAAAAAD3/wMAAAABAAAAAAD4/wMAAAABAAAAAADz/wQAAAABAAAAAADz/wUAAAABAAAAAADz/wYAAAABAAAAAAD0/wQAAAABAAAAAAD0/wUAAAABAAAAAAD0/wYAAAABAAAAAAD1/wQAAAABAAAAAAD1/wUAAAABAAAAAAD1/wYAAAABAAAAAAD2/wQAAAABAAAAAAD2/wUAAAABAAAAAAD2/wYAAAABAAAAAAD3/wQAAAABAAAAAAD3/wUAAAABAAAAAAD3/wYAAAABAAAAAAD4/wQAAAABAAAAAAD4/wUAAAABAAAAAAD4/wYAAAABAAAAAADr//3/AQACAAAAAADs//3/AQACAAAAAADt//3/AQACAAAAAADt//7/AQACAAAAAADs//7/AQACAAAAAADr//7/AQACAAAAAADr////AQACAAAAAADs////AQACAAAAAADt////AQACAAAAAADv/wMAAgAAAAIAAADv/wQAAgAAAAIAAADv/wUAAgAAAAIAAADv/wYAAgAAAAIAAADv/wcAAgAAAAIAAADv/wIAAgAAAAIAAAA=")
+tile_map_data = PackedByteArray("AADz/wMAAAABAAAAAAD0/wMAAAABAAAAAAD1/wMAAAABAAAAAAD2/wMAAAABAAAAAAD3/wMAAAABAAAAAAD4/wMAAAABAAAAAADz/wQAAAABAAAAAADz/wUAAAABAAAAAADz/wYAAAABAAAAAAD0/wQAAAABAAAAAAD0/wUAAAABAAAAAAD0/wYAAAABAAAAAAD1/wQAAAABAAAAAAD1/wUAAAABAAAAAAD1/wYAAAABAAAAAAD2/wQAAAABAAAAAAD2/wUAAAABAAAAAAD2/wYAAAABAAAAAAD3/wQAAAABAAAAAAD3/wUAAAABAAAAAAD3/wYAAAABAAAAAAD4/wQAAAABAAAAAAD4/wUAAAABAAAAAAD4/wYAAAABAAAAAADr//3/AQACAAAAAADs//3/AQACAAAAAADt//3/AQACAAAAAADt//7/AQACAAAAAADs//7/AQACAAAAAADr//7/AQACAAAAAADr////AQACAAAAAADs////AQACAAAAAADt////AQACAAAAAAA=")
 tile_set = SubResource("TileSet_xu0f7")
 script = ExtResource("5_6n2kv")
 _player = NodePath("../../Player")
 _inventory = NodePath("../../CanvasLayer/SimpleInventory")
+
+[node name="Elephant" parent="Level1Map/Farm" instance=ExtResource("8_vubro")]
+position = Vector2(-704.281, 153.402)
+scale = Vector2(0.993345, 0.996115)
 
 [node name="SellingDesk" parent="." instance=ExtResource("6_si6ec")]
 unique_name_in_owner = true
@@ -266,6 +273,7 @@ wait_time = 20.0
 script = ExtResource("14_t13ud")
 
 [connection signal="pressed" from="Level1Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
+[connection signal="UpdatedItemCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="UpdatedWateringcanText" from="Level1Map/Farm" to="Level info" method="OnUpdatedWateringCanText"]
 [connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]

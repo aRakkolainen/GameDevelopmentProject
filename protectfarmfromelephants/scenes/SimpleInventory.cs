@@ -167,6 +167,16 @@ public partial class SimpleInventory : ItemList
 		DisplayNewItems();
 	}
 
+	public void OnUpdatedItemQuantity(string item_name, int quantity, string update_type)
+	{
+		GD.Print("Trying to update seed counts");
+		UpdateItemQuantity(item_name, update_type, quantity);
+		Clear();
+		DisplayNewItems();
+	}
+
+
+
 	public void OnSellPopupSoldAllItemsFromInventory()
 	{
 		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
@@ -289,7 +299,14 @@ public partial class SimpleInventory : ItemList
 			{
 				if (quantity >= 0 && current_quantity - quantity >= 0 && current_quantity - quantity < current.GetMaxQuantity())
 				{
-					inventory_items[index].SetQuantity(current_quantity - quantity);
+					int new_quantity = current_quantity - quantity;
+					if (new_quantity == 0)
+					{
+						RemoveFromInventory(inventory_items[index]);
+					} else
+					{
+						inventory_items[index].SetQuantity(current_quantity - quantity);
+					}
 				}
 			} else if (update_type.Equals("custom") && quantity >= 0 && quantity < current.GetMaxQuantity())
 			{
@@ -298,6 +315,14 @@ public partial class SimpleInventory : ItemList
 			
 		}
 	}
+
+	public int GetItemQuantityInInvetory( string name)
+	{
+		InventoryItem item = inventory_items.Find(item => item.GetItemName() == name);
+		return item.GetQuantity();
+	}
+
+	
 
 	public void RemoveFromInventory(InventoryItem item)
     {
