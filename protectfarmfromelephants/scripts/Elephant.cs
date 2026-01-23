@@ -28,7 +28,7 @@ public partial class Elephant : Area2D
 		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		_animatedSprite.Play("walk");
 		MoveDirection = MoveDirection.Normalized();
-		originalMask = CollisionMask;
+		//originalMask = CollisionMask;
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -75,10 +75,10 @@ public partial class Elephant : Area2D
 
 	public void OnBodyEntered(Node2D collided_body)
 	{
-		GD.Print("You collided with farm!", collided_body);
+		//GD.Print("You collided with farm!", collided_body);
 		if (collided_body is not TileMapLayer)
 		{
-			
+		Speed = 0;
 		Node layer = collided_body.GetParent();
 		while (layer != null && layer is not TileMapLayer)
 		{
@@ -89,11 +89,18 @@ public partial class Elephant : Area2D
 			return;
 		}
 		}
-		TileMapLayer farmTilesLayer = (TileMapLayer) collided_body;
-		Godot.Vector2 localPos = farmTilesLayer.ToLocal(GlobalPosition);
-		Godot.Vector2I collidedCell = farmTilesLayer.LocalToMap(localPos);
+		TileMapLayer tileMapLayer = (TileMapLayer) collided_body;
+		Godot.Vector2 localPos = tileMapLayer.ToLocal(GlobalPosition);
+		Godot.Vector2I collidedCell = tileMapLayer.LocalToMap(localPos);
+		int sourceID = tileMapLayer.GetCellSourceId(collidedCell);
 		GD.Print("Elephant hit the cell: ", collidedCell);
-		EmitSignal(SignalName.CollidedWithFarm, collidedCell);
+		if (sourceID == 0)
+		{
+			EmitSignal(SignalName.CollidedWithFarm, collidedCell);
+		} else if (sourceID == 2)
+		{
+			GD.Print("Collided with item!");
+		}
 	}
 
 	private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)

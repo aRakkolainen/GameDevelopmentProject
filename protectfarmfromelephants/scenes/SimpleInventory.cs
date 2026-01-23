@@ -325,7 +325,13 @@ public partial class SimpleInventory : ItemList
 	public int GetItemQuantityInInvetory( string name)
 	{
 		InventoryItem item = inventory_items.Find(item => item.GetItemName() == name);
-		return item.GetQuantity();
+		if (item != null)
+		{
+			return item.GetQuantity();
+		} else
+		{
+			return 0;
+		}
 	}
 
 	

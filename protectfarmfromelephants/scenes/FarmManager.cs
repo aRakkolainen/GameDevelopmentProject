@@ -60,6 +60,8 @@ public partial class FarmManager : TileMapLayer
 
     [Signal] public delegate void UpdatedSeedCountEventHandler(int quantity, string update_type);
 
+	[Signal] public delegate void SeedPlacedEventHandler(bool success);
+
 	[Signal] public delegate void UpdatedItemCountEventHandler(string item_name, int quantity, string update_type);
 
 	[Signal]
@@ -453,10 +455,12 @@ public partial class FarmManager : TileMapLayer
 				plants.Add(newPlant);
 				SetCell(position, 0, new Vector2I(2,0));
 				EmitSignal(SignalName.UpdatedSeedCount, 1, "decrease");
+				EmitSignal(SignalName.SeedPlaced, true);
 				seeds_clicked = false;
 			} else
 			{
 				GD.Print("Cannot plant, you don't have enough seeds!");
+				EmitSignal(SignalName.SeedPlaced, false);
 			}
 		}
 	}

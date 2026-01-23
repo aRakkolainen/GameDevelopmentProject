@@ -26,6 +26,10 @@ public partial class Player : CharacterBody2D
 
 	private LevelData level;
 
+	private bool holdItem = false;
+
+	private string selectedItem;
+
 
 	//[Export] public FarmManager farm_manager;
 
@@ -78,12 +82,16 @@ public partial class Player : CharacterBody2D
 	public void OnInventoryItemActivatedForUse(string item_name, string item_type, int quantity)
 	{
 		GD.Print("You are trying to use item: " + item_name);
+		holdItem = true;
+		selectedItem = item_name;
 		if (item_name.Equals("watering_can"))
 		{
 			EmitSignal(SignalName.PlayerTriedToWaterPlant);
+
 		} else if (item_type.Equals("seeds"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantSeed);
+			selectedItem = item_type;
 		} else if (item_type.Equals("defense"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlaceDefenseItem, item_name);
@@ -93,6 +101,10 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	public void OnFarmSeedPlaced(bool isSuccess)
+	{
+		holdItem = false;
+	}
 
 	/* public void RemoveFromInventory(InventoryItem item)
     {
@@ -179,13 +191,26 @@ public partial class Player : CharacterBody2D
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
-			player.Animation = "walk";
-			player.FlipH = true;
+			if (!holdItem)
+				{
+					player.Play("walk");
+				} 
+			else
+                {
+                    PlayAnimationWithItem(true);
+                }
+                player.FlipH = true;
 		}
 		else if (Input.IsActionPressed("move_right"))
 		{
 			player.FlipH = false;
-			player.Play("walk");
+			if (!holdItem)
+				{
+					player.Play("walk");
+				} else
+				{
+					 PlayAnimationWithItem(true);
+				}
 		}
 		else if (Input.IsActionPressed("move_up"))
 		{
@@ -197,7 +222,14 @@ public partial class Player : CharacterBody2D
 		}
 		else
 		{
-			player.Play("default");
+			if (!holdItem)
+				{
+					player.Play("default");
+				}
+			else
+				{
+					PlayAnimationWithItem(false);
+				}
 		}
 		var collision = MoveAndCollide(Velocity * (float)delta);
 		if (collision != null)
@@ -209,7 +241,31 @@ public partial class Player : CharacterBody2D
 
 	}
 
-	public bool GetPlayerIsAlive()
+    private void PlayAnimationWithItem(bool isMoving)
+    {
+        if (selectedItem.Equals("watering_can"))
+        {
+			if (isMoving)
+			{
+            	player.Play("walk_with_watering_can");
+			} else
+			{
+				player.Play("stand_with_watering_can");
+			}
+        }
+        else if (selectedItem.Equals("seeds"))
+        {
+			if (isMoving)
+			{
+            	player.Play("walk_with_seed_pack");
+			} else
+			{
+				player.Play("stand_with_seed_pack");
+			}
+        }
+    }
+
+    public bool GetPlayerIsAlive()
     {
         return playerIsAlive;
     }
