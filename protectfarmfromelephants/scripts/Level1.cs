@@ -59,12 +59,6 @@ public partial class Level1 : Node2D
         timer.StartTimer(level1.GetLevelTotalDays());
         _elephant_timer.Start();
         total_enemies = GD.RandRange(level1.GetLevelMininumEnemies(), level1.GetLevelMaximumEnemies());
-        elephant_move_directions = new List<string>
-        {
-            "Left",
-            "Right"
-        };
-        elephant_move_direction = elephant_move_directions[GD.RandRange(0,1)];
     }
 
     /* private void UpdatePlayerInventory()
@@ -215,6 +209,12 @@ public partial class Level1 : Node2D
 	{
         bool spawnRight = false;
 		Elephant elephant = ElephantScene.Instantiate<Elephant>();
+        elephant_move_directions = new List<string>
+        {
+            "Left",
+            "Right"
+        };
+        elephant_move_direction = elephant_move_directions[GD.RandRange(0,1)];
         if (elephant_move_direction.Equals("Left"))
         {
             elephantMoveDirection = Godot.Vector2.Left;

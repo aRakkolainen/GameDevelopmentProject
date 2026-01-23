@@ -68,23 +68,24 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kugmc"]
-radius = 39.0
-height = 124.0
+radius = 35.0
+height = 120.0
 
-[node name="Elephant" type="CharacterBody2D" groups=["elephants"]]
+[node name="Elephant" type="Area2D" groups=["elephants"]]
+disable_mode = 1
 collision_layer = 6
 collision_mask = 6
 script = ExtResource("1_66rpy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(64, 42)
+scale = Vector2(0.988, 1)
 sprite_frames = SubResource("SpriteFrames_u5phx")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(65, 43)
+position = Vector2(-2, 2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_kugmc")
 
-[connection signal="CollidedWithFarm" from="." to="." method="OnCollidedWithFarm"]
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

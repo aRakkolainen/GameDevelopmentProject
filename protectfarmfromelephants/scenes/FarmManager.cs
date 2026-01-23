@@ -150,11 +150,17 @@ public partial class FarmManager : TileMapLayer
                 }
                 else
                 {
-                    PlacePlant(mouse_map_pos);
+					int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
+					if (plant_index == -1)
+					{
+                    	PlacePlant(mouse_map_pos);
+					} else
+					{
+						PickUpPlant(mouse_map_pos, plant_index);
+					}
                 }
 
-            }
-            if (watering_can_clicked)
+            } else if (watering_can_clicked)
             {
                 WaterPlant(mouse_map_pos);
             }
@@ -163,7 +169,6 @@ public partial class FarmManager : TileMapLayer
 			{
 				GD.Print("You have to plant some seeds before you can protect them!");
 			}
-
 
             //Checking if there already are plants in this farm:
             if (plants != null && plants.Count > 0)
@@ -179,29 +184,34 @@ public partial class FarmManager : TileMapLayer
                     GD.Print("Trying to place distraction item ");
                     PlaceDistractionItem(mouse_map_pos);
                 }
-                int index = FindPlantAtCoordinates(mouse_map_pos);
-
-                if (index != -1)
-                {
-                    GD.Print("This tile is already planted, checking if it is ready to pickup");
-                    if (plants[index].GetGrowthPhase() == 4)
-                    {
-                        GD.Print("Your plant is fully grown!");
-                        int inventory_size = _inventory.GetChildCount();
-                        InventoryItem item = new InventoryItem(inventory_size + 1, plants[index].GetPlantType(), "fruit", 1, 32);
-                        _player.AddToInventory(item);
-                        RemovePlantAtCoordinates(mouse_map_pos);
-
-                    }
-                    else
-                    {
-                        GD.Print("Your plant is not ready yet!");
-                    }
-                }
 
             }
         }
 
+    }
+
+    private int CheckIfAlreadyPlanted(Vector2I mouse_map_pos)
+    {
+        int index = FindPlantAtCoordinates(mouse_map_pos);
+
+        return index;
+    }
+
+    private void PickUpPlant(Vector2I mouse_map_pos, int index)
+    {
+		
+        if (plants[index].GetGrowthPhase() == 4)
+        {
+            GD.Print("Your plant is fully grown!");
+            int inventory_size = _inventory.GetChildCount();
+            InventoryItem item = new InventoryItem(inventory_size + 1, plants[index].GetPlantType(), "fruit", 1, 32);
+            _player.AddToInventory(item);
+            RemovePlantAtCoordinates(mouse_map_pos);
+        }
+        else
+        {
+            GD.Print("Your plant is not ready yet!");
+        }
     }
 
 
@@ -359,28 +369,62 @@ public partial class FarmManager : TileMapLayer
 		}
 	}
 
-	public void OnCollidedWithFarm()
+
+	/*
+		Probabilities for how many plants are destroyed in line if multiple
+		50% 1 plant
+		35% 2 plants
+		15% all plants
+
+	*/
+	public void OnCollidedWithFarm(Vector2I elephant_position)
 	{
 		int plantCount = plants.Count;
 		if (plantCount > 0 )
 		{
-			
-		int plantsToBeDestroyedMaximum = (int) plantCount/4;
-		int plantsToBeDestroyedTotal = GD.RandRange(1, plantsToBeDestroyedMaximum);
-		for (int i=0; i < plantsToBeDestroyedTotal; i++)
-		{
-			int randomIndex = (int) GD.RandRange(0, plants.Count-1);
-			Plant plantToBeDestroyed = plants[randomIndex];
-			RemovePlantAtCoordinates(plantToBeDestroyed.GetCoordinates());
-		}
-		GD.Print("Elephant destroyed " + plantsToBeDestroyedTotal + " plants.");
-		}
-		
-		
+			GD.Print(elephant_position);
+			int elephant_walking_line = elephant_position.Y;
+			List<Plant> plants_on_line = plants.FindAll(plant => plant.GetCoordinates().Y == elephant_position.Y|| plant.GetCoordinates().X == elephant_position.X);
+			if (plants_on_line.Count > 0)
+			{
+				var plant_roll = GD.Randf();
+				//50% chance to be destroyed if it is the only plant
+				if (plants_on_line.Count == 1 && plant_roll > 0.50f)
+				{
+					Plant plant_to_be_destroyed = plants_on_line[0];
+					RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+				} else if (plants_on_line.Count > 1)
+				{
+					if (plant_roll < 0.50f)
+                    {
+                        //Common case so one plant is randomly destroyed
+                        DestroyRandomPlant(plants_on_line);
+                    }
+                    else if (plant_roll > 0.65f)
+					{
+						DestroyRandomPlant(plants_on_line);
+						DestroyRandomPlant(plants_on_line);
+					} else
+					{
+						foreach(Plant plant in plants_on_line)
+						{
+							RemovePlantAtCoordinates(plant.GetCoordinates());
+						}
+					}
+				}
+			}
+		}				
 	}
 
+    private void DestroyRandomPlant(List<Plant> plants_on_line)
+    {
+        int random_index = GD.RandRange(0, plants_on_line.Count);
+        Plant plant_to_be_destroyed = plants_on_line[random_index];
+        RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+		plants_on_line.Remove(plant_to_be_destroyed);
+    }
 
-	public Godot.Collections.Array<Vector2I> GetFarmTileCoordinates()
+    public Godot.Collections.Array<Vector2I> GetFarmTileCoordinates()
 	{
 		farm_tile_coordinates ??= GetUsedCellsById(farm_source_id);
 		return farm_tile_coordinates;

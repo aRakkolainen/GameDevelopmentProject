@@ -189,8 +189,8 @@ public partial class SimpleInventory : ItemList
 			InventoryItem fruit = inventory_items[indexOfFruit];
 			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(fruit.GetQuantity());
 			if(quotaUpdated) {
-				fruit.SetQuantity(0);
 				LevelManager.Instance.AddToTotalMoney(fruit.GetQuantity()*fruit_sell_value);
+				fruit.SetQuantity(0);
 				EmitSignal(SignalName.FruitsSold);
 				EmitSignal(SignalName.UpdatedMoneyText);
 				Clear();
@@ -212,10 +212,10 @@ public partial class SimpleInventory : ItemList
 			InventoryItem fruit = inventory_items[indexOfFruit];
 			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(amount);
 			if(quotaUpdated) {
-				fruit.SetQuantity(0);
 				LevelManager.Instance.AddToTotalMoney(amount*fruit_sell_value);
 				EmitSignal(SignalName.FruitsSold);
 				EmitSignal(SignalName.UpdatedMoneyText);
+				fruit.SetQuantity(0);
 				Clear();
 				DisplayNewItems();
 			}
@@ -227,7 +227,13 @@ public partial class SimpleInventory : ItemList
 	public int GetNumberOfSeedsInInventory()
 	{
 		InventoryItem seeds = inventory_items.Find(item => item.GetItemName() == seed_type);
-		return seeds.GetQuantity();
+		if (seeds != null)
+		{
+			return seeds.GetQuantity();
+		} else
+		{
+			return 0;
+		}
 	}
 
 	public void SetNumberOfSeedsInInventory(int quantity, string type)

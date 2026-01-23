@@ -3,9 +3,9 @@ using System;
 using System.Linq.Expressions;
 using System.Numerics;
 
-public partial class Elephant : CharacterBody2D
+public partial class Elephant : Area2D
 {
-	[Export] public float Speed = 50.0f;
+	[Export] public float Speed = 1.0f;
 
 	[Export] public Godot.Vector2 MoveDirection = Godot.Vector2.Right;
 	private AnimatedSprite2D _animatedSprite;
@@ -14,7 +14,7 @@ public partial class Elephant : CharacterBody2D
 
 	private bool firstCollisionWithFarm = false;
 	
-	[Signal] public delegate void CollidedWithFarmEventHandler();
+	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I elephant_pos);
 
 	uint originalMask;
 
@@ -33,15 +33,18 @@ public partial class Elephant : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		//Velocity = Vector2.Zero;
-		Velocity = MoveDirection * Speed;
-		if(Velocity.X < 0)
-		{
+		//Velocity = MoveDirection * Speed;
+		//if(Velocity.X < 0)
+		//{
+		Position += MoveDirection * Speed;
+		if (MoveDirection.Equals(Godot.Vector2I.Left)){
 			_animatedSprite.FlipH = true;
 		}
+		//}
 
 
-		var collisionInfo = MoveAndCollide(Velocity * (float) delta);
-		if(collisionInfo != null && !hasCollidedWithFarmBefore && collisionInfo.GetCollider() is FarmManager)
+		//var collisionInfo = MoveAndCollide(Velocity * (float) delta);
+		/* if(collisionInfo != null && !hasCollidedWithFarmBefore && collisionInfo.GetCollider() is FarmManager)
 		{
 			Rid collisionRid =  collisionInfo.GetColliderRid();
 			uint layer = GetCollisionLayerFromRid(collisionRid);
@@ -52,13 +55,11 @@ public partial class Elephant : CharacterBody2D
 			if ((layer & (1u << 1)) != 0) // //Copilot generated check that it is on layer 2
 			{
 				GD.Print(elephant_map_pos);
-			/* if (CheckIfCloseToFarmTiles(farm_tiles, elephant_map_pos))
-			{ */
 				CollisionMask &= ~(1u << 1);
 				hasCollidedWithFarmBefore = true;
 				GD.Print("Elephant collided with farm!");
-				EmitSignal(SignalName.CollidedWithFarm);
-			//}
+				EmitSignal(SignalName.CollidedWithFarm, elephant_map_pos);
+			}
 			} else if ((layer & (1u << 2)) != 0) //Copilot generated!
 			{
 				Godot.Collections.Array<Vector2I> tiles_with_items = collidedFarmManager.GetTilesWithItemsCoordinates();
@@ -69,7 +70,30 @@ public partial class Elephant : CharacterBody2D
 				}
 			}
 				
+		} */
+	}
+
+	public void OnBodyEntered(Node2D collided_body)
+	{
+		GD.Print("You collided with farm!", collided_body);
+		if (collided_body is not TileMapLayer)
+		{
+			
+		Node layer = collided_body.GetParent();
+		while (layer != null && layer is not TileMapLayer)
+		{
+			layer = layer.GetParent();
 		}
+		if (layer is not TileMapLayer)
+		{
+			return;
+		}
+		}
+		TileMapLayer farmTilesLayer = (TileMapLayer) collided_body;
+		Godot.Vector2 localPos = farmTilesLayer.ToLocal(GlobalPosition);
+		Godot.Vector2I collidedCell = farmTilesLayer.LocalToMap(localPos);
+		GD.Print("Elephant hit the cell: ", collidedCell);
+		EmitSignal(SignalName.CollidedWithFarm, collidedCell);
 	}
 
 	private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)
