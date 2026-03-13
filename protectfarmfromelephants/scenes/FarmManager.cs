@@ -2,6 +2,7 @@ using Godot;
 using ProtectFarm;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Numerics;
 //Source for this was this YouTube tutorial: https://www.youtube.com/watch?v=4qEOdviP1yA
 public partial class FarmManager : TileMapLayer
@@ -14,6 +15,8 @@ public partial class FarmManager : TileMapLayer
 
 	private int usable_distraction_items_id = 1;
 	private int usable_defense_items_id = 2;
+
+	private Godot.Vector2I default_tile_atlas_coords = new Godot.Vector2I(0, 0);
 	private Godot.Collections.Array<Vector2I> farm_tile_coordinates;
 
 	private Godot.Collections.Array<Vector2I> water_tile_coordinates;
@@ -50,8 +53,10 @@ public partial class FarmManager : TileMapLayer
 
 	private string selected_distraction_item; 
 
-
+	private DistractionItem active_noise_maker; 
 	private int water_level = 0;
+
+	private AudioStreamPlayer2D distractionAudioPlayer;
 	[Export] Player _player;
 
 	[Export] TimeManager timer;
@@ -98,6 +103,7 @@ public partial class FarmManager : TileMapLayer
 		{
 			plant_type = "";
 		}
+		distractionAudioPlayer = GetNode<AudioStreamPlayer2D>("DistractionAudioPlayer");
 		_inventory = GetNode<SimpleInventory>("%SimpleInventory");
 		_player ??= GetNode<Player>("%Player");
 		CollidedWithFarm += OnElephantCollidedWithFarm;
@@ -130,10 +136,17 @@ public partial class FarmManager : TileMapLayer
         
     }
 
+	public DistractionItem GetActiveNoiseMaker()
+	{
+		return active_noise_maker;
+	}
+
     private void ListenForPlayerInteractionsWithFarm()
     {
         Godot.Vector2 player_pos = _player.Position;
         Vector2I player_local_map_pos = LocalToMap(player_pos);
+
+		//Checking if player is trying to collect water
         if (water_tile_coordinates != null && water_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_left_click") && watering_can_clicked)
         {
             Godot.Vector2 mousePos = GetLocalMousePosition();
@@ -150,13 +163,13 @@ public partial class FarmManager : TileMapLayer
                 GD.Print("Water collected!");
             }
         }
-
+		// checking if player is trying to plant or pick up plants
         if (farm_tile_coordinates != null && farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
         {
             number_of_seeds_in_player_inventory = _inventory.GetNumberOfSeedsInInventory();
             Godot.Vector2 mousePos = GetLocalMousePosition();
             Vector2I mouse_map_pos = LocalToMap(mousePos);
-            Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
+            //Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
 
 			bool canInteract = IsPlayerCloseEnough(mouse_map_pos, player_local_map_pos);
             if (!canInteract)
@@ -170,7 +183,7 @@ public partial class FarmManager : TileMapLayer
             if (farm_tile_coordinates.IndexOf(mouse_map_pos) == -1)
             {
                 GD.Print("You cannot plant here!");
-				UpdateInfoText("You cannot plant here!");
+				UpdateInfoText("You are trying to plant outside the farm tiles!");
             }
             else
                 {
@@ -182,7 +195,7 @@ public partial class FarmManager : TileMapLayer
 						PlacePlant(mouse_map_pos);
 					}	else
 					{
-						GD.Print("Plant is not ready yet!");
+						GD.Print("Already planted!");
 					}
 					}
 					if (plants.Count > 0 && plant_index != -1)
@@ -198,13 +211,10 @@ public partial class FarmManager : TileMapLayer
                 WaterPlant(mouse_map_pos);
             }
 
-			if (plants.Count == 0)
+			if (plants.Count == 0 && (defense_item_clicked || distraction_item_clicked))
 			{
-				if (defense_item_clicked || distraction_item_clicked)
-				{
-					GD.Print("You have to plant at least one seed before you can protect them!");
-					UpdateInfoText("You have to plant at least one seed before you can protect them!");
-				}
+				GD.Print("You have to plant at least one seed before you can protect them!");
+				UpdateInfoText("You have to plant at least one seed before you can protect them!");
 			}
 
             //Checking if there already are plants in this farm:
@@ -220,12 +230,42 @@ public partial class FarmManager : TileMapLayer
                 {
                     GD.Print("Trying to place distraction item ");
                     PlaceDistractionItem(mouse_map_pos);
+					
                 }
+
 
             }
         }
 
     }
+
+    private void ActivateNoiseMaker(DistractionItem noise_maker)
+    {
+        GD.Print(noise_maker.GetEffectDuration());
+		if (active_noise_maker == null)
+		{
+			Timer distractionDurationTimer = GetNode<Timer>("DistractionDurationTimer");
+			distractionDurationTimer.WaitTime = noise_maker.GetEffectDuration();
+			distractionDurationTimer.Start();
+			distractionAudioPlayer.Play();
+			active_noise_maker = noise_maker;
+		} else
+		{
+			GD.Print("Only one noise maker can be active at once!");
+		}
+    }
+
+	private void OnDistractionDurationTimerTimeout()
+	{
+		distractionAudioPlayer.Stop();
+		if (active_noise_maker != null)
+		{
+			DestroyItemAtCoordinates("distraction", active_noise_maker.GetCoordinates());
+			active_noise_maker = null;
+			
+		}
+	}
+
 
     private static bool IsPlayerCloseEnough(Vector2I mouse_map_pos, Vector2I player_local_map_pos)
     {
@@ -289,11 +329,13 @@ public partial class FarmManager : TileMapLayer
 			Vector2I fence_tile = defenses.GetValueOrDefault("fence");
 			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, selected_defense_item, true, 2, mouse_map_pos));
 			SetCell(mouse_map_pos, usable_defense_items_id, fence_tile);
+			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
 		} else if (selected_defense_item.Equals("stone_wall"))
 		{
 			Vector2I stonewall_tile = defenses.GetValueOrDefault("stone_wall");
 			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, selected_defense_item, true, 4, mouse_map_pos));
 			SetCell(mouse_map_pos, usable_defense_items_id, stonewall_tile);
+			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
 		} else
 			{
 				GD.Print("Unknown item type!");
@@ -301,7 +343,6 @@ public partial class FarmManager : TileMapLayer
 			} 
 				
 			}
-			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
 		}
 			UpdateInfoText(infoMessage);
     }
@@ -323,25 +364,29 @@ public partial class FarmManager : TileMapLayer
 				Vector2I item_tile = distractions.GetValueOrDefault("camp_fire");
 				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 4, 3, true, 2, mouse_map_pos));
 				SetCell(mouse_map_pos, usable_distraction_items_id, item_tile);
+				EmitSignal(SignalName.UpdatedItemCount, selected_distraction_item, 1, "decrease");
 			} else if (selected_distraction_item.Equals("noise_maker"))
 			{
 				Vector2I noise_maker_tile = distractions.GetValueOrDefault("noise_maker");
-				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 10, 5, false, 0, mouse_map_pos));
-				SetCell(mouse_map_pos, usable_distraction_items_id, noise_maker_tile);
+				DistractionItem noise_maker = new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 25, 5, false, 0, mouse_map_pos);
+				if (active_noise_maker == null)
+					{
+						placed_distraction_items.Add(noise_maker);
+						SetCell(mouse_map_pos, usable_distraction_items_id, noise_maker_tile);
+						ActivateNoiseMaker(noise_maker);
+						EmitSignal(SignalName.UpdatedItemCount, selected_distraction_item, 1, "decrease");
+				}
 			} else if (selected_distraction_item.Equals("beehive"))
 			{
 				Vector2I beehive_tile = distractions.GetValueOrDefault("beehive");
 				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 10, 2, true, 5, mouse_map_pos));
 				SetCell(mouse_map_pos, usable_distraction_items_id, beehive_tile);
+				EmitSignal(SignalName.UpdatedItemCount, selected_distraction_item, 1, "decrease");
 			} else
 				{
 					GD.Print("Unknown item type!");
-					return;
 				}
-			EmitSignal(SignalName.UpdatedItemCount, selected_distraction_item, 1, "decrease");
-			} else
-			{
-			}
+			} 
 		}
     }
 
@@ -352,7 +397,7 @@ public partial class FarmManager : TileMapLayer
 			GD.Print("Item not found!");
 		} else
 		{	
-			SetCell(coordinates,0, new Vector2I(0,0));
+			SetCell(coordinates,farm_source_id, default_tile_atlas_coords);
 			if ("defense".Equals(item_type))
 		{
 			placed_defense_items.RemoveAt(index);

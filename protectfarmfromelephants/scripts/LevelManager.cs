@@ -67,7 +67,7 @@ public static class Scenes
 
          public const string camp_fire = "Light source to distract elephants";
 
-        public const string noise_maker = "Stereos to make noise distraction";
+        public const string noise_maker = "Stereos to make noise distraction \n Note that only one can be active at once!";
 
         public const string beehive = "Bees to scare the elephants";
 

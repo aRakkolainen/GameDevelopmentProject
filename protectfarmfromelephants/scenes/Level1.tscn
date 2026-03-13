@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=27 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/LevelScript.cs" id="1_g5xdi"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -11,12 +11,14 @@
 [ext_resource type="Texture2D" uid="uid://dj20q3t4xgl3b" path="res://assets/upgrades/usable_defense_items.png" id="7_ry57g"]
 [ext_resource type="Texture2D" uid="uid://lngkmhuixjti" path="res://assets/water_tile.png" id="8_4wcrf"]
 [ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://scenes/elephant.tscn" id="8_vubro"]
+[ext_resource type="AudioStream" uid="uid://by4auaqhc8jqo" path="res://assets/audio/sound_effects/noise_maker_sound.mp3" id="10_bq3pw"]
 [ext_resource type="PackedScene" uid="uid://dlrnsallt5tfv" path="res://scenes/UpgradeInventory.tscn" id="10_tyd27"]
 [ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="11_47718"]
 [ext_resource type="PackedScene" uid="uid://bodvpt1hnpm0j" path="res://sell_popup.tscn" id="12_3xfhx"]
 [ext_resource type="PackedScene" uid="uid://bugdap2slktnw" path="res://level_info_layer.tscn" id="13_v8lej"]
 [ext_resource type="PackedScene" uid="uid://own1l2qsvex3" path="res://scenes/UpgradeShop.tscn" id="13_we4uu"]
 [ext_resource type="Script" path="res://scenes/TimeManager.cs" id="14_t13ud"]
+[ext_resource type="AudioStream" uid="uid://4diax26lq1wf" path="res://assets/audio/music/background_option_1.mp3" id="19_lvlbk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -127,18 +129,18 @@ texture = ExtResource("6_p40if")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/animation_columns = 3
+1:0/animation_frame_0/duration = 0.4
+1:0/animation_frame_1/duration = 0.4
+1:0/animation_frame_2/duration = 0.4
 1:0/0 = 0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-2:0/0 = 0
-2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-3:0/0 = 0
-3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:1/animation_columns = 3
+0:1/animation_frame_0/duration = 0.3
+0:1/animation_frame_1/duration = 0.3
+0:1/animation_frame_2/duration = 0.3
 0:1/0 = 0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-1:1/0 = 0
-1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-2:1/0 = 0
-2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uh1hl"]
 resource_name = "defense"
@@ -213,6 +215,11 @@ script = ExtResource("5_6n2kv")
 _player = NodePath("../../Player")
 _inventory = NodePath("../../CanvasLayer/SimpleInventory")
 
+[node name="DistractionDurationTimer" type="Timer" parent="Level1Map/Farm"]
+
+[node name="DistractionAudioPlayer" type="AudioStreamPlayer2D" parent="Level1Map/Farm"]
+stream = ExtResource("10_bq3pw")
+
 [node name="SellingDesk" parent="." instance=ExtResource("6_si6ec")]
 unique_name_in_owner = true
 offset_left = -266.0
@@ -259,8 +266,9 @@ offset_right = 905.0
 offset_bottom = 645.0
 
 [node name="ElephantTimer" type="Timer" parent="."]
-wait_time = 15.0
+wait_time = 10.0
 one_shot = true
+autostart = true
 
 [node name="SellPopup" parent="." instance=ExtResource("12_3xfhx")]
 
@@ -272,12 +280,16 @@ one_shot = true
 wait_time = 30.0
 script = ExtResource("14_t13ud")
 
+[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("19_lvlbk")
+
 [connection signal="pressed" from="Level1Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
 [connection signal="SeedPlaced" from="Level1Map/Farm" to="Player" method="OnFarmSeedPlaced"]
 [connection signal="UpdatedInfoText" from="Level1Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="UpdatedWateringcanText" from="Level1Map/Farm" to="Level info" method="OnUpdatedWateringCanText"]
+[connection signal="timeout" from="Level1Map/Farm/DistractionDurationTimer" to="Level1Map/Farm" method="OnDistractionDurationTimerTimeout"]
 [connection signal="SellPopUpOpened" from="SellingDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
 [connection signal="mouse_entered" from="SellingDesk" to="." method="OnSellingDeskMouseEntered"]
 [connection signal="PlayerAddToInventory" from="Player" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]

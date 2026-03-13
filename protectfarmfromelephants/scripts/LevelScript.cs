@@ -244,8 +244,8 @@ public partial class LevelScript : Node2D
         Godot.Vector2 worldSpawnPosition = _farmManager.ToGlobal(localSpawnPosition);
         elephant.GlobalPosition = worldSpawnPosition;
         GD.Print("Elephant should spawn at location:" + spawnLocation);
-        if(spawned_enemies <= total_enemies)
-        {
+        //if(spawned_enemies <= total_enemies)
+        //{
 		    elephants.AddChild(elephant);
             elephant.CollidedWithFarm += _farmManager.OnElephantCollidedWithFarm;
             elephant.CollidedWithItem += _farmManager.OnElephantCollidedWithItem;
@@ -257,13 +257,14 @@ public partial class LevelScript : Node2D
             if(elephant is Elephant elephantScript)
             {
                 elephantScript.MoveDirection = elephantMoveDirection;
+                elephantScript.farm = _farmManager;
                 spawned_elephants.Add(elephant);
             }
              _elephant_timer.Start();
-        } else
-        {
-            _elephant_timer.Stop();
-        }
+        //} else
+        //{
+        //    _elephant_timer.Stop();
+        //}
 
     }
 

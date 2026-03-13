@@ -8,6 +8,8 @@ public partial class Elephant : Area2D
 	[Export] public float Speed = 1.0f;
 
 	[Export] public Godot.Vector2 MoveDirection = Godot.Vector2.Right;
+
+	[Export] public FarmManager farm;
 	private AnimatedSprite2D _animatedSprite;
 
 	private CollisionShape2D _collisionShape;
@@ -25,11 +27,20 @@ public partial class Elephant : Area2D
 	private int elephant_detection_area = 2;
 
 	
+	[Export] public float BoundaryDebounceSeconds = 0.1f;
+    private double _debounceTimer = 0.0;
+
+
+	
 	private const int tileSize = 32;
 	private const int pushBackwardTiles = 1;
 
 
 	public bool IsInitialized { get; private set; }
+
+	private bool isInRangeOfNoiseMaker = false;
+
+	private Godot.Vector2? directionBeforeNoise = null;
 
 	public void Initialize()
 	{
@@ -47,9 +58,48 @@ public partial class Elephant : Area2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Position += MoveDirection * Speed;
-		if (MoveDirection.Equals(Godot.Vector2I.Left)){
-			_animatedSprite.FlipH = true;
-		}
+		
+		
+		if (_animatedSprite != null)
+            _animatedSprite.FlipH = MoveDirection.X < 0f;
+
+        // 3) Debounce timer (optional but helps near the edge)
+        if (_debounceTimer > 0.0)
+            _debounceTimer -= delta;
+
+		
+		bool currentlyInNoiseEffect = false;
+
+		if (farm.GetActiveNoiseMaker() != null)
+		{
+			DistractionItem noise_maker = farm.GetActiveNoiseMaker();
+			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
+			
+			int distance_x = Math.Abs(elephant_position_local_to_map.X - noise_maker.GetCoordinates().X);
+        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - noise_maker.GetCoordinates().Y);
+
+			currentlyInNoiseEffect = distance_x < noise_maker.GetEffectRange();
+			if (_debounceTimer <= 0.0)
+			{
+				
+			if (currentlyInNoiseEffect && !isInRangeOfNoiseMaker)
+			{
+				directionBeforeNoise = MoveDirection;
+				MoveDirection = -MoveDirection;
+				isInRangeOfNoiseMaker = currentlyInNoiseEffect;
+				_debounceTimer = BoundaryDebounceSeconds;
+			} else if (!currentlyInNoiseEffect && !isInRangeOfNoiseMaker)
+			{
+				if (directionBeforeNoise.HasValue)
+				{
+					MoveDirection = directionBeforeNoise.Value;
+					directionBeforeNoise = null; 
+					isInRangeOfNoiseMaker = false;
+					_debounceTimer = BoundaryDebounceSeconds;
+				}
+			}
+			}
+		} 
 	}
 
 
