@@ -232,10 +232,6 @@ public partial class Player : CharacterBody2D
 				}
 		}
 		var collision = MoveAndCollide(Velocity * (float)delta);
-		if (collision != null)
-		{
-			GD.Print("Collided with: " + collision.GetCollider());
-		}
 			
 		}
 

@@ -17,11 +17,16 @@ offset_bottom = 71.0
 text = "0"
 
 [node name="WateringCanLabel" type="Label" parent="."]
-offset_top = 71.0
+offset_top = 128.0
 offset_right = 40.0
-offset_bottom = 94.0
+offset_bottom = 151.0
 
 [node name="DaysLeftLabel" type="Label" parent="."]
-offset_top = 24.0
+offset_top = 94.0
 offset_right = 40.0
-offset_bottom = 47.0
+offset_bottom = 117.0
+
+[node name="InfoLabel" type="Label" parent="."]
+offset_top = 184.0
+offset_right = 40.0
+offset_bottom = 207.0

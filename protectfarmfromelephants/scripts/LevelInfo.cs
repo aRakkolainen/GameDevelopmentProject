@@ -9,6 +9,8 @@ public partial class LevelInfo : CanvasLayer
 
 	Label days;
 
+	Label info;
+
 	public override void _Ready()
 	{
 		LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -20,6 +22,7 @@ public partial class LevelInfo : CanvasLayer
 		days.Text = "Days left: " + level.GetLevelTotalDays();
 		watering_can_level = GetNode<Label>("WateringCanLabel");
 		watering_can_level.Text = "Enough water for " + LevelManager.Instance.GetWateringCanLevel() + " tile(s)";
+		info = GetNode<Label>("InfoLabel");
 
 	}
 
@@ -54,5 +57,10 @@ public partial class LevelInfo : CanvasLayer
 			days.Text = "Days left: " + days_left;
 			
 		}
+	}
+
+	public void OnUpdatedInfoText(string text)
+	{
+		info.Text = text;
 	}
 }

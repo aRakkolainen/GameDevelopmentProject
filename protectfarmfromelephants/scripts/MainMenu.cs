@@ -12,7 +12,7 @@ public partial class MainMenu : Control
 	public static void On_start_button_pressed()
 	{
 		GD.Print("Pressed Start Button");
-		LevelManager.Instance.SetCurrentActiveLevel("level_1");
+		LevelManager.Instance.SetCurrentActiveLevel(1);
 		LevelManager.Instance.InitializeLevelData();
 		LevelManager.Instance.LoadLevel(Scenes.Levels.level_1);
 		

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 
 public partial class UpgradeShop : CanvasLayer
 {
@@ -58,8 +59,12 @@ public partial class UpgradeShop : CanvasLayer
                 var texture = LevelManager.Instance.GetTextureByItemName(upgradeItem.GetItemName());
                 var icon = (Texture2D)GD.Load(texture);
 				ShopItem new_item = new ShopItem(upgradeItem.GetID(), upgradeItem.GetItemName(), icon, upgradeItem.GetTotalInStock(), upgradeItem.GetPrice());
+				StringBuilder builder = new StringBuilder();
 				string sell_text = "Available: " + new_item.InStock + " Price: " + new_item.Price;
-                visible_upgrade_items.AddItem(sell_text, new_item.Icon);
+				builder.Append(upgradeItem.GetDescription());
+				builder.Append("\n");
+				builder.Append(sell_text);
+                visible_upgrade_items.AddItem(builder.ToString(), new_item.Icon);
             }
         } 
     }

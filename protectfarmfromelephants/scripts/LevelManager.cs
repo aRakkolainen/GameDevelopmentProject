@@ -58,6 +58,29 @@ public static class Scenes
         public const string sunflower = "uid://ddr1biyrusl2w";
 
     }
+
+    public static class UpgradeItemDescriptions
+    {
+        public const string fence = "Wooden fence to protect the farm temporarily";
+
+        public const string stone_wall = "Stonewall to defend the farm";
+
+         public const string camp_fire = "Light source to distract elephants";
+
+        public const string noise_maker = "Stereos to make noise distraction";
+
+        public const string beehive = "Bees to scare the elephants";
+
+        public const string chili = "Chili seeds to be grown so the farm is less appealing to elephants, sometimes source of extra money";
+
+        public const string sunflower = "Sunflower seeds to be grown so the farm is less appealing to elephants, source of extra money";
+
+        public const string extra_seeds = "Extra seeds for the level";
+
+        public const string fertilizer = "Use on the plant to boost its growth";
+
+
+    }
 }
 
 // Source for singleton: https://csharpindepth.com/articles/singleton 
@@ -65,11 +88,11 @@ public static class Scenes
 public partial class LevelManager : Node
 {
     public static LevelManager Instance {get; private set; }
-    private Dictionary<string, LevelData> levels;
+    private Dictionary<int, LevelData> levels;
 
     private List<InventoryItem> player_inventory = new List<InventoryItem>();
 
-    private string current_active_Level;
+    private int current_active_Level;
 
     private int money_available;
 
@@ -80,6 +103,8 @@ public partial class LevelManager : Node
         Instance = this;
     }
 
+
+
 public void LoadLevel(string uid)
     {
         GetTree().ChangeSceneToFile(uid);
@@ -89,62 +114,65 @@ public void QuitGame()
     {
         GetTree().Quit();
     }
-public Dictionary<string, LevelData> GetAllLevels()
+public Dictionary<int, LevelData> GetAllLevels()
 {
     return levels;
 }
 
 public void InitializeLevelData()
     {
-        levels = new Dictionary<string, LevelData>();
+        levels = new Dictionary<int, LevelData>();
 
         List<UpgradeItem> level_1_upgrades = new()
 
         {
-            new UpgradeItem("002", "fence", "defense", 10, 1),
-            new UpgradeItem("003", "stone_wall", "defense", 10, 2),
-            new UpgradeItem("004", "noise_maker", "distraction", 2, 4),
-            new UpgradeItem("005", "camp_fire", "distraction", 1, 4),
-            new UpgradeItem("006", "chili", "distraction", 10, 6),
-            new UpgradeItem("001", "seeds", "boost", 10, 10),
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10),
+            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 1),
+            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
+            new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 4),
+            new UpgradeItem("005", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
+            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "distraction", 10, 6),
+            //new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 15)
         };
 
         List<UpgradeItem> level_2_upgrades = new()
 
         {
-            new UpgradeItem("002", "fence", "defense", 10, 1),
-            new UpgradeItem("003", "stone_wall", "defense", 10, 2),
-            new UpgradeItem("004", "camp_fire", "distraction", 2, 4),
-            new UpgradeItem("005", "sun_flower", "distraction", 15, 6),
-            new UpgradeItem("001", "seeds", "boost", 10, 10),
+            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 1),
+            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
+            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 2, 4),
+            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "distraction", 15, 6),
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10),
+            new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 20)
         };
 
         List<UpgradeItem> level_3_upgrades = new()
 
         {
-            new UpgradeItem("002", "stone_wall", "defense", 10, 1),
-            new UpgradeItem("003", "beehive", "distraction", 10, 2),
-            new UpgradeItem("004", "camp_fire", "distraction", 1, 4),
-            new UpgradeItem("005", "noise_maker", "distraction", 1, 4),
-            new UpgradeItem("006", "sun_flower", "distraction", 15, 8),
-            new UpgradeItem("001", "seeds", "boost", 15, 8),
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds,"boost", 15, 8),
+            new UpgradeItem("002", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 1),
+            new UpgradeItem("003", "beehive", Scenes.UpgradeItemDescriptions.beehive, "distraction", 10, 2),
+            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
+            new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 1, 4),
+            new UpgradeItem("006", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "distraction", 15, 8),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 25)
         };
 
-        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 2, 5, 30, 1, level_1_upgrades);
-        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 10, 25, 2, level_2_upgrades);
-        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 20, 2, level_3_upgrades);
-        levels.Add("level_1", level_1);
-        levels.Add("level_2", level_2);
-        levels.Add("level_3", level_3);
+        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 30, 30, 1, level_1_upgrades);
+        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 15, 25, 2, level_2_upgrades);
+        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 30, 2, level_3_upgrades);
+        levels.Add(1, level_1);
+        levels.Add(2, level_2);
+        levels.Add(3, level_3);
         player_inventory = new List<InventoryItem>();
         money_available = GetStarterMoney();
     }
 
-public string GetCurrentActiveLevel()
+public int GetCurrentActiveLevel()
     {
         return current_active_Level;
     }
-public void SetCurrentActiveLevel(string level)
+public void SetCurrentActiveLevel(int level)
     {
         current_active_Level = level;
     }
@@ -167,7 +195,7 @@ public LevelData GetLevelDataForActiveLevel()
         }
         return level;
     }
-public LevelData GetLevelData(string level_num)
+public LevelData GetLevelData(int level_num)
     {
         LevelData level = levels.GetValueOrDefault(level_num);
         if(level == null)

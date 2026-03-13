@@ -11,22 +11,23 @@ texture_filter = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -327.0
+offset_left = -396.0
 offset_top = -6.0
-offset_right = 329.0
-offset_bottom = 557.0
+offset_right = 254.0
+offset_bottom = 534.0
 grow_horizontal = 2
 color = Color(0.902869, 0.769478, 0.582946, 1)
 
 [node name="UpgradeItems" type="ItemList" parent="."]
 layout_direction = 2
-offset_left = 321.0
-offset_top = 53.0
-offset_right = 836.0
-offset_bottom = 521.0
+offset_left = 266.0
+offset_top = 57.0
+offset_right = 728.0
+offset_bottom = 469.0
+allow_search = false
 max_columns = 3
-icon_mode = 0
-icon_scale = 2.0
+same_column_width = true
+icon_scale = 2.5
 
 [node name="Icon" type="TextureRect" parent="."]
 visible = false

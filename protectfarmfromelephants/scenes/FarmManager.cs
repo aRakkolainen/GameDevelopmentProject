@@ -10,9 +10,10 @@ public partial class FarmManager : TileMapLayer
 
 	private int farm_source_id = 0;
 
-	private int water_lake_id = 1;
+	private int water_lake_id = 3;
 
-	private int usable_items_id = 2;
+	private int usable_distraction_items_id = 1;
+	private int usable_defense_items_id = 2;
 	private Godot.Collections.Array<Vector2I> farm_tile_coordinates;
 
 	private Godot.Collections.Array<Vector2I> water_tile_coordinates;
@@ -29,7 +30,7 @@ public partial class FarmManager : TileMapLayer
 
 	private string[] plant_types = {"pineapple", "watermelon"};
 
-	private string active_level; 
+	private int active_level; 
 
 	private string plant_type;
 
@@ -67,9 +68,18 @@ public partial class FarmManager : TileMapLayer
 	[Signal]
 	public delegate void UpdatedWateringcanTextEventHandler();
 
+	[Signal]
+	public delegate void UpdatedInfoTextEventHandler(string message);
+
 	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler();
 
 	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler();
+
+	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I tileCoords);
+
+	[Signal] public delegate void CollidedWithItemEventHandler(Vector2I tileCoords, string itemType, Elephant elephant);
+
+	[Signal] public delegate void SentElephantBackEventHandler(Vector2I tileCoords);
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -90,6 +100,8 @@ public partial class FarmManager : TileMapLayer
 		}
 		_inventory = GetNode<SimpleInventory>("%SimpleInventory");
 		_player ??= GetNode<Player>("%Player");
+		CollidedWithFarm += OnElephantCollidedWithFarm;
+        CollidedWithItem += OnElephantCollidedWithItem;
 		//Connect(Player.SignalName.PlayerTriedToPlaceDefenseItem, new Callable(this, nameof(OnPlayerTriedToPlaceDefenseItem)));
 		//Connect(Player.SignalName.PlayerTriedToPlaceDistractionItem, new Callable(this, nameof(OnPlayerTriedToPlaceDistractionItem)));
 		//Connect(Elephant.SignalName.CollidedWithFarm, new Callable(this, nameof(DestroyPlants)));
@@ -124,16 +136,11 @@ public partial class FarmManager : TileMapLayer
         {
             Godot.Vector2 mousePos = GetLocalMousePosition();
             Vector2I mouse_map_pos = LocalToMap(mousePos);
-            Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
-            if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1, -1))
-            {
-                GD.Print("You cannot collect water from here");
-            }
-            if (atlas_coords == new Vector2I(2, 0))
-            {
-                CollectWater();
+			if (water_tile_coordinates.IndexOf(mouse_map_pos) != -1)
+			{
+				CollectWater();
                 GD.Print("Water collected!");
-            }
+			}
         }
 
         if (farm_tile_coordinates != null && farm_tile_coordinates.Count > 0 && Input.IsActionJustPressed("mouse_right_click") && _player.GetPlayerIsAlive())
@@ -144,32 +151,39 @@ public partial class FarmManager : TileMapLayer
             Vector2I atlas_coords = GetCellAtlasCoords(mouse_map_pos);
             //Checking if there already is a plant in clicked coordinates.
 
-            if (seeds_clicked)
+           
+            if (farm_tile_coordinates.IndexOf(mouse_map_pos) == -1)
             {
-                if (atlas_coords == new Vector2I(0, 0) || atlas_coords == new Vector2I(-1, -1) && atlas_coords != new Vector2I(2, 0))
-                {
-                    GD.Print("You cannot plant here!");
-                }
-                else
+                GD.Print("You cannot plant here!");
+				UpdateInfoText("You cannot plant here!");
+            }
+            else
                 {
 					int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
-					if (plant_index == -1)
+					if (seeds_clicked)
 					{
-                    	PlacePlant(mouse_map_pos);
-					} else
+						if (plant_index == -1)
 					{
-						PickUpPlant(mouse_map_pos, plant_index);
+						PlacePlant(mouse_map_pos);
+					}	else
+					{
+						GD.Print("Plant is not ready yet!");
 					}
+					}
+					
+					PickUpPlant(mouse_map_pos, plant_index);
+					
                 }
 
-            } else if (watering_can_clicked)
+            if (watering_can_clicked)
             {
                 WaterPlant(mouse_map_pos);
             }
 
 			if (plants.Count == 0 && defense_item_clicked || distraction_item_clicked)
 			{
-				GD.Print("You have to plant some seeds before you can protect them!");
+				GD.Print("You have to plant at least one seed before you can protect them!");
+				UpdateInfoText("You have to plant at least one seed before you can protect them!");
 			}
 
             //Checking if there already are plants in this farm:
@@ -199,12 +213,17 @@ public partial class FarmManager : TileMapLayer
         return index;
     }
 
+	private void UpdateInfoText(string message)
+	{
+		EmitSignal(SignalName.UpdatedInfoText, message);
+	}
     private void PickUpPlant(Vector2I mouse_map_pos, int index)
     {
-		
+		string infoMessage = "";
         if (plants[index].GetGrowthPhase() == 4)
         {
             GD.Print("Your plant is fully grown!");
+			infoMessage = "Your plant is fully grown!";
             int inventory_size = _inventory.GetChildCount();
             InventoryItem item = new InventoryItem(inventory_size + 1, plants[index].GetPlantType(), "fruit", 1, 32);
             _player.AddToInventory(item);
@@ -212,16 +231,20 @@ public partial class FarmManager : TileMapLayer
         }
         else
         {
+			infoMessage = "Your plant is not ready yet!";
             GD.Print("Your plant is not ready yet!");
         }
+		UpdateInfoText(infoMessage);
     }
 
 
     private void PlaceDefensiveItem(Vector2I mouse_map_pos)
     {
 		Dictionary<string, Vector2I> defenses = upgrade_items_by_name.GetValueOrDefault("defense");
-		if (farm_tile_coordinates.Contains(mouse_map_pos) || water_tile_coordinates.Contains(mouse_map_pos))
+		string infoMessage = "";
+		if (farm_tile_coordinates.IndexOf(mouse_map_pos) != -1 || water_tile_coordinates.IndexOf(mouse_map_pos) != -1)
 		{
+			infoMessage = "Cannot place item at farm or water!";
 			GD.Print("Cannot place item at farm or water!");
 		} else
 		{
@@ -231,12 +254,12 @@ public partial class FarmManager : TileMapLayer
 		{
 			Vector2I fence_tile = defenses.GetValueOrDefault("fence");
 			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, selected_defense_item, true, 2, mouse_map_pos));
-			SetCell(mouse_map_pos, usable_items_id, fence_tile);
+			SetCell(mouse_map_pos, usable_defense_items_id, fence_tile);
 		} else if (selected_defense_item.Equals("stone_wall"))
 		{
 			Vector2I stonewall_tile = defenses.GetValueOrDefault("stone_wall");
 			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, selected_defense_item, true, 4, mouse_map_pos));
-			SetCell(mouse_map_pos, usable_items_id, stonewall_tile);
+			SetCell(mouse_map_pos, usable_defense_items_id, stonewall_tile);
 		} else
 			{
 				GD.Print("Unknown item type!");
@@ -244,8 +267,9 @@ public partial class FarmManager : TileMapLayer
 			} 
 				
 			}
-		}
 			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
+		}
+			UpdateInfoText(infoMessage);
     }
 
 	 private void PlaceDistractionItem(Vector2I mouse_map_pos)
@@ -253,6 +277,7 @@ public partial class FarmManager : TileMapLayer
 		Dictionary<string, Vector2I> defenses = upgrade_items_by_name.GetValueOrDefault("distraction");
 		if (farm_tile_coordinates.Contains(mouse_map_pos) || water_tile_coordinates.Contains(mouse_map_pos))
 		{
+			UpdateInfoText("Cannot place item at farm or water!");
 			GD.Print("Cannot place item at farm or water!");
 		} else
 		{
@@ -263,17 +288,17 @@ public partial class FarmManager : TileMapLayer
 			{
 				Vector2I item_tile = defenses.GetValueOrDefault("camp_fire");
 				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 4, 3, true, 2, mouse_map_pos));
-				SetCell(mouse_map_pos, usable_items_id, item_tile);
+				SetCell(mouse_map_pos, usable_distraction_items_id, item_tile);
 			} else if (selected_distraction_item.Equals("noise_maker"))
 			{
 				Vector2I noise_maker_tile = defenses.GetValueOrDefault("noise_maker");
 				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 10, 5, false, 0, mouse_map_pos));
-				SetCell(mouse_map_pos, usable_items_id, noise_maker_tile);
+				SetCell(mouse_map_pos, usable_distraction_items_id, noise_maker_tile);
 			} else if (selected_distraction_item.Equals("beehive"))
 			{
 				Vector2I beehive_tile = defenses.GetValueOrDefault("beehive");
 				placed_distraction_items.Add(new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 10, 2, true, 5, mouse_map_pos));
-				SetCell(mouse_map_pos, usable_items_id, beehive_tile);
+				SetCell(mouse_map_pos, usable_distraction_items_id, beehive_tile);
 			} 
 			}
 		}
@@ -286,7 +311,7 @@ public partial class FarmManager : TileMapLayer
 			GD.Print("Item not found!");
 		} else
 		{	
-			SetCell(coordinates,0, new Vector2I(1,0));
+			SetCell(coordinates,0, new Vector2I(0,0));
 			if ("defense".Equals(item_type))
 		{
 			placed_defense_items.RemoveAt(index);
@@ -379,30 +404,66 @@ public partial class FarmManager : TileMapLayer
 		15% all plants
 
 	*/
-	public void OnCollidedWithFarm(Vector2I elephant_position)
+	public void OnElephantCollidedWithFarm(Vector2I elephant_position)
 	{
 		int plantCount = plants.Count;
 		if (plantCount > 0 )
 		{
 			GD.Print(elephant_position);
 			int elephant_walking_line = elephant_position.Y;
-			List<Plant> plants_on_line = plants.FindAll(plant => plant.GetCoordinates().Y == elephant_position.Y|| plant.GetCoordinates().X == elephant_position.X);
+			List<Plant> plants_on_line = plants.FindAll(plant => plant.GetCoordinates().Y == elephant_position.Y);
 			if (plants_on_line.Count > 0)
 			{
 				var plant_roll = GD.Randf();
-				//50% chance to be destroyed if it is the only plant
-				if (plants_on_line.Count == 1 && plant_roll > 0.50f)
+				if (plants_on_line.Count == 1)
 				{
-					Plant plant_to_be_destroyed = plants_on_line[0];
-					RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+					if (plant_roll > 0.50f)
+					{
+						Plant plant_to_be_destroyed = plants_on_line[0];
+						RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+					}
+				} else
+				{
+					if (plant_roll <= 0.60f)
+					{
+						DestroyRandomPlant(plants_on_line);
+					}
+				}
+				//50% chance to be destroyed if it is the only plant
+				/* if (plants_on_line.Count == 1)
+				{
+					if (plant_roll > 0.50f)
+					{
+						Plant plant_to_be_destroyed = plants_on_line[0];
+						RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+					}
 				} else if (plants_on_line.Count > 1)
 				{
-					if (plant_roll < 0.50f)
+					if (plant_roll > 0.60f)
+					{
+						//Common case so one plant is randomly destroyed
+                        DestroyRandomPlant(plants_on_line);
+					}
+					} else if (plant_roll > 0.80f)
+					{
+						int half_plants = (int) plants_on_line.Count / 2;
+						for (int i=0; i < half_plants; i++)
+					{
+						DestroyRandomPlant(plants_on_line);
+					}
+					}
+					else if (plant_roll < 0.10f)
+					{
+						foreach(Plant plant in plants_on_line)
+						{
+							RemovePlantAtCoordinates(plant.GetCoordinates());
+						} */
+					/* if (plant_roll < 0.50f)
                     {
                         //Common case so one plant is randomly destroyed
                         DestroyRandomPlant(plants_on_line);
                     }
-                    else if (plant_roll > 0.65f)
+                    else if (plant_roll < 0.30f)
 					{
 						DestroyRandomPlant(plants_on_line);
 						DestroyRandomPlant(plants_on_line);
@@ -412,18 +473,60 @@ public partial class FarmManager : TileMapLayer
 						{
 							RemovePlantAtCoordinates(plant.GetCoordinates());
 						}
-					}
+					} */
 				}
 			}
-		}				
+					
+	}
+
+	public void OnElephantCollidedWithItem(Vector2I itemTileCoords, string itemType, Elephant elephant)
+	{
+		GD.Print("Elephant collided with an item here!");
+		int index = FindItemAtCoordinates(itemTileCoords, itemType);
+		if (index == -1)
+		{
+			return;
+		}
+		if ("distraction".Equals(itemType))
+		{
+			DistractionItem item = placed_distraction_items[index];
+			GD.Print("Elephant collided with distraction item of type:", item.GetType());
+			
+		} else if ("defense".Equals(itemType))
+		{
+			DefenseItem item = placed_defense_items[index];
+			if (item.GetIsBreakable())
+			{
+				int currentHealth = item.GetHealth();
+				GD.Print("Item: " + item.GetItemName() + " has health left: " + currentHealth);
+				if (currentHealth-1 == 0 || currentHealth == 0)
+				{
+					item.SetHealth(currentHealth-1);
+					DestroyItemAtCoordinates(itemType, item.GetCoordinates());
+				} else if (currentHealth > 0)
+				{
+					item.SetHealth(currentHealth-1);
+				}
+					elephant.OnPushBack();
+
+			}
+
+			
+		}
 	}
 
     private void DestroyRandomPlant(List<Plant> plants_on_line)
     {
-        int random_index = GD.RandRange(0, plants_on_line.Count);
-        Plant plant_to_be_destroyed = plants_on_line[random_index];
-        RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-		plants_on_line.Remove(plant_to_be_destroyed);
+        	int random_index = GD.RandRange(0, plants_on_line.Count-1);
+			if (random_index == -1 || random_index > plants_on_line.Count)
+			{
+				return;
+			} else
+			{
+        		Plant plant_to_be_destroyed = plants_on_line[random_index];
+        		RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+				plants_on_line.Remove(plant_to_be_destroyed);
+			}
     }
 
     public Godot.Collections.Array<Vector2I> GetFarmTileCoordinates()
@@ -434,7 +537,7 @@ public partial class FarmManager : TileMapLayer
 
 	public Godot.Collections.Array<Vector2I> GetTilesWithItemsCoordinates()
 	{
-		tiles_with_items_coordinates ??= GetUsedCellsById(usable_items_id);
+		tiles_with_items_coordinates ??= GetUsedCellsById(usable_distraction_items_id) + GetUsedCellsById(usable_defense_items_id);
 		return tiles_with_items_coordinates;
 	}
 	private void PlacePlant(Vector2I position)
@@ -638,8 +741,8 @@ public partial class FarmManager : TileMapLayer
 		Dictionary<string, Vector2I> defenseDic = new()
 
         {
-            { "fence", new Vector2I(1,2) },
-            { "stone_wall", new Vector2I(0, 2) },
+            { "fence", new Vector2I(1,0) },
+            { "stone_wall", new Vector2I(0, 0) },
         };
 		upgrade_items_by_name.Add("defense", defenseDic);
 

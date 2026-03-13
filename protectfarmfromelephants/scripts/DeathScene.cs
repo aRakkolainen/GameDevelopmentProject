@@ -20,19 +20,19 @@ public partial class DeathScene : Control
 
 	public static void On_restart_button_pressed()
 	{
-		string current_level = LevelManager.Instance.GetCurrentActiveLevel();
+		int current_level = LevelManager.Instance.GetCurrentActiveLevel();
 		switch (current_level)
 		{
-			case "level_1":
+			case 1:
 				LevelManager.Instance.LoadLevel(Scenes.Levels.level_1);
 				break;
-			case "level_2":
+			case 2:
 				LevelManager.Instance.LoadLevel(Scenes.Levels.level_2);
 				break;
-			case "level_3":
+			case 3:
 				LevelManager.Instance.LoadLevel(Scenes.Levels.level_3);
 				break;
-			case "":
+			case 0:
 				GD.Print("Active level not found, unable to restart, returning main menu");
 				LevelManager.Instance.LoadLevel(Scenes.Menus.main_menu);
 				break;

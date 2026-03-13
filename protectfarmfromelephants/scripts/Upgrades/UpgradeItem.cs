@@ -8,14 +8,17 @@ public class UpgradeItem
     string name;
 
     string type;
+
+    string description;
     int total_in_stock;
 
     int price;
 
-    public UpgradeItem(string id, string item_name, string item_type, int amount, int item_price)
+    public UpgradeItem(string id, string item_name, string desc, string item_type, int amount, int item_price)
     {
         ID = id; 
         name = item_name;
+        description = desc;
         type = item_type;
         total_in_stock = amount;
         price = item_price;
@@ -35,6 +38,11 @@ public class UpgradeItem
     public string GetItemType()
     {
         return type;
+    }
+
+    public string GetDescription()
+    {
+        return description;
     }
 
     public int GetTotalInStock()

@@ -13,7 +13,7 @@ public partial class SellingDeskManager : TextureButton
 	
 
 	private SpinBox fruitAmountToBeSoldSpinBox;
-	private string currentLevel;
+	private int currentLevel;
 	private LevelData currentLevelData; 
 
 
