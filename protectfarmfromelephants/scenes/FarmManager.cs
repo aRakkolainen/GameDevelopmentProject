@@ -185,8 +185,11 @@ public partial class FarmManager : TileMapLayer
 						GD.Print("Plant is not ready yet!");
 					}
 					}
+					if (plants.Count > 0 && plant_index != -1)
+				{
 					
 					PickUpPlant(mouse_map_pos, plant_index);
+				}
 					
                 }
 
@@ -195,10 +198,13 @@ public partial class FarmManager : TileMapLayer
                 WaterPlant(mouse_map_pos);
             }
 
-			if (plants.Count == 0 && defense_item_clicked || distraction_item_clicked)
+			if (plants.Count == 0)
 			{
-				GD.Print("You have to plant at least one seed before you can protect them!");
-				UpdateInfoText("You have to plant at least one seed before you can protect them!");
+				if (defense_item_clicked || distraction_item_clicked)
+				{
+					GD.Print("You have to plant at least one seed before you can protect them!");
+					UpdateInfoText("You have to plant at least one seed before you can protect them!");
+				}
 			}
 
             //Checking if there already are plants in this farm:

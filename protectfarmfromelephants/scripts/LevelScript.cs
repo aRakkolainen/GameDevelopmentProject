@@ -97,7 +97,7 @@ public partial class LevelScript : Node2D
         } else{
             GD.Print("You failed to fill the quota!");
             LevelManager.Instance.LoadLevel(Scenes.Levels.death_scene);
-           // ResetLevel();
+           ResetLevel();
             
         }
         } else {
@@ -119,9 +119,8 @@ public partial class LevelScript : Node2D
             if (sold_quota < expected_quota)
             {
                 _player.Die();
-                //ResetLevel();
+                ResetLevel();
                 LevelManager.Instance.LoadLevel(Scenes.Levels.death_scene);
-                //To-do instiate death scene
             } else
             {
                 LoadNextLevel();
@@ -210,7 +209,7 @@ public partial class LevelScript : Node2D
             _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
         }
         //_player.ClearInventory();
-        LevelManager.Instance.ResetLevelQuota();
+        LevelManager.Instance.ResetLevel();
     }
 
     public LevelData GetLevelData()

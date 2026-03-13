@@ -84,7 +84,7 @@ public static class Scenes
 }
 
 // Source for singleton: https://csharpindepth.com/articles/singleton 
-// Singleton is used because there is need for only one instance of level manager. 
+// Singleton is used because there is need for only one instance of level manager that handles all data related to the levels. 
 public partial class LevelManager : Node
 {
     public static LevelManager Instance {get; private set; }
@@ -215,6 +215,13 @@ public bool UpdateLevelQuota(int sold_fruits)
             return true;
         }
         return false;
+    }
+
+public void ResetLevel()
+    {
+        levels.Clear();
+        InitializeLevelData();
+        
     }
 
 public void ResetLevelQuota()
