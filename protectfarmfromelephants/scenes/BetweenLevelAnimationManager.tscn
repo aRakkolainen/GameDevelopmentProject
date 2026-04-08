@@ -108,4 +108,4 @@ script = ExtResource("1_eymsg")
 position = Vector2(576, 323)
 scale = Vector2(0.6, 0.601852)
 sprite_frames = SubResource("SpriteFrames_ae8td")
-animation = &"eat_player"
+animation = &"eat_watermelon"

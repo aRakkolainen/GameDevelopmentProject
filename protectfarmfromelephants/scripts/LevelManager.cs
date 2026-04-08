@@ -13,6 +13,7 @@ public static class Scenes
 
         public const string level_3 = "uid://c581mkch3llep";
 
+        public const string start_cut_scene = "uid://m8plw4kg2tcy";
         public const string death_scene = "uid://bgu6ommdupkm";
 
         public const string final_scene = "uid://dkubfth2lqt5x";

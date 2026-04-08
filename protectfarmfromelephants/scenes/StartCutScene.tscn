@@ -1,45 +1,58 @@
-[gd_scene load_steps=8 format=3 uid="uid://m8plw4kg2tcy"]
+[gd_scene load_steps=9 format=3 uid="uid://m8plw4kg2tcy"]
 
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_1.png" id="1_ynved"]
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_2.png" id="2_gh7cf"]
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_3.png" id="3_gef1r"]
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_4.png" id="4_7qtgq"]
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_5.png" id="5_0104w"]
-[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_6.png" id="6_b00ir"]
+[ext_resource type="Script" path="res://scripts/StartCutScene.cs" id="1_14o4g"]
+[ext_resource type="Texture2D" uid="uid://byns8k6m4ptr0" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_1.png" id="2_oj56n"]
+[ext_resource type="Texture2D" uid="uid://b3a1sqxaqcbu4" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_2.png" id="3_x623t"]
+[ext_resource type="Texture2D" uid="uid://33ioqv10joe5" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_3.png" id="4_t2umq"]
+[ext_resource type="Texture2D" uid="uid://df36i1slqqnrd" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_4.png" id="5_ywxn6"]
+[ext_resource type="Texture2D" uid="uid://c77utlgko8jve" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_5.png" id="6_rqgma"]
+[ext_resource type="Texture2D" uid="uid://2e7pwmsfuetq" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_6.png" id="7_fxafe"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m6pgv"]
 animations = [{
 "frames": [{
-"duration": 2.0,
-"texture": ExtResource("1_ynved")
+"duration": 1.0,
+"texture": ExtResource("2_oj56n")
 }, {
 "duration": 2.0,
-"texture": ExtResource("2_gh7cf")
+"texture": ExtResource("2_oj56n")
 }, {
 "duration": 2.0,
-"texture": ExtResource("3_gef1r")
+"texture": ExtResource("3_x623t")
 }, {
 "duration": 2.0,
-"texture": ExtResource("4_7qtgq")
+"texture": ExtResource("4_t2umq")
 }, {
 "duration": 2.0,
-"texture": ExtResource("5_0104w")
+"texture": ExtResource("5_ywxn6")
 }, {
 "duration": 2.0,
-"texture": ExtResource("6_b00ir")
+"texture": ExtResource("6_rqgma")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fxafe")
 }],
 "loop": false,
 "name": &"start",
-"speed": 4.0
+"speed": 1.0
 }]
 
-[node name="Node2D" type="Node2D"]
+[node name="StartCutScene" type="Node2D"]
+script = ExtResource("1_14o4g")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="StartScenePlayer" type="AnimatedSprite2D" parent="."]
 position = Vector2(584, 328)
 scale = Vector2(0.604167, 0.603704)
 sprite_frames = SubResource("SpriteFrames_m6pgv")
 animation = &"start"
 autoplay = "start"
-frame = 5
-frame_progress = 1.0
+speed_scale = 0.25
+
+[node name="SkipButton" type="Button" parent="."]
+offset_left = 1056.0
+offset_top = 584.0
+offset_right = 1144.0
+offset_bottom = 640.0
+text = "SKIP"
+
+[connection signal="pressed" from="SkipButton" to="." method="OnSkipButtonPressed"]

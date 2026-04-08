@@ -14,7 +14,7 @@ public partial class MainMenu : Control
 		GD.Print("Pressed Start Button");
 		LevelManager.Instance.SetCurrentActiveLevel(1);
 		LevelManager.Instance.InitializeLevelData();
-		LevelManager.Instance.LoadLevel(Scenes.Levels.level_1);
+		LevelManager.Instance.LoadLevel(Scenes.Levels.start_cut_scene);
 		
 		
 	}
