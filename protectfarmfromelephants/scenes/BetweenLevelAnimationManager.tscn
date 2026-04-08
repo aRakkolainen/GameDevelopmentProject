@@ -1,0 +1,111 @@
+[gd_scene load_steps=22 format=3 uid="uid://cugj4r5nmh6hj"]
+
+[ext_resource type="Script" path="res://scripts/LevelTransitionAnimations.cs" id="1_eymsg"]
+[ext_resource type="Texture2D" uid="uid://yfn27cuv1463" path="res://assets/cut_scenes/level_2_win_scene/eating_mango_1.png" id="2_bf4nu"]
+[ext_resource type="Texture2D" uid="uid://wfspdfygn3yi" path="res://assets/cut_scenes/level_2_win_scene/eating_mango_2.png" id="3_qijxw"]
+[ext_resource type="Texture2D" uid="uid://bc1yov2a8rnt6" path="res://assets/cut_scenes/level_2_win_scene/eating_mango_3.png" id="4_erc1s"]
+[ext_resource type="Texture2D" uid="uid://dsjswxrx2g6wh" path="res://assets/cut_scenes/level_2_win_scene/eating_mango_4.png" id="5_dxjeo"]
+[ext_resource type="Texture2D" uid="uid://bnxr8tupcadmk" path="res://assets/cut_scenes/level_1_win_scene/eating_pineapple_1.png" id="6_m0ot8"]
+[ext_resource type="Texture2D" uid="uid://0rh07jcsb7ed" path="res://assets/cut_scenes/level_1_win_scene/eating_pineapple_2.png" id="7_i3wmm"]
+[ext_resource type="Texture2D" uid="uid://c1dtfxepicg5u" path="res://assets/cut_scenes/level_1_win_scene/eating_pineapple_3.png" id="8_6blmt"]
+[ext_resource type="Texture2D" uid="uid://dp6qmrupd4xu3" path="res://assets/cut_scenes/level_1_win_scene/eating_pineapple_4.png" id="9_jk882"]
+[ext_resource type="Texture2D" uid="uid://8prjflan65j3" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_1.png" id="10_3jr31"]
+[ext_resource type="Texture2D" uid="uid://bnydd0aii7wgx" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_2.png" id="11_wcn2b"]
+[ext_resource type="Texture2D" uid="uid://5optjjsvgu6d" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_3.png" id="12_3eayh"]
+[ext_resource type="Texture2D" uid="uid://omu1srugdcuo" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_4.png" id="13_pf0lp"]
+[ext_resource type="Texture2D" uid="uid://djcty7i0i0eyg" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_5.png" id="14_ata8h"]
+[ext_resource type="Texture2D" uid="uid://c47pl2gevrkpq" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_6.png" id="15_fvqnn"]
+[ext_resource type="Texture2D" uid="uid://dhdvfaid3msy7" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_7.png" id="16_qeim7"]
+[ext_resource type="Texture2D" uid="uid://ctyvurcopvnia" path="res://assets/cut_scenes/level_3_win_scene/eating_watermelon_1.png" id="17_48t8j"]
+[ext_resource type="Texture2D" uid="uid://bp46pb511jn5" path="res://assets/cut_scenes/level_3_win_scene/eating_watermelon_2.png" id="18_nrhjo"]
+[ext_resource type="Texture2D" uid="uid://i8pj4ik7ymq6" path="res://assets/cut_scenes/level_3_win_scene/eating_watermelon_3.png" id="19_6no5o"]
+[ext_resource type="Texture2D" uid="uid://coeyffiwjnuh3" path="res://assets/cut_scenes/level_3_win_scene/eating_watermelon_4.png" id="20_y2us2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ae8td"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bf4nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qijxw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_erc1s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_dxjeo")
+}],
+"loop": false,
+"name": &"eat_mango",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_m0ot8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_i3wmm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6blmt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jk882")
+}],
+"loop": false,
+"name": &"eat_pineapple",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_3jr31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_wcn2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3eayh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_pf0lp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ata8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_fvqnn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_qeim7")
+}],
+"loop": false,
+"name": &"eat_player",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_48t8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_nrhjo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_6no5o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_y2us2")
+}],
+"loop": false,
+"name": &"eat_watermelon",
+"speed": 2.0
+}]
+
+[node name="AnimationManager" type="Node2D"]
+script = ExtResource("1_eymsg")
+
+[node name="BetweenLevelsAnimations" type="AnimatedSprite2D" parent="."]
+position = Vector2(576, 323)
+scale = Vector2(0.6, 0.601852)
+sprite_frames = SubResource("SpriteFrames_ae8td")
+animation = &"eat_player"

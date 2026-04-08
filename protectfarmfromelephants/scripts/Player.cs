@@ -41,6 +41,10 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerTriedToPlantSeedEventHandler();
 
+	[Signal] public delegate void PlayerTriedToUseFertilizerEventHandler();
+
+	[Signal] public delegate void PlayerTriedToPlantDistractionPlantEventHandler(string item_name);
+
 	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler(string item_name);
 
 	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(string item_name);
@@ -92,12 +96,19 @@ public partial class Player : CharacterBody2D
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantSeed);
 			selectedItem = item_type;
+		} else if (item_type.Equals("boost"))
+			{
+				EmitSignal(SignalName.PlayerTriedToUseFertilizer);
+			
 		} else if (item_type.Equals("defense"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlaceDefenseItem, item_name);
 		} else if (item_type.Equals("distraction"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlaceDistractionItem, item_name);
+		} else if (item_type.Equals("plant_distraction"))
+		{
+			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, item_name);
 		}
 	}
 
@@ -105,59 +116,6 @@ public partial class Player : CharacterBody2D
 	{
 		holdItem = false;
 	}
-
-	/* public void RemoveFromInventory(InventoryItem item)
-    {
-        inventory.Remove(item);
-    }
-
-	public int FindIndexForItemInInventory(InventoryItem item)
-	{
-		return inventory.FindIndex(i=> i.GetItemName() == item.GetItemName());
-	} */
-
-	/* public int GetNumberOfSeedsAvailable()
-	{
-		
-		int index = inventory.FindIndex(i => i.GetItemName() == level.GetPlantType()+"_seeds");
-		if (index == -1)
-		{
-			GD.Print("No seeds in inventory!");
-			return 0;
-		} else
-		{
-			return inventory[index].GetQuantity();
-		}
-	}
-
-	public void SetNumberOfSeedsAvailable(int count)
-	{
-		int index = inventory.FindIndex(i => i.GetItemName() == level.GetPlantType()+"_seeds");
-		if (index == -1)
-		{
-			GD.Print("No seeds found, cannot update");
-		} else
-		{
-			inventory[index].SetQuantity(count);
-		}
-	}
-
-
-
-	public void ClearInventory()
-	{
-		inventory.Clear();
-	}
-
-	public  List<InventoryItem> GetInventoryList()
-	{
-		return inventory;
-	}
-
-	public int GetInventoryCount()
-	{
-		return inventory.Count;
-	} */
 
 	public void Die()
     {

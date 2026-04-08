@@ -62,12 +62,19 @@ public partial class LevelScript : Node2D
         _change_day_dialog.CloseRequested += OnDialogCloseRequested;
         _change_day_dialog.Confirmed += OnDialogConfirmed;
         _sell_popup = GetNode<SellPopup>("SellPopup");
+        if (!timer.IsInsideTree())
+        {
+            AddChild(timer);
+        }
         timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
         timer.StartTimer(level.GetLevelTotalDays());
         _elephant_timer.Start();
         total_enemies = GD.RandRange(level.GetLevelMininumEnemies(), level.GetLevelMaximumEnemies());
         elephants = new Node2D();
-        AddChild(elephants);
+        if (!elephants.IsInsideTree())
+        {
+            AddChild(elephants);
+        }
         }
 
 
@@ -114,16 +121,22 @@ public partial class LevelScript : Node2D
         // LevelData level1 = LevelManager.Instance.GetLevelData("level_1");
         int sold_quota = level.GetCurrentQuota();
         int expected_quota = level.GetExpectedQuota();
+        if (sold_quota >= expected_quota)
+        {
+            LoadInBetweenLevelsAnimation();
+        }
+
         if(timer.GetDaysLeft() == 0)
         {
             if (sold_quota < expected_quota)
             {
                 _player.Die();
-                ResetLevel();
                 LevelManager.Instance.LoadLevel(Scenes.Levels.death_scene);
+                LevelManager.Instance.SetPlayerHasFailed(true);
+                ResetLevel();
             } else
             {
-                LoadNextLevel();
+                LoadInBetweenLevelsAnimation();
             }
         } else
         {
@@ -131,18 +144,10 @@ public partial class LevelScript : Node2D
         }
     }
 
-    private void LoadNextLevel()
+    private void LoadInBetweenLevelsAnimation()
     {
-        GD.Print("Move to next level");
-        LevelManager.Instance.SetCurrentActiveLevel(level_num + 1);
-        if (LevelManager.Instance.GetCurrentActiveLevel() == 2)
-        {
-            LevelManager.Instance.LoadLevel(Scenes.Levels.level_2);
-        }
-        else if (LevelManager.Instance.GetCurrentActiveLevel() == 3)
-        {
-            LevelManager.Instance.LoadLevel(Scenes.Levels.level_3);
-        }
+        GD.Print("Move to next level after animation");
+        LevelManager.Instance.LoadLevel(Scenes.Levels.between_levels_animations_scene);
     }
 
 
@@ -159,7 +164,7 @@ public partial class LevelScript : Node2D
                 //To-do instiate death scene
             } else
             {
-                LoadNextLevel();
+                LoadInBetweenLevelsAnimation();
             }
         } else
         {
@@ -246,7 +251,7 @@ public partial class LevelScript : Node2D
         GD.Print("Elephant should spawn at location:" + spawnLocation);
         //if(spawned_enemies <= total_enemies)
         //{
-		    elephants.AddChild(elephant);
+		    AddChild(elephant);
             elephant.CollidedWithFarm += _farmManager.OnElephantCollidedWithFarm;
             elephant.CollidedWithItem += _farmManager.OnElephantCollidedWithItem;
             //GD.Print("Listeners:", GetSignalConnectionList("CollidedWithFarm").Count);

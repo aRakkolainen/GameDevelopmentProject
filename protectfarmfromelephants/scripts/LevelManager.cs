@@ -16,6 +16,8 @@ public static class Scenes
         public const string death_scene = "uid://bgu6ommdupkm";
 
         public const string final_scene = "uid://dkubfth2lqt5x";
+
+        public const string between_levels_animations_scene = "uid://cugj4r5nmh6hj";
     }
 
     public static class Menus
@@ -33,12 +35,15 @@ public static class Scenes
 
         public const string watering_can = "uid://c3ihe0pog17dn";
 
+        public const string watering_can_upgrade = "uid://djcjvikkirh2c";
+
         public const string pineapple_seeds = "uid://us6jgf8ncy05";
 
         public const string watermelon_seeds = "uid://dmknr85vipb6w";
 
         public const string mango_seeds = "uid://w6xhmdwunej0";
 
+        public const string fertilizer_boost = "uid://c1spdm8mymlen";
     }
 
     public static class UpgradeItemTextures
@@ -57,6 +62,10 @@ public static class Scenes
 
         public const string sunflower = "uid://ddr1biyrusl2w";
 
+        public const string watering_can_upgrade = "uid://djcjvikkirh2c";
+
+        public const string fertilizer_boost = "uid://c1spdm8mymlen";
+
     }
 
     public static class UpgradeItemDescriptions
@@ -67,17 +76,19 @@ public static class Scenes
 
          public const string camp_fire = "Light source to distract elephants";
 
-        public const string noise_maker = "Stereos to make noise distraction \n Note that only one can be active at once!";
+        public const string noise_maker = "Stereos to make noise distraction, activated once!";
 
         public const string beehive = "Bees to scare the elephants";
 
-        public const string chili = "Chili seeds to be grown so the farm is less appealing to elephants, sometimes source of extra money";
+        public const string chili = "Smell of chili is not appealing for elephants";
 
-        public const string sunflower = "Sunflower seeds to be grown so the farm is less appealing to elephants, source of extra money";
+        public const string sunflower = "Elephants don't like sunflowers so grow them to protect farm";
 
         public const string extra_seeds = "Extra seeds for the level";
 
         public const string fertilizer = "Use on the plant to boost its growth";
+
+        public const string watering_can_upgrade = "Increase capacity of watering can by 5 tiles";
 
 
     }
@@ -97,6 +108,10 @@ public partial class LevelManager : Node
     private int money_available;
 
     private int watering_can_level;
+
+    private int watering_can_total_level = 10;
+
+    private bool player_has_failed;
 
     public override void _Ready()
     {
@@ -131,8 +146,9 @@ public void InitializeLevelData()
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
             new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 4),
             new UpgradeItem("005", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
-            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "distraction", 10, 6),
-            //new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 15)
+            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 6),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 3),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 5)
         };
 
         List<UpgradeItem> level_2_upgrades = new()
@@ -141,9 +157,10 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 1),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
             new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 2, 4),
-            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "distraction", 15, 6),
+            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 6),
             new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10),
-            new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 20)
+            new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 20),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 10)
         };
 
         List<UpgradeItem> level_3_upgrades = new()
@@ -154,8 +171,9 @@ public void InitializeLevelData()
             new UpgradeItem("003", "beehive", Scenes.UpgradeItemDescriptions.beehive, "distraction", 10, 2),
             new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
             new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 1, 4),
-            new UpgradeItem("006", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "distraction", 15, 8),
-            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 25)
+            new UpgradeItem("006", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 8),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 25),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 15)
         };
 
         LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 30, 30, 1, level_1_upgrades);
@@ -185,6 +203,17 @@ public void SetPlayerInventory(List<InventoryItem> items)
     {
         player_inventory = items;
     }
+
+public bool GetPlayerHasFailed()
+    {
+        return player_has_failed;
+    }
+
+public void SetPlayerHasFailed(bool failed)
+    {
+        player_has_failed = failed;
+    }
+
 
 public LevelData GetLevelDataForActiveLevel()
     {
@@ -221,6 +250,7 @@ public void ResetLevel()
     {
         levels.Clear();
         InitializeLevelData();
+        player_has_failed = false;
         
     }
 
@@ -265,6 +295,10 @@ public string GetTextureByItemName(string item_type)
             case "watering_can":
 				texture = Scenes.ItemTextures.watering_can;
 				break;
+
+            case "watering_can_upgrade":
+                texture = Scenes.ItemTextures.watering_can_upgrade;
+                break;
             case "pineapple_seeds":
 				texture = Scenes.ItemTextures.pineapple_seeds;
 				break;
@@ -304,6 +338,9 @@ public string GetTextureByItemName(string item_type)
 			case "sunflower":
 				texture = Scenes.UpgradeItemTextures.sunflower;
 				break;	
+            case "fertilizer":
+                texture = Scenes.ItemTextures.fertilizer_boost;
+                break;
 
 			case "seeds":
 				LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -339,6 +376,22 @@ public string GetTextureByItemName(string item_type)
     public void SetWateringCanLevel(int num)
     {
         watering_can_level = num;
+    }
+
+    public int GetWateringCanTotalLevel()
+    {
+        return watering_can_total_level;
+    }
+
+    public void SetWateringCanTotalLevel(int num)
+    {
+        watering_can_total_level = num;
+    }
+
+    public string GetCurrentLevelPlantType()
+    {
+        return GetLevelDataForActiveLevel().GetPlantType();
+
     }
 
 }

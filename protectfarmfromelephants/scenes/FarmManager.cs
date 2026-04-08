@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Numerics;
+using System.Threading;
 //Source for this was this YouTube tutorial: https://www.youtube.com/watch?v=4qEOdviP1yA
 public partial class FarmManager : TileMapLayer
 {
@@ -31,11 +32,13 @@ public partial class FarmManager : TileMapLayer
 
 	private Dictionary<String, Dictionary<string, Vector2I>> upgrade_items_by_name;
 
-	private string[] plant_types = {"pineapple", "watermelon"};
+	private string[] plant_types = {"pineapple", "watermelon", "mango", "chili", "sunflower"};
 
 	private int active_level; 
 
 	private string plant_type;
+
+	private string distraction_plant_type;
 
 	private int number_of_seeds_in_player_inventory = 0;
 	private LevelData level_data;
@@ -43,7 +46,9 @@ public partial class FarmManager : TileMapLayer
 	private LevelManager level_manager;
 	private bool seeds_clicked = false; 
 
-	private bool watering_can_clicked = false;
+	private bool other_plant_type_clicked = false;
+    private bool watering_can_clicked = false;
+    private bool fertilizer_clicked = false;
 
 	private bool defense_item_clicked = false;
 
@@ -80,7 +85,7 @@ public partial class FarmManager : TileMapLayer
 
 	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler();
 
-	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I tileCoords);
+	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I tileCoords, Elephant elephant);
 
 	[Signal] public delegate void CollidedWithItemEventHandler(Vector2I tileCoords, string itemType, Elephant elephant);
 
@@ -92,7 +97,7 @@ public partial class FarmManager : TileMapLayer
 		level_manager = LevelManager.Instance;
 		farm_tile_coordinates = GetUsedCellsById(farm_source_id);
 		water_tile_coordinates = GetUsedCellsById(water_lake_id);
-		initializePlantTypesAndPhases();
+		InitializePlantTypesAndPhases();
 		initializeUpgradeItems();
 		active_level = level_manager.GetCurrentActiveLevel();
 		level_data = level_manager.GetLevelData(active_level);
@@ -186,25 +191,18 @@ public partial class FarmManager : TileMapLayer
 				UpdateInfoText("You are trying to plant outside the farm tiles!");
             }
             else
-                {
-					int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
-					if (seeds_clicked)
-					{
-						if (plant_index == -1)
-					{
-						PlacePlant(mouse_map_pos);
-					}	else
-					{
-						GD.Print("Already planted!");
-					}
-					}
-					if (plants.Count > 0 && plant_index != -1)
+            {
+                int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
+				
+                InteractWithPlant(mouse_map_pos, plant_index);
+
+				if (plant_index != -1 && fertilizer_clicked && _inventory.GetItemQuantityInInvetory("fertilizer") > 0)
 				{
-					
-					PickUpPlant(mouse_map_pos, plant_index);
+					UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), plants[plant_index].GetGrowthPhase()+1);
+					EmitSignal(SignalName.UpdatedItemCount, "fertilizer", 1, "decrease");
 				}
-					
-                }
+
+            }
 
             if (watering_can_clicked)
             {
@@ -239,14 +237,46 @@ public partial class FarmManager : TileMapLayer
 
     }
 
+    private void InteractWithPlant(Vector2I mouse_map_pos, int plant_index)
+    {
+		string plant_type = "";
+		if (other_plant_type_clicked)
+		{
+			plant_type = distraction_plant_type;
+		} else if (seeds_clicked)
+		{
+			plant_type = LevelManager.Instance.GetCurrentLevelPlantType();
+		}
+		
+        if (plant_index == -1 && (seeds_clicked || other_plant_type_clicked))
+        {
+            PlacePlant(mouse_map_pos, plant_type);
+        }
+        else
+            {
+                GD.Print("Already planted!");
+            }
+        if (plants.Count > 0 && plant_index != -1)
+        {
+
+            PickUpPlant(mouse_map_pos, plant_index);
+        }
+    }
+
+
     private void ActivateNoiseMaker(DistractionItem noise_maker)
     {
         GD.Print(noise_maker.GetEffectDuration());
 		if (active_noise_maker == null)
 		{
-			Timer distractionDurationTimer = GetNode<Timer>("DistractionDurationTimer");
-			distractionDurationTimer.WaitTime = noise_maker.GetEffectDuration();
-			distractionDurationTimer.Start();
+            Godot.Timer noiseMakerDuractionTimer = new Godot.Timer
+            {
+                WaitTime = noise_maker.GetEffectDuration(),
+				OneShot = true
+            };
+			AddChild(noiseMakerDuractionTimer);
+			noiseMakerDuractionTimer.Timeout +=  OnNoiseMakerTimeOut;
+            noiseMakerDuractionTimer.Start();
 			distractionAudioPlayer.Play();
 			active_noise_maker = noise_maker;
 		} else
@@ -255,7 +285,7 @@ public partial class FarmManager : TileMapLayer
 		}
     }
 
-	private void OnDistractionDurationTimerTimeout()
+	private void OnNoiseMakerTimeOut()
 	{
 		distractionAudioPlayer.Stop();
 		if (active_noise_maker != null)
@@ -368,7 +398,7 @@ public partial class FarmManager : TileMapLayer
 			} else if (selected_distraction_item.Equals("noise_maker"))
 			{
 				Vector2I noise_maker_tile = distractions.GetValueOrDefault("noise_maker");
-				DistractionItem noise_maker = new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 25, 5, false, 0, mouse_map_pos);
+				DistractionItem noise_maker = new DistractionItem(placed_distraction_items.Count+1, selected_distraction_item, true, 15, 5, false, 0, mouse_map_pos);
 				if (active_noise_maker == null)
 					{
 						placed_distraction_items.Add(noise_maker);
@@ -429,6 +459,18 @@ public partial class FarmManager : TileMapLayer
 		SelectNewAndResetOtherSelections("seeds");
 	}
 
+	public void OnPlayerTriedToUseFertilizer()
+	{
+		GD.Print("You are trying to fertilize plant");
+		SelectNewAndResetOtherSelections("fertilizer");
+	}
+
+	public void OnPlayerTriedToPlantDistractionPlant(string plant_name)
+	{
+		GD.Print("You are trying to plant " + plant_name);
+		distraction_plant_type = plant_name;
+		SelectNewAndResetOtherSelections("distraction_plant");
+	}
 
 	public void OnPlayerTriedToWaterPlant()
 	{
@@ -467,6 +509,14 @@ public partial class FarmManager : TileMapLayer
 				defense_item_clicked = false; 
 				distraction_item_clicked = false;
 				break;
+
+			case "fertilizer":
+				fertilizer_clicked = true;
+				watering_can_clicked = false;
+				seeds_clicked = false;
+				defense_item_clicked = false; 
+				distraction_item_clicked = false;
+				break;
 			case "defense":
 				defense_item_clicked = true; 
 				watering_can_clicked = false;
@@ -479,6 +529,14 @@ public partial class FarmManager : TileMapLayer
 				watering_can_clicked = false;
 				seeds_clicked = false;
 				break;
+
+			case "distraction_plant":
+				distraction_item_clicked = false;
+				defense_item_clicked = false; 
+				watering_can_clicked = false;
+				seeds_clicked = false;
+				other_plant_type_clicked = true; 
+				break;
 		}
 	}
 
@@ -490,14 +548,47 @@ public partial class FarmManager : TileMapLayer
 		15% all plants
 
 	*/
-	public void OnElephantCollidedWithFarm(Vector2I elephant_position)
+	public void OnElephantCollidedWithFarm(Vector2I elephant_position, Elephant elephant)
 	{
 		int plantCount = plants.Count;
 		if (plantCount > 0 )
 		{
 			GD.Print(elephant_position);
+
 			int elephant_walking_line = elephant_position.Y;
 			List<Plant> plants_on_line = plants.FindAll(plant => plant.GetCoordinates().Y == elephant_position.Y);
+			List<Plant> distraction_plants_on_line = plants_on_line.FindAll(plant => plant.GetPlantType() == distraction_plant_type);
+			if (distraction_plants_on_line.Count > 0)
+			{
+				GD.Print("Distraction plant found!");
+				List<Plant> fully_grown_distraction_plants = distraction_plants_on_line.FindAll(plant => plant.GetGrowthPhase() == 4);
+				//maybe could be edited in a way that when elephant interacts with this one, it can trigger growing boost to plants next to it?
+				if (fully_grown_distraction_plants.Count > 0)
+				{
+					foreach (Plant fully_grown_distraction_plant in fully_grown_distraction_plants)
+					{
+						List<Plant> plants_in_range = plants.FindAll(plant => Math.Abs(plant.GetCoordinates().Y-fully_grown_distraction_plant.GetCoordinates().Y) <= 1 || Math.Abs(plant.GetCoordinates().X-fully_grown_distraction_plant.GetCoordinates().X) <= 1);
+						if (plants_in_range.Count > 0)
+						{
+							var speed_boost_roll = GD.Randf();
+							if (speed_boost_roll > 0.80f)
+							{
+								foreach (Plant plant in plants_in_range)
+								{
+									UpdatePlantToNextPhase(plant.GetCoordinates());
+								}
+								RemovePlantAtCoordinates(fully_grown_distraction_plant.GetCoordinates());
+								
+							}
+						}
+					}
+
+					elephant.OnPushBack();
+
+					return;
+				}
+			} 
+				
 			if (plants_on_line.Count > 0)
 			{
 				var plant_roll = GD.Randf();
@@ -560,7 +651,7 @@ public partial class FarmManager : TileMapLayer
 							RemovePlantAtCoordinates(plant.GetCoordinates());
 						}
 					} */
-				}
+			}
 			}
 					
 	}
@@ -626,10 +717,8 @@ public partial class FarmManager : TileMapLayer
 		tiles_with_items_coordinates ??= GetUsedCellsById(usable_distraction_items_id) + GetUsedCellsById(usable_defense_items_id);
 		return tiles_with_items_coordinates;
 	}
-	private void PlacePlant(Vector2I position)
+	private void PlacePlant(Vector2I position, string plant_type)
 	{
-		level_data = level_manager.GetLevelData(active_level);
-		plant_type = level_data.GetPlantType();
 		int plantable_tiles = farm_tile_coordinates.Count;
 		int id = (int) (GD.Randi() % plantable_tiles);
 		if(plant_type == null || plant_type == "")
@@ -637,15 +726,31 @@ public partial class FarmManager : TileMapLayer
 			GD.Print("Plant type undefined!");
 		} else
 		{
-			int seeds_in_inventory = _inventory.GetNumberOfSeedsInInventory();
+			int seeds_in_inventory = 0;
+			if ("chili".Equals(plant_type) || "sunflower".Equals(plant_type)){
+				seeds_in_inventory = _inventory.GetItemQuantityInInvetory(plant_type);
+
+			} else
+			{
+				seeds_in_inventory = _inventory.GetNumberOfSeedsInInventory();
+				
+			}
 			if (seeds_in_inventory > 0)
 			{
 				Plant newPlant = new Plant(id, plant_type, default_plant_phase, position, false); 
 				plants.Add(newPlant);
 				SetCell(position, 0, new Vector2I(2,0));
-				EmitSignal(SignalName.UpdatedSeedCount, 1, "decrease");
-				EmitSignal(SignalName.SeedPlaced, true);
-				seeds_clicked = false;
+				if ("chili".Equals(plant_type) || "sunflower".Equals(plant_type)){
+					EmitSignal(SignalName.UpdatedItemCount, plant_type, 1, "decrease");
+					other_plant_type_clicked = false;
+				} else
+				{
+					EmitSignal(SignalName.UpdatedSeedCount, 1, "decrease");
+					seeds_clicked = false;
+				}
+					EmitSignal(SignalName.SeedPlaced, true);
+
+
 			} else
 			{
 				GD.Print("Cannot plant, you don't have enough seeds!");
@@ -685,7 +790,7 @@ public partial class FarmManager : TileMapLayer
 
 	private void CollectWater()
 	{
-		water_level = 10;
+		water_level = LevelManager.Instance.GetWateringCanTotalLevel();
 		LevelManager.Instance.SetWateringCanLevel(water_level);
 		EmitSignal(SignalName.UpdatedWateringcanText);
 	}
@@ -752,7 +857,7 @@ public partial class FarmManager : TileMapLayer
 		}
 	}
 	//This method can be used in case of implementing fertilizer so that the plant would skip some phase.
-	private void UpdatePlantToCustomPhase(Vector2I coordinates, int phase)
+	private void UpdatePlantToCustomPhase(Vector2I coordinates, int new_phase)
 	{
 		int index = FindPlantAtCoordinates(coordinates);
 		if (index == -1)
@@ -761,24 +866,40 @@ public partial class FarmManager : TileMapLayer
 		} else
 		{
 			Plant foundPlant = plants[index];
-			if (foundPlant.GetGrowthPhase() == phase)
+			if (foundPlant.GetGrowthPhase() == new_phase)
 			{
 				GD.Print("Plant is already in this phase!");
-			} else if (phase < foundPlant.GetGrowthPhase())
+			} else if (new_phase < foundPlant.GetGrowthPhase())
 			{
 				GD.Print("Plant cannot grow backwards!");
 			} else
 			{
 				GD.Print("Changing plant phase!");
-				SetCell(coordinates, 0, new Vector2I(phase,0));
+				Dictionary<int, Vector2I> phasesOfSelectedPlant = plant_growth_phases_by_type.GetValueOrDefault(foundPlant.GetPlantType());
+				if (phasesOfSelectedPlant != null)
+				{
+					foundPlant.SetGrowthPhase(new_phase);
+					Vector2I correctTile = phasesOfSelectedPlant.GetValueOrDefault(new_phase);
+					if (foundPlant.GetIsWatered())
+					{
+						SetCell(foundPlant.GetCoordinates(), 0, correctTile, 1);
+					} else
+					{
+						SetCell(foundPlant.GetCoordinates(), 0, correctTile, 0);
+					}
+				}
+
+
+				
 			}
 		}
 	}
 
-	private void initializePlantTypesAndPhases()
+	private void InitializePlantTypesAndPhases()
 	{
 		plant_growth_phases_by_type = new Dictionary<string, Dictionary<int, Vector2I>>();
-		Dictionary<int, Vector2I> pineAppleDic = new Dictionary<int, Vector2I>
+		Dictionary<int, Vector2I> pineAppleDic = new()
+
         {
             { 1, new Vector2I(2, 0) },
             { 2, new Vector2I(3, 0) },
@@ -787,7 +908,8 @@ public partial class FarmManager : TileMapLayer
         };
 		plant_growth_phases_by_type.Add("pineapple", pineAppleDic);
 
-		Dictionary<int, Vector2I> watermelonDic = new Dictionary<int, Vector2I>
+		Dictionary<int, Vector2I> watermelonDic = new()
+
         {
             { 1, new Vector2I(2, 0) },
             { 2, new Vector2I(3, 0) },
@@ -805,6 +927,27 @@ public partial class FarmManager : TileMapLayer
             { 4, new Vector2I(6, 3) }
         };
 		plant_growth_phases_by_type.Add("mango", mangoDic);
+
+		Dictionary<int, Vector2I> chiliDic = new()
+		{
+			{1, new Vector2I(2,0)},
+			{2, new Vector2I(3,0)},
+			{3, new Vector2I(3,1)},
+			{4, new Vector2I(4,1)}
+		};
+		plant_growth_phases_by_type.Add("chili", chiliDic);
+
+		Dictionary<int, Vector2I> sunflowerDic = new()
+		{
+			{1, new Vector2I(2,0)},
+			{2, new Vector2I(3,0)},
+			{3, new Vector2I(5,1)},
+			{4, new Vector2I(6,1)}
+		};
+		plant_growth_phases_by_type.Add("sunflower", sunflowerDic);
+
+
+
 
 	}
 

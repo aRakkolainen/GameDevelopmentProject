@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://m8plw4kg2tcy"]
+
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_1.png" id="1_ynved"]
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_2.png" id="2_gh7cf"]
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_3.png" id="3_gef1r"]
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_4.png" id="4_7qtgq"]
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_5.png" id="5_0104w"]
+[ext_resource type="Texture2D" path="res://assets/start_cut_scene/start_cut_scene_6.png" id="6_b00ir"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6pgv"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": ExtResource("1_ynved")
+}, {
+"duration": 2.0,
+"texture": ExtResource("2_gh7cf")
+}, {
+"duration": 2.0,
+"texture": ExtResource("3_gef1r")
+}, {
+"duration": 2.0,
+"texture": ExtResource("4_7qtgq")
+}, {
+"duration": 2.0,
+"texture": ExtResource("5_0104w")
+}, {
+"duration": 2.0,
+"texture": ExtResource("6_b00ir")
+}],
+"loop": false,
+"name": &"start",
+"speed": 4.0
+}]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(584, 328)
+scale = Vector2(0.604167, 0.603704)
+sprite_frames = SubResource("SpriteFrames_m6pgv")
+animation = &"start"
+autoplay = "start"
+frame = 5
+frame_progress = 1.0

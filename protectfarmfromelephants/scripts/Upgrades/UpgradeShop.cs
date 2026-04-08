@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -44,9 +45,11 @@ public partial class UpgradeShop : CanvasLayer
 		Hide();
 		visible_upgrade_items = GetNode<ItemList>("UpgradeItems");
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
-		upgrade_items = level.GetLevelUpgradeItems();
-		//visible_upgrade_items.MaxColumns = upgrade_items.Count;
-		DisplayItemsInShop();
+		if (level.GetLevelUpgradeItems() != null)
+		{
+			upgrade_items = level.GetLevelUpgradeItems();
+			DisplayItemsInShop();
+		}
     }
 
 	private void DisplayItemsInShop()
@@ -58,13 +61,15 @@ public partial class UpgradeShop : CanvasLayer
             {
                 var texture = LevelManager.Instance.GetTextureByItemName(upgradeItem.GetItemName());
                 var icon = (Texture2D)GD.Load(texture);
-				ShopItem new_item = new ShopItem(upgradeItem.GetID(), upgradeItem.GetItemName(), icon, upgradeItem.GetTotalInStock(), upgradeItem.GetPrice());
-				StringBuilder builder = new StringBuilder();
+				ShopItem new_item = new ShopItem(upgradeItem.GetID(), upgradeItem.GetItemName(), upgradeItem.GetDescription(), icon, upgradeItem.GetTotalInStock(), upgradeItem.GetPrice());
 				string sell_text = "Available: " + new_item.InStock + " Price: " + new_item.Price;
-				builder.Append(upgradeItem.GetDescription());
-				builder.Append("\n");
-				builder.Append(sell_text);
-                visible_upgrade_items.AddItem(builder.ToString(), new_item.Icon);
+				StringBuilder sell_text_builder = new StringBuilder();
+				sell_text_builder.Append(new_item.Description);
+				sell_text_builder.Append(" ");
+				sell_text_builder.Append("\n");
+				sell_text_builder.Append(sell_text);
+                visible_upgrade_items.AddItem(sell_text_builder.ToString(), new_item.Icon);
+				
             }
         } 
     }
@@ -83,6 +88,10 @@ public partial class UpgradeShop : CanvasLayer
 			{
 				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 				EmitSignal(SignalName.UpdatedSeedCount, 1, "increase");
+			} else if (selected_item.GetItemName().Equals("watering_can_upgrade"))
+			{
+				int currentWaterTotal = LevelManager.Instance.GetWateringCanTotalLevel();
+				LevelManager.Instance.SetWateringCanTotalLevel(currentWaterTotal+5);
 			} else
 			{
 				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
@@ -109,6 +118,8 @@ public class ShopItem {
 
 	public string Name;
 
+	public string Description;
+
 	public string type;
 
 	public Texture2D Icon; 
@@ -118,10 +129,11 @@ public class ShopItem {
 	public int Price;
 
 
-	public ShopItem(string id, string name, Texture2D icon, int amount, int value)
+	public ShopItem(string id, string name, string desc, Texture2D icon, int amount, int value)
     {
         ID = id;
 		Name = name;
+		Description = desc;
 		Icon = icon; 
 		InStock = amount;
 		Price = value;

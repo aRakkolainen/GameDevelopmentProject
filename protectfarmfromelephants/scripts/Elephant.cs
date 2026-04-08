@@ -16,7 +16,7 @@ public partial class Elephant : Area2D
 
 	private bool firstCollisionWithFarm = false;
 	
-	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I tileCoords);
+	[Signal] public delegate void CollidedWithFarmEventHandler(Vector2I tileCoords, Elephant elephant);
 
 	[Signal] public delegate void CollidedWithItemEventHandler(Vector2I tileCoords, string itemType, Elephant elephant);
 
@@ -124,7 +124,7 @@ public partial class Elephant : Area2D
 		if (sourceId == 0)
 		{
 			GD.Print("Elephant collided with farm!");
-			EmitSignal(SignalName.CollidedWithFarm, tileCoords);
+			EmitSignal(SignalName.CollidedWithFarm, tileCoords, this);
 		} else if (sourceId == 1)
 		{
 			GD.Print("Elephant collided with distraction item!");
@@ -135,6 +135,12 @@ public partial class Elephant : Area2D
 			GD.Print("Elephant collided with defense item!");
 			GD.Print("Emitting CollidedWithItem");
 			EmitSignal(SignalName.CollidedWithItem, tileCoords, "defense", this);
+		} else if (sourceId == 4)
+		{
+			Speed = 0; 
+			GD.Print("Collided with border!");
+			QueueFree();
+			
 		}
 
 	}
@@ -142,7 +148,13 @@ public partial class Elephant : Area2D
 	public void OnPushBack()
 	{
 		Speed = 1.0f;
-			//Code created with assistance of Copilot
+        //Code created with assistance of Copilot
+        Timer timer = new Timer
+        {
+            WaitTime = 0.5,
+			OneShot = true
+        };
+        timer.Timeout += FlipBack;
 			if (MoveDirection.Equals(Godot.Vector2I.Left)){
 				float direction = Vector2I.Right.X * pushBackwardTiles;
 				GlobalPosition = new Godot.Vector2(GlobalPosition.X + direction, GlobalPosition.Y);
@@ -157,7 +169,13 @@ public partial class Elephant : Area2D
 		}
 	}
 
-	private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)
+    private void FlipBack()
+    {
+        directionBeforeNoise = MoveDirection;
+		MoveDirection = -MoveDirection;
+    }
+
+    private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)
 	{
 		if (farm_tiles.Contains(collisionPosition)){
 			return true;
