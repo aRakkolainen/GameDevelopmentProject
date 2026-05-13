@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://m8plw4kg2tcy"]
+[gd_scene load_steps=11 format=3 uid="uid://m8plw4kg2tcy"]
 
 [ext_resource type="Script" path="res://scripts/StartCutScene.cs" id="1_14o4g"]
 [ext_resource type="Texture2D" uid="uid://byns8k6m4ptr0" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_1.png" id="2_oj56n"]
@@ -37,22 +37,43 @@ animations = [{
 "speed": 1.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b74x"]
+bg_color = Color(0.390164, 0.568786, 0.356701, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bpgt"]
+bg_color = Color(0.280225, 0.421607, 0.253479, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
 [node name="StartCutScene" type="Node2D"]
 script = ExtResource("1_14o4g")
 
 [node name="StartScenePlayer" type="AnimatedSprite2D" parent="."]
-position = Vector2(584, 328)
-scale = Vector2(0.604167, 0.603704)
+position = Vector2(962, 541)
+scale = Vector2(0.997917, 0.998148)
 sprite_frames = SubResource("SpriteFrames_m6pgv")
 animation = &"start"
 autoplay = "start"
-speed_scale = 0.25
+speed_scale = 0.5
 
 [node name="SkipButton" type="Button" parent="."]
-offset_left = 1056.0
-offset_top = 584.0
-offset_right = 1144.0
-offset_bottom = 640.0
+offset_left = 1736.0
+offset_top = 984.0
+offset_right = 1896.0
+offset_bottom = 1065.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_4b74x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1bpgt")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1bpgt")
 text = "SKIP"
 
 [connection signal="pressed" from="SkipButton" to="." method="OnSkipButtonPressed"]

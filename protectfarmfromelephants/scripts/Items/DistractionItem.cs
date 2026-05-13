@@ -5,13 +5,12 @@
 //Needed assets: simple fence, electric fence and sunflower, chili peppers.
 
 using Godot;
+using ProtectFarm;
 using System;
+namespace ProtectFarm;
 
-public class DistractionItem 
+public class DistractionItem : PlacedItem
 {
-    private int ID;
-    private string name;
-
     private bool is_breakable;
     private int effect_duration;
     private int effect_range;
@@ -23,10 +22,9 @@ public class DistractionItem
 
     private Vector2I coordinates;
 
-    public DistractionItem(int id, string item_name, bool breakable, int duration, int range, bool isHostile, int damage_amount, Vector2I coords)
+    public DistractionItem(int id, string item_type, string item_name, Vector2I coords, bool breakable, int duration, int range, bool isHostile, int damage_amount) 
+    : base(id, item_type, item_name, coords)
     {
-        ID = id; 
-        name = item_name;
         is_breakable = breakable;
         effect_duration = duration;
         effect_range = range;
@@ -35,16 +33,6 @@ public class DistractionItem
         coordinates = coords;
     }
 
-
-    public int GetID()
-    {
-        return ID;
-    }
-
-    public string GetItemName()
-    {
-        return name;
-    }
 
     public bool GetIsBreakable()
     {
@@ -97,17 +85,5 @@ public class DistractionItem
     {
        damage = num;
     }
-
-    public Vector2I GetCoordinates()
-    {
-        return coordinates;
-    }
-
-    public void SetCoordinates(Vector2I coordinates)
-    {
-        coordinates = coordinates;
-    }
-
-
 
 }

@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 public partial class LevelInfo : CanvasLayer
 {
@@ -10,8 +12,14 @@ public partial class LevelInfo : CanvasLayer
 	Label days;
 
 	Label info;
+    CheckBox puddleUpgradeCheckBox;
 
-	public override void _Ready()
+	ItemList passiveUpgrades;
+
+    private int watering_can_upgrades_total;
+
+
+    public override void _Ready()
 	{
 		LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
 		Label title = GetNode<Label>("LevelTitleLabel");
@@ -23,6 +31,11 @@ public partial class LevelInfo : CanvasLayer
 		watering_can_level = GetNode<Label>("WateringCanLabel");
 		watering_can_level.Text = "Enough water for " + LevelManager.Instance.GetWateringCanLevel() + " tile(s)";
 		info = GetNode<Label>("InfoLabel");
+		info.Text = "";
+		passiveUpgrades = GetNode<ItemList>("PassiveUpgrades");
+
+		watering_can_upgrades_total = LevelManager.Instance.GetCurrentLevelWatercanUpgradeTotal();
+		
 
 	}
 
@@ -62,5 +75,39 @@ public partial class LevelInfo : CanvasLayer
 	public void OnUpdatedInfoText(string text)
 	{
 		info.Text = text;
+	}
+
+	public void OnUpdatedPassiveUpgradesList(string passive_upgrade_name, int update_times)
+	{
+		GD.Print(passiveUpgrades);
+		int itemCount = passiveUpgrades.GetItemCount();
+		for (int i=0; i < itemCount; i++)
+		{
+			GD.Print(passiveUpgrades.GetItemText(i));
+				var texture = LevelManager.Instance.GetTextureByItemName("checkbox_checked");
+            	var icon = (Texture2D)GD.Load(texture);
+				string item_description = passiveUpgrades.GetItemText(i);
+				if ("watering_can_upgrade".Equals(passive_upgrade_name) && item_description.Contains("Watering can size increased"))
+				{
+					passiveUpgrades.SetItemIcon(i, icon);
+	
+					string description = "Watering can size increased " + update_times + "/" + watering_can_upgrades_total;
+					passiveUpgrades.SetItemText(i, description);
+				} else if ("watering_can_puddle_upgrade".Equals(passive_upgrade_name) && item_description.Contains("Watering can puddle"))
+				{
+					passiveUpgrades.SetItemIcon(i, icon);
+				}
+		}
+		
+	}
+
+	public static void OnQuitGameButtonPressed()
+	{
+		LevelManager.Instance.QuitGame();
+	}
+
+	public static void OnRestartButtonPressed()
+	{
+		LevelManager.Instance.RestartLevel();
 	}
 }

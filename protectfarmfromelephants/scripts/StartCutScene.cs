@@ -13,7 +13,7 @@ public partial class StartCutScene : Node2D
 
     private void OnAnimationFinished()
     {
-        LevelManager.Instance.LoadLevel(Scenes.Levels.level_1);
+        LevelManager.Instance.LoadScene(Scenes.Levels.level_1);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,6 +23,6 @@ public partial class StartCutScene : Node2D
 
 	public void OnSkipButtonPressed()
 	{
-		LevelManager.Instance.LoadLevel(Scenes.Levels.level_1);
+		LevelManager.Instance.LoadScene(Scenes.Levels.level_1);
 	}
 }

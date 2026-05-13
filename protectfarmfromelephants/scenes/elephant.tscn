@@ -1,19 +1,52 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0dif54itofdm"]
+[gd_scene load_steps=50 format=3 uid="uid://d0dif54itofdm"]
 
 [ext_resource type="Script" path="res://scripts/Elephant.cs" id="1_66rpy"]
 [ext_resource type="Texture2D" uid="uid://der18or2hy4w5" path="res://assets/elephant_test.png" id="1_ej72v"]
+[ext_resource type="Texture2D" uid="uid://ct1318fcbiypu" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0000.png" id="3_m6gad"]
+[ext_resource type="Texture2D" uid="uid://duk3celicftrh" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0001.png" id="4_jbb15"]
+[ext_resource type="Texture2D" uid="uid://djbyb5tj1k7am" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0002.png" id="5_24bew"]
+[ext_resource type="Texture2D" uid="uid://f6hyoh167o3l" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0003.png" id="6_n3td8"]
+[ext_resource type="Texture2D" uid="uid://cbwklq66vu62o" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0004.png" id="7_f8nts"]
+[ext_resource type="Texture2D" uid="uid://dmwn73qocgmtr" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0005.png" id="8_fjt3n"]
+[ext_resource type="Texture2D" uid="uid://bs5fdf3wfbow7" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0006.png" id="9_smvpf"]
+[ext_resource type="Texture2D" uid="uid://dmlgh5ek3a5xn" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0007.png" id="10_arhf1"]
+[ext_resource type="Texture2D" uid="uid://c6vgb6r5jqoyb" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0008.png" id="11_ncdjx"]
+[ext_resource type="Texture2D" uid="uid://c0iv38jrtaf3t" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0009.png" id="12_82tpl"]
+[ext_resource type="Texture2D" uid="uid://yijmoy1s84ck" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0010.png" id="13_kxu67"]
+[ext_resource type="Texture2D" uid="uid://cusk6awsthw5f" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0000.png" id="14_1e1f8"]
+[ext_resource type="Texture2D" uid="uid://b7rixar2v47f" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0001.png" id="15_2mdy0"]
 [ext_resource type="Texture2D" uid="uid://db8liy7phefle" path="res://assets/elephant_animations/elephant_frame_1.png" id="15_vr8cw"]
 [ext_resource type="Texture2D" uid="uid://cmcnjo5x3dvvn" path="res://assets/elephant_animations/elephant_frame_2.png" id="16_1hvpy"]
+[ext_resource type="Texture2D" uid="uid://cq3hxahy3yaxd" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0002.png" id="16_556d3"]
 [ext_resource type="Texture2D" uid="uid://d1l7rx8dxkyyi" path="res://assets/elephant_animations/elephant_frame_3.png" id="17_cy4et"]
+[ext_resource type="Texture2D" uid="uid://i0prwksybu1o" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0003.png" id="17_w5444"]
+[ext_resource type="Texture2D" uid="uid://cuy54wawet58f" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0004.png" id="18_ffqti"]
 [ext_resource type="Texture2D" uid="uid://cu6wk4bv5ahau" path="res://assets/elephant_animations/elephant_frame_4.png" id="18_nfkcy"]
 [ext_resource type="Texture2D" uid="uid://cu3e8k1pkn8dy" path="res://assets/elephant_animations/elephant_frame_5.png" id="19_ftvxa"]
+[ext_resource type="Texture2D" uid="uid://cpu4pktsgc3hu" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0006.png" id="19_fvdx0"]
 [ext_resource type="Texture2D" uid="uid://dfgu7hjkanqbb" path="res://assets/elephant_animations/elephant_frame_6.png" id="20_2ee8n"]
+[ext_resource type="Texture2D" uid="uid://dqtju8lduses5" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0005.png" id="20_tne1d"]
 [ext_resource type="Texture2D" uid="uid://ceu706wwdhbel" path="res://assets/elephant_animations/elephant_frame_7.png" id="21_6ys0i"]
+[ext_resource type="Texture2D" uid="uid://c8nr51kciku00" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0007.png" id="21_ihu0l"]
 [ext_resource type="Texture2D" uid="uid://dg3pwgdlcnxuh" path="res://assets/elephant_animations/elephant_frame_8.png" id="22_olm5n"]
+[ext_resource type="Texture2D" uid="uid://dj0r76aopyd8f" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0008.png" id="22_tuvai"]
+[ext_resource type="Texture2D" uid="uid://csqyp87wisp68" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0009.png" id="23_d4cee"]
 [ext_resource type="Texture2D" uid="uid://6dsg62761byw" path="res://assets/elephant_animations/elephant_frame_9.png" id="23_uph72"]
+[ext_resource type="Texture2D" uid="uid://cr3pd4it6uvf" path="res://assets/elephant_animations/eat pineapple/pineapple_eating_frame_0010.png" id="24_05aek"]
 [ext_resource type="Texture2D" uid="uid://d1fhku1swlqmm" path="res://assets/elephant_animations/elephant_frame_10.png" id="24_kcwek"]
+[ext_resource type="Texture2D" uid="uid://d2ya7pux3uxxv" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0000.png" id="25_4rrrb"]
 [ext_resource type="Texture2D" uid="uid://bpe60bqhbptdg" path="res://assets/elephant_animations/elephant_frame_11.png" id="25_q3bor"]
 [ext_resource type="Texture2D" uid="uid://qh857npobn86" path="res://assets/elephant_animations/elephant_frame_12.png" id="26_6vilm"]
+[ext_resource type="Texture2D" uid="uid://cjv5a0mmy1v7k" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0001.png" id="26_yy5ep"]
+[ext_resource type="Texture2D" uid="uid://blmu0srqovp51" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0002.png" id="27_xpltt"]
+[ext_resource type="Texture2D" uid="uid://w7q0kaqgtprn" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0003.png" id="28_s0cwp"]
+[ext_resource type="Texture2D" uid="uid://dn0oc37eebhhq" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0004.png" id="29_d4mo6"]
+[ext_resource type="Texture2D" uid="uid://c38f4ex5jaxb3" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0005.png" id="30_ir0mb"]
+[ext_resource type="Texture2D" uid="uid://bsch7wbvbijn" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0006.png" id="31_pqhvf"]
+[ext_resource type="Texture2D" uid="uid://0j10qsbl7xjl" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0007.png" id="32_r6162"]
+[ext_resource type="Texture2D" uid="uid://bj3r8g6qa2nn0" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0008.png" id="33_l01uj"]
+[ext_resource type="Texture2D" uid="uid://cteqvl73fld64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0009.png" id="34_ka8ky"]
+[ext_resource type="Texture2D" uid="uid://bxfdsnqoj4j64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0010.png" id="35_c3syx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u5phx"]
 animations = [{
@@ -23,6 +56,120 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_m6gad")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jbb15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_24bew")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n3td8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_f8nts")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_fjt3n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_smvpf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_arhf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ncdjx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_82tpl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_kxu67")
+}],
+"loop": false,
+"name": &"eat mango",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_1e1f8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_2mdy0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_556d3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_w5444")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_ffqti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_fvdx0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_tne1d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_ihu0l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_tuvai")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_d4cee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_05aek")
+}],
+"loop": false,
+"name": &"eat pineapple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_4rrrb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_yy5ep")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_xpltt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_s0cwp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_d4mo6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_ir0mb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_pqhvf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_r6162")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_l01uj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_ka8ky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_c3syx")
+}],
+"loop": false,
+"name": &"eat watermelon",
 "speed": 5.0
 }, {
 "frames": [{

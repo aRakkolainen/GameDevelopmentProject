@@ -1,7 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgu6ommdupkm"]
+[gd_scene load_steps=6 format=3 uid="uid://bgu6ommdupkm"]
 
 [ext_resource type="Script" path="res://scripts/DeathScene.cs" id="1_74887"]
 [ext_resource type="Texture2D" uid="uid://dhdvfaid3msy7" path="res://assets/cut_scenes/death_cut_scene/death_cut_scene_7.png" id="2_hjmh3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gqup"]
+bg_color = Color(0.379373, 0.56117, 0.352012, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw3hk"]
+bg_color = Color(0.221233, 0.344411, 0.202798, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6mko"]
+bg_color = Color(0.307691, 0.463856, 0.28235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
 
 [node name="DeathScene" type="Control"]
 layout_mode = 3
@@ -21,10 +45,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = 324.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 968.0
+offset_bottom = 548.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_hjmh3")
@@ -32,25 +56,35 @@ expand_mode = 2
 
 [node name="MainMenuButton" type="Button" parent="."]
 layout_mode = 1
+offset_left = -248.0
+offset_top = 100.0
+offset_right = 255.0
+offset_bottom = 181.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_0gqup")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dw3hk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6mko")
+text = "Back to main menu"
+
+[node name="RestartButton" type="Button" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -208.0
-offset_top = -60.0
-offset_right = -19.0
-offset_bottom = 12.0
+offset_left = -248.0
+offset_top = -40.5
+offset_right = 248.0
+offset_bottom = 40.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Back to main menu"
-
-[node name="RestartButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 64.0
-offset_top = -60.0
-offset_right = 251.0
-offset_bottom = 8.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_0gqup")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dw3hk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6mko")
 text = "Restart level"
 
 [connection signal="pressed" from="MainMenuButton" to="." method="On_main_menu_button_pressed"]

@@ -42,11 +42,11 @@ public partial class LevelTransitionAnimations : Node2D
 
 	   if (LevelManager.Instance.GetCurrentActiveLevel() == 2)
         {
-            LevelManager.Instance.LoadLevel(Scenes.Levels.level_2);
+            LevelManager.Instance.LoadScene(Scenes.Levels.level_2);
         }
         else if (LevelManager.Instance.GetCurrentActiveLevel() == 3)
         {
-            LevelManager.Instance.LoadLevel(Scenes.Levels.level_3);
+            LevelManager.Instance.LoadScene(Scenes.Levels.level_3);
         }
     }
 

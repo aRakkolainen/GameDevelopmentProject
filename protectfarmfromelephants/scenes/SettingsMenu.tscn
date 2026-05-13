@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://cl335captacg7"]
+
+[ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="1_enaiv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4guf"]
+bg_color = Color(0.379373, 0.56117, 0.352012, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aimxa"]
+bg_color = Color(0.221233, 0.344411, 0.202798, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vsgfa"]
+bg_color = Color(0.307691, 0.463856, 0.28235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_enaiv")
+
+[node name="MainMenuButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 543.0
+offset_bottom = 121.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_v4guf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
+text = "Back to main menu"
+
+[connection signal="pressed" from="MainMenuButton" to="." method="OnMainMenuButtonPressed"]

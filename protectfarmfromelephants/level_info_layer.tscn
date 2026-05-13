@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bugdap2slktnw"]
+[gd_scene load_steps=10 format=3 uid="uid://bugdap2slktnw"]
 
 [ext_resource type="Script" path="res://scripts/LevelInfo.cs" id="1_ae0gq"]
+[ext_resource type="Texture2D" uid="uid://bo8pww66vxhi7" path="res://assets/UI/check_box_unchecked.png" id="2_74p81"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ty65y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jigbe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jl3ww"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aefph"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_02hd8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_taqq1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8e43f"]
 
 [node name="Level info" type="CanvasLayer"]
 script = ExtResource("1_ae0gq")
@@ -8,25 +23,94 @@ script = ExtResource("1_ae0gq")
 [node name="LevelTitleLabel" type="Label" parent="."]
 offset_right = 54.0
 offset_bottom = 23.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
 text = "Level "
 
 [node name="TotalMoneyLabel" type="Label" parent="."]
-offset_top = 48.0
+offset_top = 64.0
 offset_right = 40.0
-offset_bottom = 71.0
+offset_bottom = 137.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
 text = "0"
 
 [node name="WateringCanLabel" type="Label" parent="."]
-offset_top = 128.0
-offset_right = 40.0
-offset_bottom = 151.0
+offset_top = 232.0
+offset_right = 318.0
+offset_bottom = 301.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Watering can"
 
 [node name="DaysLeftLabel" type="Label" parent="."]
-offset_top = 94.0
-offset_right = 40.0
-offset_bottom = 117.0
+offset_top = 152.0
+offset_right = 178.0
+offset_bottom = 221.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Default"
 
 [node name="InfoLabel" type="Label" parent="."]
-offset_top = 184.0
-offset_right = 40.0
-offset_bottom = 207.0
+offset_top = 320.0
+offset_right = 285.0
+offset_bottom = 389.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Placeholder"
+
+[node name="PassiveUpgradesLabel" type="Label" parent="."]
+offset_top = 512.0
+offset_right = 652.0
+offset_bottom = 581.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Passive upgrades activated"
+
+[node name="QuitGameButton" type="Button" parent="."]
+offset_left = 1728.0
+offset_top = 24.0
+offset_right = 1896.0
+offset_bottom = 80.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+text = "Quit"
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 1368.0
+offset_top = 24.0
+offset_right = 1694.0
+offset_bottom = 105.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+text = "Restart level"
+
+[node name="PassiveUpgrades" type="ItemList" parent="."]
+texture_filter = 1
+offset_top = 576.0
+offset_right = 504.0
+offset_bottom = 768.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/icon_margin = 10
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ty65y")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jigbe")
+theme_override_styles/hovered = SubResource("StyleBoxEmpty_jl3ww")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_aefph")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_02hd8")
+theme_override_styles/cursor_unfocused = SubResource("StyleBoxEmpty_taqq1")
+theme_override_styles/cursor = SubResource("StyleBoxEmpty_8e43f")
+allow_search = false
+auto_height = true
+item_count = 2
+icon_scale = 3.0
+item_0/text = "Watering can puddle upgrade"
+item_0/icon = ExtResource("2_74p81")
+item_0/selectable = false
+item_1/text = "Watering can size increased "
+item_1/icon = ExtResource("2_74p81")
+item_1/selectable = false
+
+[connection signal="pressed" from="QuitGameButton" to="." method="OnQuitGameButtonPressed"]
+[connection signal="pressed" from="RestartButton" to="." method="OnRestartButtonPressed"]

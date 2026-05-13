@@ -105,7 +105,7 @@ animations = [{
 script = ExtResource("1_eymsg")
 
 [node name="BetweenLevelsAnimations" type="AnimatedSprite2D" parent="."]
-position = Vector2(576, 323)
-scale = Vector2(0.6, 0.601852)
+position = Vector2(960, 547)
+scale = Vector2(1, 1.01667)
 sprite_frames = SubResource("SpriteFrames_ae8td")
 animation = &"eat_watermelon"

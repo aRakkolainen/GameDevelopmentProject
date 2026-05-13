@@ -13,17 +13,25 @@ public static class Scenes
 
         public const string level_3 = "uid://c581mkch3llep";
 
-        public const string start_cut_scene = "uid://m8plw4kg2tcy";
-        public const string death_scene = "uid://bgu6ommdupkm";
-
-        public const string final_scene = "uid://dkubfth2lqt5x";
-
-        public const string between_levels_animations_scene = "uid://cugj4r5nmh6hj";
     }
 
     public static class Menus
     {
         public const string main_menu = "uid://nedc84ruy5lu";
+
+        public const string settings_menu = "uid://cl335captacg7";
+
+        public const string end_of_day_menu = "uid://tgg87b6yngvj";
+    }
+
+    public static class CutScenes
+    {
+        public const string start_cut_scene = "uid://m8plw4kg2tcy";
+        public const string death_scene = "uid://bgu6ommdupkm";
+
+        public const string final_scene = "uid://dkubfth2lqt5x";
+
+        public const string between_levels_animations_scene = "uid://cugj4r5nmh6hj";   
     }
 
     public static class ItemTextures
@@ -38,6 +46,7 @@ public static class Scenes
 
         public const string watering_can_upgrade = "uid://djcjvikkirh2c";
 
+        public const string watering_can_puddle_upgrade = "uid://bkjrt7gr332em";
         public const string pineapple_seeds = "uid://us6jgf8ncy05";
 
         public const string watermelon_seeds = "uid://dmknr85vipb6w";
@@ -65,8 +74,17 @@ public static class Scenes
 
         public const string watering_can_upgrade = "uid://djcjvikkirh2c";
 
+        public const string watering_can_puddle_upgrade = "uid://bkjrt7gr332em";
+
         public const string fertilizer_boost = "uid://c1spdm8mymlen";
 
+    }
+
+    public static class UITextures
+    {
+        public const string checkbox_checked = "uid://kmxekxbj7n6f";
+
+        public const string checkbox_unchecked = "uid://bo8pww66vxhi7";
     }
 
     public static class UpgradeItemDescriptions
@@ -77,9 +95,9 @@ public static class Scenes
 
          public const string camp_fire = "Light source to distract elephants";
 
-        public const string noise_maker = "Stereos to make noise distraction, activated once!";
+        public const string noise_maker = "Stereos to make noise distraction, can be activated only once!";
 
-        public const string beehive = "Bees to scare the elephants";
+        public const string beehive = "Bees to scare the elephants away";
 
         public const string chili = "Smell of chili is not appealing for elephants";
 
@@ -87,9 +105,11 @@ public static class Scenes
 
         public const string extra_seeds = "Extra seeds for the level";
 
-        public const string fertilizer = "Use on the plant to boost its growth";
+        public const string fertilizer = "Use on the plant to boost its growth by one phase";
 
         public const string watering_can_upgrade = "Increase capacity of watering can by 5 tiles";
+
+        public const string watering_can_puddle_upgrade = "Ability to water grass tiles to make puddles. When elephants stumble on puddles, they may carry some water to farm and after few times, water puddles become mud that may help to fertilize farm";
 
 
     }
@@ -113,6 +133,8 @@ public partial class LevelManager : Node
     private int watering_can_total_level = 10;
 
     private bool player_has_failed;
+    private bool player_has_watering_can_puddle_upgrade;
+
 
     public override void _Ready()
     {
@@ -121,7 +143,7 @@ public partial class LevelManager : Node
 
 
 
-public void LoadLevel(string uid)
+public void LoadScene(string uid)
     {
         GetTree().ChangeSceneToFile(uid);
     }
@@ -129,6 +151,28 @@ public void LoadLevel(string uid)
 public void QuitGame()
     {
         GetTree().Quit();
+    }
+
+public void RestartLevel()
+    {
+        int current_level = LevelManager.Instance.GetCurrentActiveLevel();
+		switch (current_level)
+		{
+			case 1:
+                Instance.LoadScene(Scenes.Levels.level_1);
+				break;
+			case 2:
+                Instance.LoadScene(Scenes.Levels.level_2);
+				break;
+			case 3:
+                Instance.LoadScene(Scenes.Levels.level_3);
+				break;
+			case 0:
+				GD.Print("Active level not found, unable to restart, returning main menu");
+                Instance.LoadScene(Scenes.Menus.main_menu);
+				break;
+
+		}
     }
 public Dictionary<int, LevelData> GetAllLevels()
 {
@@ -142,39 +186,40 @@ public void InitializeLevelData()
         List<UpgradeItem> level_1_upgrades = new()
 
         {
-            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10),
-            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 1),
-            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
-            new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 4),
-            new UpgradeItem("005", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
-            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 6),
-            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 3),
-            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 5)
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10, 10, 0, ""),
+            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
+            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2, 0, ""),
+            new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 2, 4, 0, ""),
+            new UpgradeItem("005", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 1, 4, 0, ""),
+            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 10, 6, 0, ""),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 5, 3, 1, " elephant poo"),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2,2, 5, 0, ""),
+            new UpgradeItem("009", "watering_can_puddle_upgrade", Scenes.UpgradeItemDescriptions.watering_can_puddle_upgrade, "boost", 1, 1, 10, 0, "")
         };
 
         List<UpgradeItem> level_2_upgrades = new()
 
         {
-            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 1),
-            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 2),
-            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 2, 4),
-            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 6),
-            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10),
-            new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 20),
-            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 10)
+            new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
+            new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2,0, ""),
+            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 2, 2, 4, 0, ""),
+            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 15, 6, 0, ""),
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10, 10, 0, ""),
+            new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 2, 20, 2, " elephant poo"),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 10, 0, "")
         };
 
         List<UpgradeItem> level_3_upgrades = new()
 
         {
-            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds,"boost", 15, 8),
-            new UpgradeItem("002", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 1),
-            new UpgradeItem("003", "beehive", Scenes.UpgradeItemDescriptions.beehive, "distraction", 10, 2),
-            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 4),
-            new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 1, 4),
-            new UpgradeItem("006", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 8),
-            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 25),
-            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 15)
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds,"boost", 15, 15, 8, 0, ""),
+            new UpgradeItem("002", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 1, 0, ""),
+            new UpgradeItem("003", "beehive", Scenes.UpgradeItemDescriptions.beehive, "distraction", 10, 10, 2, 0, ""),
+            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 1, 4, 0, ""),
+            new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 1, 1, 4, 0, ""),
+            new UpgradeItem("006", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 15, 8, 0, ""),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 3, 25, 3, " elephant poo"),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 15, 0, "")
         };
 
         LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 30, 30, 1, level_1_upgrades);
@@ -300,6 +345,10 @@ public string GetTextureByItemName(string item_type)
             case "watering_can_upgrade":
                 texture = Scenes.ItemTextures.watering_can_upgrade;
                 break;
+
+            case "watering_can_puddle_upgrade":
+                texture = Scenes.ItemTextures.watering_can_puddle_upgrade;
+                break;
             case "pineapple_seeds":
 				texture = Scenes.ItemTextures.pineapple_seeds;
 				break;
@@ -342,7 +391,12 @@ public string GetTextureByItemName(string item_type)
             case "fertilizer":
                 texture = Scenes.ItemTextures.fertilizer_boost;
                 break;
-
+            case "checkbox_checked":
+                texture = Scenes.UITextures.checkbox_checked;
+                break;
+            case "checkbox_unchecked":
+                 texture = Scenes.UITextures.checkbox_unchecked;
+                break;
 			case "seeds":
 				LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
 				if (level == null || (level != null && level.GetPlantType() == null))
@@ -387,6 +441,33 @@ public string GetTextureByItemName(string item_type)
     public void SetWateringCanTotalLevel(int num)
     {
         watering_can_total_level = num;
+    }
+
+    public bool GetWateringCanPuddleUpgrade()
+    {
+        return player_has_watering_can_puddle_upgrade;
+    }
+
+	public void SetWateringCanPuddleUpgrade(bool upgraded)
+    {
+        player_has_watering_can_puddle_upgrade = upgraded;
+    }
+
+    public int GetCurrentLevelWatercanUpgradeTotal()
+    {
+        List<UpgradeItem> upgradeItems = GetLevelDataForActiveLevel().GetLevelUpgradeItems();
+        if (upgradeItems != null || upgradeItems.Count > 0)
+        {
+            UpgradeItem watering_can_size_upgrade = upgradeItems.Find(item => "watering_can_upgrade".Equals(item.GetItemName()));
+            if(watering_can_size_upgrade != null)
+            {
+                return watering_can_size_upgrade.GetTotalForLevel();
+            } else
+            {
+                return 0;
+            }
+        }
+        return GetLevelDataForActiveLevel().GetLevelUpgradeItems().Find(item => "watering_can_upgrade".Equals(item.GetItemName())).GetTotalInStock();
     }
 
     public string GetCurrentLevelPlantType()

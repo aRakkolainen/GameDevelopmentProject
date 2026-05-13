@@ -16,6 +16,8 @@ public partial class UpgradeShop : CanvasLayer
 	private LevelData level;
 
 	private string[] itemTypes;
+
+	private int watering_can_upgrade_purchases = 0;
 	
 
 	//private Dictionary<string, Godot.Collections.Array> upgradeOptions;
@@ -30,6 +32,9 @@ public partial class UpgradeShop : CanvasLayer
 
 	[Signal]
 	public delegate void UpdatedMoneyTextEventHandler();
+
+	[Signal]
+	public delegate void UpdatedPassiveUpgradesListEventHandler(string passiveUpgradeName, int updateTimes);
 
 	[Signal]
 	public delegate void UpdatedItemsInStockTextEventHandler(int quantity);
@@ -91,7 +96,19 @@ public partial class UpgradeShop : CanvasLayer
 			} else if (selected_item.GetItemName().Equals("watering_can_upgrade"))
 			{
 				int currentWaterTotal = LevelManager.Instance.GetWateringCanTotalLevel();
+				watering_can_upgrade_purchases++;
 				LevelManager.Instance.SetWateringCanTotalLevel(currentWaterTotal+5);
+				EmitSignal(SignalName.UpdatedPassiveUpgradesList, selected_item.GetItemName(), watering_can_upgrade_purchases);
+			} else if (selected_item.GetItemName().Equals("watering_can_puddle_upgrade"))
+			{
+				LevelManager.Instance.SetWateringCanPuddleUpgrade(true);
+				EmitSignal(SignalName.UpdatedPassiveUpgradesList, selected_item.GetItemName(), 1);
+			} else if (selected_item.GetItemName().Equals("fertilizer"))
+			{
+				if (selected_item.GetAdditionalPrice() > 0)
+				{
+					GD.Print("Fertilizer has extra price, checking that player has collected elephant poo!");	
+				}
 			} else
 			{
 				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);

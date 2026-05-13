@@ -2,25 +2,21 @@ using Godot;
 using System;
 
 public partial class MainMenu : Control
-{
-	// [Export] private Button start_button;
-
-	// [Export] private Button quit_button;
-	// // Called when the node enters the scene tree for the first time.
-	
-
-	public static void On_start_button_pressed()
+{	
+	public static void OnStartButtonPressed()
 	{
 		GD.Print("Pressed Start Button");
 		LevelManager.Instance.SetCurrentActiveLevel(1);
 		LevelManager.Instance.InitializeLevelData();
-		LevelManager.Instance.LoadLevel(Scenes.Levels.start_cut_scene);
-		
-		
+		LevelManager.Instance.LoadScene(Scenes.CutScenes.start_cut_scene);
 	}
-	public static void On_quit_button_pressed()
+	public static void OnQuitButtonPressed()
 	{
 		GD.Print("Thanks for playing!");
 		LevelManager.Instance.QuitGame();
+	}
+
+	public static void OnSettingsButtonPressed(){
+		LevelManager.Instance.LoadScene(Scenes.Menus.settings_menu);
 	}
 }

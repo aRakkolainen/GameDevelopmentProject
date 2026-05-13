@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Godot;
+namespace ProtectFarm;
 
 public partial class LevelScript : Node2D
 {
@@ -103,7 +104,7 @@ public partial class LevelScript : Node2D
             
         } else{
             GD.Print("You failed to fill the quota!");
-            LevelManager.Instance.LoadLevel(Scenes.Levels.death_scene);
+            LevelManager.Instance.LoadScene(Scenes.CutScenes.death_scene);
            ResetLevel();
             
         }
@@ -131,7 +132,7 @@ public partial class LevelScript : Node2D
             if (sold_quota < expected_quota)
             {
                 _player.Die();
-                LevelManager.Instance.LoadLevel(Scenes.Levels.death_scene);
+                LevelManager.Instance.LoadScene(Scenes.CutScenes.death_scene);
                 LevelManager.Instance.SetPlayerHasFailed(true);
                 ResetLevel();
             } else
@@ -147,7 +148,7 @@ public partial class LevelScript : Node2D
     private void LoadInBetweenLevelsAnimation()
     {
         GD.Print("Move to next level after animation");
-        LevelManager.Instance.LoadLevel(Scenes.Levels.between_levels_animations_scene);
+        LevelManager.Instance.LoadScene(Scenes.CutScenes.between_levels_animations_scene);
     }
 
 
@@ -195,6 +196,8 @@ public partial class LevelScript : Node2D
         {
             GD.Print("Trying to update tile: " + farm_tile_coordinates[i]);
             _farmManager.UpdatePlantToNextPhase(farm_tile_coordinates[i]);
+            _farmManager.ResetWateredByElephant();
+            
                 
         }
         

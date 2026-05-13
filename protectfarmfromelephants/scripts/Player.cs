@@ -24,6 +24,7 @@ public partial class Player : CharacterBody2D
 
 	private int max_watercan_fill_level = 5;
 
+
 	private LevelData level;
 
 	private bool holdItem = false;
@@ -48,6 +49,9 @@ public partial class Player : CharacterBody2D
 	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler(string item_name);
 
 	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(string item_name);
+
+	[Signal] public delegate void PlayerTriedToDropFruitEventHandler(string item_name);
+
 	public override void _Ready()
 	{
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
@@ -71,6 +75,8 @@ public partial class Player : CharacterBody2D
 		inventory.Add(plant_seeds); */
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
 		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
+		//Only for development
+		EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "fruit", 3, max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)
@@ -109,6 +115,9 @@ public partial class Player : CharacterBody2D
 		} else if (item_type.Equals("plant_distraction"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, item_name);
+		} else if (item_type.Equals("fruit"))
+		{
+			EmitSignal(SignalName.PlayerTriedToDropFruit, item_name);
 		}
 	}
 
@@ -229,5 +238,5 @@ public partial class Player : CharacterBody2D
         playerIsAlive = status;
     }
 
-    
+
 }

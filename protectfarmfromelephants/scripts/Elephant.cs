@@ -1,7 +1,6 @@
 using Godot;
 using System;
-using System.Linq.Expressions;
-using System.Numerics;
+namespace ProtectFarm;
 
 public partial class Elephant : Area2D
 {
@@ -20,6 +19,8 @@ public partial class Elephant : Area2D
 
 	[Signal] public delegate void CollidedWithItemEventHandler(Vector2I tileCoords, string itemType, Elephant elephant);
 
+	
+
 	uint originalMask;
 
 	private bool hasCollidedWithFarmBefore = false;
@@ -29,6 +30,10 @@ public partial class Elephant : Area2D
 	
 	[Export] public float BoundaryDebounceSeconds = 0.1f;
     private double _debounceTimer = 0.0;
+
+	private bool elephant_collided_with_puddle = false;
+
+	private bool elephant_collided_with_mud_puddle = false;
 
 
 	
@@ -40,9 +45,16 @@ public partial class Elephant : Area2D
 
 	private bool isInRangeOfNoiseMaker = false;
 
+	private bool isInRangeOfCampfire = false;
+
 	private Godot.Vector2? directionBeforeNoise = null;
 
-	public void Initialize()
+	private Godot.Vector2? directionBeforeCampfire = null;
+
+	private float SpeedBeforeDefenseItem = 0;
+    private bool _shouldBounce;
+
+    public void Initialize()
 	{
     	IsInitialized = true;
 	}
@@ -58,7 +70,6 @@ public partial class Elephant : Area2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Position += MoveDirection * Speed;
-		
 		
 		if (_animatedSprite != null)
             _animatedSprite.FlipH = MoveDirection.X < 0f;
@@ -100,10 +111,36 @@ public partial class Elephant : Area2D
 			}
 			}
 		} 
+
+		bool currentlyInCampfireEffect = false;
+		if (farm.GetActiveCampfire() != null)
+		{
+			DistractionItem camp_fire = farm.GetActiveCampfire();
+			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
+			
+			int distance_x = Math.Abs(elephant_position_local_to_map.X - camp_fire.GetCoordinates().X);
+        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - camp_fire.GetCoordinates().Y);
+
+			currentlyInCampfireEffect = distance_x < camp_fire.GetEffectRange();
+			if (currentlyInCampfireEffect && !isInRangeOfCampfire)
+			{
+				directionBeforeCampfire = MoveDirection;
+				MoveDirection = -MoveDirection;
+				Speed *= (float)1.5;
+				isInRangeOfCampfire = currentlyInCampfireEffect;
+			} else if(!currentlyInCampfireEffect && !isInRangeOfCampfire && directionBeforeCampfire.HasValue)
+			{
+				MoveDirection = directionBeforeCampfire.Value;
+				directionBeforeCampfire = null; 
+				isInRangeOfCampfire = false; 
+			}
+
+			
+		}
 	}
 
 
-	public async void OnBodyShapeEntered(Godot.Rid body_rid, Node2D body, int body_shape_index, int local_shape_index)
+	public void OnBodyShapeEntered(Godot.Rid body_rid, Node2D body, int body_shape_index, int local_shape_index)
 	{
 		GD.Print("Entered body", body);
 		if (body is not TileMapLayer tileMap)
@@ -131,9 +168,8 @@ public partial class Elephant : Area2D
 			EmitSignal(SignalName.CollidedWithItem, tileCoords, "distraction");
 		}else if (sourceId == 2)
 		{
-			Speed = 0;
-			GD.Print("Elephant collided with defense item!");
-			GD.Print("Emitting CollidedWithItem");
+			_shouldBounce = true;
+
 			EmitSignal(SignalName.CollidedWithItem, tileCoords, "defense", this);
 		} else if (sourceId == 4)
 		{
@@ -141,39 +177,79 @@ public partial class Elephant : Area2D
 			GD.Print("Collided with border!");
 			QueueFree();
 			
+		} else if (sourceId == 5)
+		{
+			Vector2I atlasCoords = tileMap.GetCellAtlasCoords(tileCoords);
+			if (atlasCoords == new Vector2I(1, 1))
+			{
+				elephant_collided_with_puddle = true;
+				EmitSignal(SignalName.CollidedWithItem, tileCoords, "puddle", this);
+			} else if (atlasCoords == new Vector2I(2,1))
+			{
+				elephant_collided_with_mud_puddle = true;
+				EmitSignal(SignalName.CollidedWithItem, tileCoords, "puddle", this);
+			} else
+			{
+				EmitSignal(SignalName.CollidedWithItem, tileCoords, "dropped_plant", this);
+			}
+
 		}
 
 	}
 
 	public void OnPushBack()
 	{
-		Speed = 1.0f;
-        //Code created with assistance of Copilot
+		Speed = SpeedBeforeDefenseItem;
+		MoveDirection = MoveDirection.Bounce(-MoveDirection);
+
         Timer timer = new Timer
         {
-            WaitTime = 0.5,
-			OneShot = true
+            WaitTime = 0.3,
+			OneShot = true,
+			Autostart = true
         };
+		AddChild(timer);
         timer.Timeout += FlipBack;
-			if (MoveDirection.Equals(Godot.Vector2I.Left)){
-				float direction = Vector2I.Right.X * pushBackwardTiles;
-				GlobalPosition = new Godot.Vector2(GlobalPosition.X + direction, GlobalPosition.Y);
-				MoveDirection = Vector2I.Right;
-				Position += MoveDirection * Speed;
-			} else
-		{
-			float direction = Vector2I.Left.X * pushBackwardTiles;
-			GlobalPosition = new Godot.Vector2(GlobalPosition.X + direction, GlobalPosition.Y);	
-			MoveDirection = Vector2I.Left;
-			Position += MoveDirection * Speed;
-		}
+		
+	}
+
+	public bool GetElephantCollidedWithPuddle()
+	{
+		return elephant_collided_with_puddle;
+	}
+
+	public bool GetElephantCollidedWithMudPuddle()
+	{
+		return elephant_collided_with_mud_puddle;
+	}
+
+	public void SetElephantCollidedWithMudPuddle(bool collided)
+	{
+		elephant_collided_with_mud_puddle = collided;
 	}
 
     private void FlipBack()
     {
-        directionBeforeNoise = MoveDirection;
-		MoveDirection = -MoveDirection;
+		if (SpeedBeforeDefenseItem > 0)
+		{
+			Speed = SpeedBeforeDefenseItem;
+		}
     }
+
+
+	public void PauseMovementAndPlayAnimation(string animation_name)
+	{
+		SetPhysicsProcess(false);
+		_animatedSprite.Play(animation_name);
+		_animatedSprite.AnimationFinished += OnEatingFinished;
+	}
+
+    private void OnEatingFinished()
+    {
+        SetPhysicsProcess(true);
+		_animatedSprite.Play("walk");
+    }
+
 
     private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)
 	{

@@ -1,37 +1,123 @@
-[gd_scene load_steps=2 format=3 uid="uid://nedc84ruy5lu"]
+[gd_scene load_steps=8 format=3 uid="uid://nedc84ruy5lu"]
 
 [ext_resource type="Script" path="res://scripts/MainMenu.cs" id="1_intf0"]
+[ext_resource type="Texture2D" uid="uid://bgvx6rdixki36" path="res://assets/start_menu_background.png" id="2_liiuj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b74x"]
+bg_color = Color(0.390164, 0.568786, 0.356701, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bpgt"]
+bg_color = Color(0.280225, 0.421607, 0.253479, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dxwhj"]
+bg_color = Color(0.388235, 0.568627, 0.356863, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t660j"]
+bg_color = Color(0.278431, 0.423529, 0.254902, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ln1gs"]
+bg_color = Color(0.278431, 0.423529, 0.254902, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_intf0")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1096.0
+texture = ExtResource("2_liiuj")
+expand_mode = 2
+
 [node name="RichTextLabel" type="Label" parent="."]
 layout_mode = 2
-offset_left = 108.0
-offset_top = 204.0
-offset_right = 897.0
-offset_bottom = 281.0
-theme_override_font_sizes/font_size = 56
+offset_left = 312.0
+offset_top = 48.0
+offset_right = 1707.0
+offset_bottom = 183.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 8
+theme_override_font_sizes/font_size = 99
 text = "Protect Farm From Elephants
 "
 
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 832.0
+offset_top = 568.0
+offset_right = 1152.0
+offset_bottom = 649.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_4b74x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1bpgt")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1bpgt")
+text = "Settings"
+
 [node name="StartButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 441.0
-offset_top = 311.0
-offset_right = 556.0
-offset_bottom = 371.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 832.0
+offset_top = 432.0
+offset_right = 1152.0
+offset_bottom = 513.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_4b74x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1bpgt")
+theme_override_styles/normal = SubResource("StyleBoxFlat_1bpgt")
 text = "Start Game"
 
 [node name="QuitButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 28.0
-offset_right = 134.0
-offset_bottom = 72.0
+offset_left = 832.0
+offset_top = 704.0
+offset_right = 1152.0
+offset_bottom = 785.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_dxwhj")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t660j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ln1gs")
 text = "Quit Game"
 
-[connection signal="pressed" from="StartButton" to="." method="On_start_button_pressed"]
-[connection signal="pressed" from="QuitButton" to="." method="On_quit_button_pressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="QuitButton" to="." method="OnQuitButtonPressed"]
