@@ -109,5 +109,6 @@ public partial class LevelInfo : CanvasLayer
 	public static void OnRestartButtonPressed()
 	{
 		LevelManager.Instance.RestartLevel();
+		LevelManager.Instance.ResetLevel();
 	}
 }

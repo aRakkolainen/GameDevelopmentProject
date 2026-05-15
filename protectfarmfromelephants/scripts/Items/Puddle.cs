@@ -9,7 +9,7 @@ public class Puddle : PlacedItem
 
     private int num_of_elephant_touches;
 
-    public Puddle(int id, string type, string name, Vector2I coor, bool touched, int touches) : base(id, type, name, coor)
+    public Puddle(int id, string type, string name, Vector2I coor, bool isPickable, bool touched, int touches) : base(id, type, name, coor, isPickable)
     {
         coordinates = coor;
         elephant_has_touched = touched;

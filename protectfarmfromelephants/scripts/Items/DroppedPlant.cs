@@ -6,7 +6,7 @@ public class DroppedPlant : PlacedItem {
     private Vector2I AtlasCoords;
 
     private string EffectOnElephant;
-    public DroppedPlant (int id, string name, Vector2I coords, Vector2I atlas_coords, string effect) : base(id, name, coords)
+    public DroppedPlant (int id, string name, string type, Vector2I coords, Vector2I atlas_coords, string effect, bool isPickable) : base(id, name, type, coords, isPickable)
     {
         AtlasCoords = atlas_coords;
         EffectOnElephant = effect;

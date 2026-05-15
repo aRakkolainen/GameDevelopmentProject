@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl335captacg7"]
+[gd_scene load_steps=6 format=3 uid="uid://cl335captacg7"]
 
 [ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="1_enaiv"]
+[ext_resource type="PackedScene" uid="uid://by43eid8253kv" path="res://scenes/MainMenuButton.tscn" id="2_2lpvh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4guf"]
 bg_color = Color(0.379373, 0.56117, 0.352012, 1)
@@ -31,17 +32,111 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_enaiv")
 
-[node name="MainMenuButton" type="Button" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 40.0
-offset_right = 543.0
-offset_bottom = 121.0
+offset_right = 1923.0
+offset_bottom = 1085.0
+color = Color(0.400355, 0.583746, 0.591857, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -290.0
+offset_right = 290.0
+offset_bottom = 205.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 150
+text = "Settings"
+
+[node name="MusicVolumeLabel" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48512
+anchor_top = 0.213825
+anchor_right = 0.49012
+anchor_bottom = 0.235825
+offset_left = -156.885
+offset_right = 166.5
+offset_bottom = 45.13
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Music volume"
+metadata/_edit_use_anchors_ = true
+
+[node name="MusicVolumeSlider" type="HSlider" parent="ColorRect"]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 272.0
+offset_right = 1136.0
+offset_bottom = 440.0
+theme_override_constants/center_grabber = 0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="SoundEffectVolumeSlider" type="HSlider" parent="ColorRect"]
+layout_mode = 0
+offset_left = 760.0
+offset_top = 552.0
+offset_right = 1144.0
+offset_bottom = 720.0
+theme_override_constants/center_grabber = 0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="SoundEffectsLabel" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 496.0
+offset_right = 1241.0
+offset_bottom = 568.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Sound effects volume"
+
+[node name="EditControlsButton" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 688.0
+offset_right = 1200.0
+offset_bottom = 776.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
 theme_override_styles/hover = SubResource("StyleBoxFlat_v4guf")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
-text = "Back to main menu"
+text = "Controls
+"
 
-[connection signal="pressed" from="MainMenuButton" to="." method="OnMainMenuButtonPressed"]
+[node name="SaveSettingsButton" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 808.0
+offset_right = 1200.0
+offset_bottom = 896.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_v4guf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
+text = "Save changes"
+
+[node name="MainMenuButton" parent="ColorRect" instance=ExtResource("2_2lpvh")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -249.5
+offset_top = -125.0
+offset_right = 253.5
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[connection signal="pressed" from="ColorRect/EditControlsButton" to="." method="OnEditControlsButtonPressed"]
+[connection signal="pressed" from="ColorRect/MainMenuButton" to="." method="OnMainMenuButtonPressed"]

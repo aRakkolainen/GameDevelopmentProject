@@ -5,32 +5,33 @@ public class UpgradeItem
 {
     // [Export] Inventory inventory;
     string ID;
-    string name;
+    string Name;
 
-    string type;
+    string Type;
 
-    string description;
-    int total_in_stock;
+    string Description;
+    int TotalInStock;
 
-    int total_for_level {get; set;}
+    int TotalForLevel {get; set;}
 
-    int price;
+    int Price;
+    
 
-    int additional_price {get; set;}
+    int AdditionalPrice {get; set;}
 
-    string additional_price_info { get; set; }
+    string AdditionalPriceInfo { get; set; }
 
     public UpgradeItem(string id, string item_name, string desc, string item_type, int amount, int total_level, int item_price, int additional, string price_info)
     {
         ID = id; 
-        name = item_name;
-        description = desc;
-        type = item_type;
-        total_in_stock = amount;
-        total_for_level = total_level;
-        price = item_price;
-        additional_price = additional;
-        additional_price_info = price_info;
+        Name = item_name;
+        Description = desc;
+        Type = item_type;
+        TotalInStock = amount;
+        TotalForLevel = total_level;
+        Price = item_price;
+        AdditionalPrice = additional;
+        AdditionalPriceInfo = price_info;
     }
 
 
@@ -41,66 +42,68 @@ public class UpgradeItem
 
     public string GetItemName()
     {
-        return name;
+        return Name;
     }
 
     public string GetItemType()
     {
-        return type;
+        return Type;
     }
 
     public string GetDescription()
     {
-        return description;
+        return Description;
     }
 
     public int GetTotalInStock()
     {
-        return total_in_stock;
+        return TotalInStock;
     }
 
-    public void SetTotalInStock(int num)
-    {
-        total_in_stock = num;
-    }
 
     public int GetPrice()
     {
-        return price;
+        return Price;
     }
 
-    public void SetPrice(int num)
-    {
-       price = num;
-    }
 
     public int GetAdditionalPrice()
     {
-        return additional_price;
+        return AdditionalPrice;
     }
 
+
+    public void SetPrice(int num)
+    {
+       Price = num;
+    }
+    public void SetTotalInStock(int num)
+    {
+        TotalInStock = num;
+    }
     public void SetAdditionalPrice(int num)
     {
-       additional_price = num;
+       AdditionalPrice = num;
     }
 
     public string GetAdditionalPriceInfo()
     {
-        return additional_price_info;
+        return AdditionalPriceInfo;
     }
 
     public void SetAdditionalPriceInfo(string info)
     {
-       additional_price_info = info;
+       AdditionalPriceInfo = info;
     }
 
     public int GetTotalForLevel()
     {
-        return total_for_level;
+        return TotalForLevel;
     }
 
      public void SetTotalForLevel(int num)
     {
-       total_for_level = num;
+       TotalForLevel = num;
     }
+
 }

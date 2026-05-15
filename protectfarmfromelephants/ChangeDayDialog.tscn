@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://jj0dt4w4obyt"]
+
+[ext_resource type="Theme" uid="uid://cjw6aw3eq32l0" path="res://popup_themes.tres" id="1_bav0t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgwum"]
+bg_color = Color(0.4, 0.584314, 0.592157, 1)
+
+[node name="ChangeDayDialog" type="AcceptDialog"]
+process_mode = 3
+auto_translate_mode = 1
+title = "Day has ended!"
+initial_position = 1
+size = Vector2i(200, 100)
+visible = true
+theme = ExtResource("1_bav0t")
+theme_override_styles/panel = SubResource("StyleBoxFlat_mgwum")
+ok_button_text = "Start Next Day"
+dialog_close_on_escape = false

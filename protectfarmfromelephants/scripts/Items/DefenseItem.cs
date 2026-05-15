@@ -10,11 +10,14 @@ public class DefenseItem : PlacedItem
     private bool Is_breakable;
     private int HP;  
 
-    public DefenseItem(int id, string type, string name, Vector2I coordinates, bool breakable, int hp) 
-        : base(id, type, name, coordinates)
+    private string TextureUid;
+
+    public DefenseItem(int id, string type, string name, Vector2I coordinates, bool isPickable, string uid, bool breakable, int hp) 
+        : base(id, type, name, coordinates, isPickable, uid)
     {
         Is_breakable = breakable; 
         HP = hp;
+        TextureUid = uid;
     }
 
     public bool GetIsBreakable()
@@ -25,6 +28,11 @@ public class DefenseItem : PlacedItem
     public int GetHealth()
     {
         return HP;
+    }
+
+    public string GetTextureUid()
+    {
+        return TextureUid;
     }
 
     public void SetIsBreakable(bool isBreakable)

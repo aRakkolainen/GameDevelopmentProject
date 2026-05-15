@@ -30,6 +30,10 @@ public partial class SimpleInventory : ItemList
 	[Signal]
 	public delegate void UpdatedMoneyTextEventHandler();
 
+	[Signal]
+	public delegate void ItemRemovedFromInventoryEventHandler(string item_name);
+
+
 
 	public override void _Ready()
 	{
@@ -151,7 +155,7 @@ public partial class SimpleInventory : ItemList
 		}
 		InventoryItem item = new InventoryItem(id, item_name, item_type, quantity, max_quantity);
 		GD.Print("Trying to add item " + item_name + " with quantity " + quantity);
-		if(inventory_items != null)
+		if(inventory_items != null && inventory_items.Count < 10)
         {
 			AddToInventory(item);
 			Clear();
@@ -169,7 +173,6 @@ public partial class SimpleInventory : ItemList
 
 	public void OnUpdatedItemQuantity(string item_name, int quantity, string update_type)
 	{
-		GD.Print("Trying to update seed counts");
 		UpdateItemQuantity(item_name, update_type, quantity);
 		Clear();
 		DisplayNewItems();
@@ -294,11 +297,16 @@ public partial class SimpleInventory : ItemList
 			InventoryItem current = inventory_items[index];
 			int current_quantity = current.GetQuantity();
 
+			if(index > inventory_items.Count)
+			{
+				return;
+			}
+
 			if (update_type.Equals("increase"))
 				{
 					if (quantity >= 0 && quantity + current_quantity < current.GetMaxQuantity())
 				{
-					inventory_items[index].SetQuantity(current_quantity + quantity);
+					current.SetQuantity(current_quantity + quantity);
 				}
 					
 				} else if (update_type.Equals("decrease"))
@@ -308,15 +316,16 @@ public partial class SimpleInventory : ItemList
 					int new_quantity = current_quantity - quantity;
 					if (new_quantity == 0)
 					{
-						RemoveFromInventory(inventory_items[index]);
+						EmitSignal(SignalName.ItemRemovedFromInventory, current.GetItemName());
+						RemoveFromInventory(current);
 					} else
 					{
-						inventory_items[index].SetQuantity(current_quantity - quantity);
+						current.SetQuantity(current_quantity - quantity);
 					}
 				}
 			} else if (update_type.Equals("custom") && quantity >= 0 && quantity < current.GetMaxQuantity())
 			{
-				inventory_items[index].SetQuantity(quantity);
+				current.SetQuantity(quantity);
 			}
 			
 		}
@@ -345,6 +354,12 @@ public partial class SimpleInventory : ItemList
 	{
 		return inventory_items.FindIndex(i=> i.GetItemName() == item.GetItemName());
 	}
+
+    public int GetMaxStack()
+    {
+        return max_stack;
+    }
+
 }
 
 public class Item

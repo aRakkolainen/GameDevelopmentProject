@@ -31,6 +31,12 @@ public partial class Player : CharacterBody2D
 
 	private string selectedItem;
 
+	/* private TextureRect itemAtHandForward;
+
+	private TextureRect itemAtLeftHand;
+
+	private TextureRect itemAtRightHand; */
+
 
 	//[Export] public FarmManager farm_manager;
 
@@ -42,7 +48,7 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerTriedToPlantSeedEventHandler();
 
-	[Signal] public delegate void PlayerTriedToUseFertilizerEventHandler();
+	[Signal] public delegate void PlayerTriedToUseFertilizerEventHandler(bool isSuperFertilizer);
 
 	[Signal] public delegate void PlayerTriedToPlantDistractionPlantEventHandler(string item_name);
 
@@ -69,14 +75,10 @@ public partial class Player : CharacterBody2D
 
 	public void AddDefaultItemsToInventory()
 	{
-		/* InventoryItem watering_can_item = new InventoryItem(0, "watering_can", 1, 1);
-		InventoryItem plant_seeds = new InventoryItem(1, level.GetPlantType()+"_seeds", level.GetLevelAvailableSeeds(), max_stack);
-		inventory.Add(watering_can_item);
-		inventory.Add(plant_seeds); */
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
 		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
 		//Only for development
-		EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "fruit", 3, max_stack);
+		//EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "fruit", 3, max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)
@@ -101,10 +103,15 @@ public partial class Player : CharacterBody2D
 		} else if (item_type.Equals("seeds"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantSeed);
-			selectedItem = item_type;
 		} else if (item_type.Equals("boost"))
 			{
-				EmitSignal(SignalName.PlayerTriedToUseFertilizer);
+				if ("super_fertilizer".Equals(item_name))
+			{
+				EmitSignal(SignalName.PlayerTriedToUseFertilizer, true);
+			} else
+			{
+				EmitSignal(SignalName.PlayerTriedToUseFertilizer, false);
+			}
 			
 		} else if (item_type.Equals("defense"))
 		{
@@ -114,6 +121,16 @@ public partial class Player : CharacterBody2D
 			EmitSignal(SignalName.PlayerTriedToPlaceDistractionItem, item_name);
 		} else if (item_type.Equals("plant_distraction"))
 		{
+			if ("chili_seeds".Equals(item_name))
+			{
+				item_name = "chili";
+			} else if ("sunflower_seeds".Equals(item_name))
+			{
+				item_name = "sunflower";
+			} else
+			{
+				item_name = "";
+			}
 			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, item_name);
 		} else if (item_type.Equals("fruit"))
 		{
@@ -124,6 +141,14 @@ public partial class Player : CharacterBody2D
 	public void OnFarmSeedPlaced(bool isSuccess)
 	{
 		holdItem = false;
+	}
+
+	public void OnInventoryItemRemoved(string item_name)
+	{
+		if(selectedItem == item_name)
+		{
+			holdItem = false;
+		}
 	}
 
 	public void Die()
@@ -158,15 +183,18 @@ public partial class Player : CharacterBody2D
 		GetInput();
 		if (Input.IsActionPressed("move_left"))
 		{
-			if (!holdItem)
+			if (holdItem)
 				{
-					player.Play("walk");
+					if (selectedItem != null)
+					{
+						player.Play(GetAnimationName(true, false));
+					}
 				} 
 			else
-                {
-                    PlayAnimationWithItem(true);
-                }
-                player.FlipH = true;
+				{
+					player.Play("walk");
+				}
+            player.FlipH = true;
 		}
 		else if (Input.IsActionPressed("move_right"))
 		{
@@ -176,7 +204,10 @@ public partial class Player : CharacterBody2D
 					player.Play("walk");
 				} else
 				{
-					 PlayAnimationWithItem(true);
+					if (selectedItem != null)
+					{
+						player.Play(GetAnimationName(true, false));
+					}
 				}
 		}
 		else if (Input.IsActionPressed("move_up"))
@@ -185,7 +216,17 @@ public partial class Player : CharacterBody2D
 		}
 		else if (Input.IsActionPressed("move_down"))
 		{
-			player.Play("walk_forward");
+			if (!holdItem)
+				{
+					player.Play("walk_forward");
+				}
+				else
+				{
+					if (selectedItem != null)
+					{
+						player.Play(GetAnimationName(true, true));
+					}
+				}
 		}
 		else
 		{
@@ -195,7 +236,10 @@ public partial class Player : CharacterBody2D
 				}
 			else
 				{
-					PlayAnimationWithItem(false);
+					if (selectedItem != null)
+					{
+						player.Play(GetAnimationName(false, true));
+					}
 				}
 		}
 		var collision = MoveAndCollide(Velocity * (float)delta);
@@ -204,29 +248,26 @@ public partial class Player : CharacterBody2D
 
 	}
 
-    private void PlayAnimationWithItem(bool isMoving)
+    private string GetAnimationName(bool isMoving, bool isFacingForward)
     {
-        if (selectedItem.Equals("watering_can"))
-        {
-			if (isMoving)
+		string descr = "";
+		if (isMoving)
+		{
+			if (isFacingForward)
 			{
-            	player.Play("walk_with_watering_can");
+				descr = "walk_forward_with_" + selectedItem;
 			} else
 			{
-				player.Play("stand_with_watering_can");
+				descr = "walk_with_" + selectedItem;
 			}
-        }
-        else if (selectedItem.Equals("seeds"))
-        {
-			if (isMoving)
-			{
-            	player.Play("walk_with_seed_pack");
-			} else
-			{
-				player.Play("stand_with_seed_pack");
-			}
-        }
+		} else
+		{
+			descr = "stand_with_" + selectedItem;
+		}
+
+		return descr;
     }
+
 
     public bool GetPlayerIsAlive()
     {

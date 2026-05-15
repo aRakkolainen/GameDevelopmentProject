@@ -1,24 +1,374 @@
-[gd_scene load_steps=19 format=3 uid="uid://d0qgd502gu2p5"]
+[gd_scene load_steps=147 format=3 uid="uid://d0qgd502gu2p5"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_6mhrc"]
 [ext_resource type="Texture2D" uid="uid://doiucyiynt1hm" path="res://assets/player_forward.png" id="1_46j3o"]
-[ext_resource type="Texture2D" uid="uid://drcw1nedobu1i" path="res://assets/player_left_00.png" id="1_m6adl"]
-[ext_resource type="Texture2D" uid="uid://xpsi5lxp5jgv" path="res://assets/player_left_01.png" id="2_gj7l5"]
 [ext_resource type="Texture2D" uid="uid://c10l4ptr5vf2y" path="res://assets/player_forward_with_seed_pack.png" id="3_68frl"]
+[ext_resource type="Texture2D" uid="uid://deutmeq32tgn1" path="res://assets/player/player_walking_forward_with_item.png" id="3_d2vwx"]
 [ext_resource type="Texture2D" uid="uid://brrhu3jtuj4hh" path="res://assets/player_right_00.png" id="3_gifqq"]
+[ext_resource type="Texture2D" uid="uid://dlwdxupmttg4y" path="res://assets/player/player_forward_with_item.png" id="3_johf2"]
+[ext_resource type="Texture2D" uid="uid://cel0d7tr5pl1k" path="res://assets/player/player_forward_with_beehive.png" id="3_l7veu"]
+[ext_resource type="Texture2D" uid="uid://diejn7bvcdgqe" path="res://assets/player/player_walking_with_pineapple.png" id="3_y7bo0"]
 [ext_resource type="Texture2D" uid="uid://1nvaekopqga8" path="res://assets/player_right_01.png" id="4_8kij3"]
 [ext_resource type="Texture2D" uid="uid://dpi816jl77map" path="res://assets/player_watering_can_1.png" id="4_agyjm"]
+[ext_resource type="Texture2D" uid="uid://cmhk32om8t4dw" path="res://assets/player/player_stand_forward_with_mango_seeds.png" id="4_g42vo"]
 [ext_resource type="Texture2D" uid="uid://kh5sb5yp2k4y" path="res://assets/player/player_forward_with_watering_can.png" id="4_nn645"]
+[ext_resource type="Texture2D" uid="uid://bi6gipo76acgc" path="res://assets/player/player_forward_with_chili.png" id="4_rqnca"]
 [ext_resource type="Texture2D" uid="uid://sgkx3cy4cus4" path="res://assets/player_backward_walk_1.png" id="4_rvr4t"]
+[ext_resource type="Texture2D" uid="uid://o0ewi34lg1w3" path="res://assets/player/player_forward_with_chili_seeds.png" id="5_0a7yi"]
+[ext_resource type="Texture2D" uid="uid://c5cqjohtfol2m" path="res://assets/player/player_stand_forward_with_pineapple_seeds.png" id="5_ejmp1"]
 [ext_resource type="Texture2D" uid="uid://c22oey1mhnx5x" path="res://assets/player_watering_can_2.png" id="5_t4xl7"]
 [ext_resource type="Texture2D" uid="uid://1ik88dval1u5" path="res://assets/player_backward_walk_2.png" id="5_w31al"]
+[ext_resource type="Texture2D" uid="uid://738xsgo1d7xd" path="res://assets/player/player_forward_with_elephant_poop.png" id="6_8qkjw"]
 [ext_resource type="Texture2D" uid="uid://dwfa1bhhxl84d" path="res://assets/player_forward_walk_1.png" id="6_mkpnr"]
 [ext_resource type="Texture2D" uid="uid://b1xby5opvoueb" path="res://assets/player_forward_walk_2.png" id="7_1r6kq"]
+[ext_resource type="Texture2D" uid="uid://b7bbtvd3vn3pu" path="res://assets/player/player_forward_with_fence.png" id="7_c2wxe"]
+[ext_resource type="Texture2D" uid="uid://cb84gvssktfi" path="res://assets/player/player_stand_forward_with_watermelon_seeds.png" id="8_txomb"]
+[ext_resource type="Texture2D" uid="uid://dkbevnatt72jn" path="res://assets/player/player_forward_with_fertilizer.png" id="8_ugtfs"]
+[ext_resource type="Texture2D" uid="uid://ukelm4sxlu51" path="res://assets/player/player_forward_with_mango.png" id="10_b01r6"]
+[ext_resource type="Texture2D" uid="uid://bgtrl123rkfei" path="res://assets/player/player_forward_with_noise_maker.png" id="12_kcp8w"]
 [ext_resource type="Texture2D" uid="uid://bp0wwe0wxbd67" path="res://assets/player_walking_with_seed_pack_1.png" id="12_kvmu7"]
+[ext_resource type="Texture2D" uid="uid://y1yfa5lrrew8" path="res://assets/player/player_stand_with_pineapple.png" id="13_2khjg"]
 [ext_resource type="Texture2D" uid="uid://dfmwja3rwikeh" path="res://assets/player_walking_with_seed_pack_2.png" id="13_r7sfj"]
+[ext_resource type="Texture2D" uid="uid://2q0rm2mb83r8" path="res://assets/player/player_walking_with_item.png" id="14_hwo2q"]
+[ext_resource type="Texture2D" uid="uid://52fsober6gkp" path="res://assets/player/player_walking_forward_with_mango.png" id="16_eg6fr"]
+[ext_resource type="Texture2D" uid="uid://bxo45vba103h" path="res://assets/player/player_forward_with_stonewall.png" id="16_hvr52"]
+[ext_resource type="Texture2D" uid="uid://bu47mlaauy3lf" path="res://assets/player/player_forward_with_sunflower.png" id="17_k8236"]
+[ext_resource type="Texture2D" uid="uid://dftijyrfvroie" path="res://assets/player/player_walking_forward_with_mango_seeds.png" id="17_x35yu"]
+[ext_resource type="Texture2D" uid="uid://62vbcepx7ac1" path="res://assets/player/player_forward_with_sunflower_seeds.png" id="18_ebya1"]
+[ext_resource type="Texture2D" uid="uid://djth1sx7hbbod" path="res://assets/player/player_walking_forward_with_pineapple_seeds.png" id="18_hppuf"]
+[ext_resource type="Texture2D" uid="uid://dp3e0csbnxg4y" path="res://assets/player/player_walking_forward_with_watering_can.png" id="19_teyjj"]
+[ext_resource type="Texture2D" uid="uid://bqhc2du7hgcst" path="res://assets/player/player_forward_with_super_fertilizer.png" id="19_u0ogq"]
+[ext_resource type="Texture2D" uid="uid://ciktrkurgbo8u" path="res://assets/fruits/pineapple.png" id="19_yeftx"]
+[ext_resource type="Texture2D" uid="uid://c7xdtij5nqp1u" path="res://assets/player/player_walking_forward_with_watermelon.png" id="20_jofjx"]
+[ext_resource type="Texture2D" uid="uid://c37ficep76a8e" path="res://assets/player/player_forward_with_watermelon.png" id="21_tiy8h"]
+[ext_resource type="Texture2D" uid="uid://caqc4xr0b2wop" path="res://assets/player/player_walking_forward_with_watermelon_seeds.png" id="21_wdjag"]
+[ext_resource type="Texture2D" uid="uid://cyymu0jk7pmda" path="res://assets/player/player_walking_with_mango.png" id="23_yve74"]
+[ext_resource type="Texture2D" uid="uid://c68e8swxnvai0" path="res://assets/player/player_walking_with_mango_seeds.png" id="24_fn6gc"]
+[ext_resource type="Texture2D" uid="uid://deinarcaqirtj" path="res://assets/player/player_walking_with_pineapple_seeds.png" id="26_joxp2"]
+[ext_resource type="Texture2D" uid="uid://b50nft6ikq6hk" path="res://assets/player/player_walking_forward_with_beehive.png" id="29_7la3w"]
+[ext_resource type="Texture2D" uid="uid://jwkwjs2e7qwx" path="res://assets/player/player_walking_forward_with_chili.png" id="30_3dh3r"]
+[ext_resource type="Texture2D" uid="uid://cxxn7oka3k5fq" path="res://assets/player/player_walking_with_watemelon.png" id="31_u4jfd"]
+[ext_resource type="Texture2D" uid="uid://dhg2lqjj85881" path="res://assets/player/player_walking_forward_with_chili_seeds.png" id="31_x4o0x"]
+[ext_resource type="Texture2D" uid="uid://dbyeehrjbqith" path="res://assets/player/player_walking_with_watermelon_seeds.png" id="32_cy4om"]
+[ext_resource type="Texture2D" uid="uid://bls1ehrf04s62" path="res://assets/player/player_walking_forward_with_elephant_poo.png" id="32_uyjsw"]
+[ext_resource type="Texture2D" uid="uid://bx632ycrlnqrf" path="res://assets/player/player_walking_forward_with_fence.png" id="33_55cts"]
+[ext_resource type="Texture2D" uid="uid://bqxxlpfdw4tiv" path="res://assets/player/player_walking_forward_with_fertilizer.png" id="34_rommp"]
+[ext_resource type="Texture2D" uid="uid://b17ierioh70ti" path="res://assets/player/player_walking_forward_with_noise_maker.png" id="38_ogm7t"]
+[ext_resource type="Texture2D" uid="uid://cwttd21hwt3c0" path="res://assets/player/player_walking_forward_with_pineapple.png" id="39_aopkd"]
+[ext_resource type="Texture2D" uid="uid://8kxa2ebwtvwc" path="res://assets/player/player_walking_forward_with_stonewall.png" id="40_pblgy"]
+[ext_resource type="Texture2D" uid="uid://b8o0c71aybv30" path="res://assets/player/player_walking_forward_with_sunflower.png" id="41_oljua"]
+[ext_resource type="Texture2D" uid="uid://dj7scamw7xm23" path="res://assets/player/player_walking_forward_with_sunflower_seeds.png" id="42_ih8wf"]
+[ext_resource type="Texture2D" uid="uid://bn43ijkhevnb8" path="res://assets/player/player_walking_forward_with_super_fertilizer.png" id="43_tg5nq"]
+[ext_resource type="Texture2D" uid="uid://b40lj4x0vkq3k" path="res://assets/player/player_walking_with_beehive.png" id="47_bjmhv"]
+[ext_resource type="Texture2D" uid="uid://b8qg71mapinpd" path="res://assets/player/player_walking_with_chili.png" id="48_licf0"]
+[ext_resource type="Texture2D" uid="uid://cisg20eh0dugn" path="res://assets/player/player_walking_with_chili_seeds.png" id="49_6u8te"]
+[ext_resource type="Texture2D" uid="uid://b2woquxsa3tl2" path="res://assets/player/player_walking_with_elephant_poop.png" id="50_llnb7"]
+[ext_resource type="Texture2D" uid="uid://drtfbmehojoku" path="res://assets/player/player_walking_with_fence.png" id="51_45amc"]
+[ext_resource type="Texture2D" uid="uid://p1cld6xn6yqs" path="res://assets/player/player_walking_with_fertilizer.png" id="52_6rxev"]
+[ext_resource type="Texture2D" uid="uid://cu34iwmetbxoe" path="res://assets/player/player_walking_with_noise_maker.png" id="56_d2ylu"]
+[ext_resource type="Texture2D" uid="uid://cxasgjnaca5u6" path="res://assets/player/player_walking_with_stonewall.png" id="61_akajo"]
+[ext_resource type="Texture2D" uid="uid://djw0nr8p3ebof" path="res://assets/player/player_walking_with_sunflower.png" id="62_w03t8"]
+[ext_resource type="Texture2D" uid="uid://bykb2slfbn1q1" path="res://assets/player/player_walking_with_sunflower_seeds.png" id="63_bcwhq"]
+[ext_resource type="Texture2D" uid="uid://cljq7sgd1knt2" path="res://assets/player/player_walking_with_super_fertilizer.png" id="64_ul7f4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgu2t"]
 size = Vector2(19, 30.1563)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hlx8"]
+atlas = ExtResource("29_7la3w")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vihnp"]
+atlas = ExtResource("29_7la3w")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8f7ef"]
+atlas = ExtResource("30_3dh3r")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fi54v"]
+atlas = ExtResource("30_3dh3r")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bvy8"]
+atlas = ExtResource("31_x4o0x")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m5fy"]
+atlas = ExtResource("31_x4o0x")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpa6b"]
+atlas = ExtResource("32_uyjsw")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqra7"]
+atlas = ExtResource("32_uyjsw")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouk3k"]
+atlas = ExtResource("33_55cts")
+region = Rect2(0, 0, 36, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ig5r"]
+atlas = ExtResource("33_55cts")
+region = Rect2(36, 0, 36, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klp1w"]
+atlas = ExtResource("34_rommp")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwnre"]
+atlas = ExtResource("34_rommp")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytpu7"]
+atlas = ExtResource("3_d2vwx")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfhbb"]
+atlas = ExtResource("3_d2vwx")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y1pd"]
+atlas = ExtResource("16_eg6fr")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb234"]
+atlas = ExtResource("16_eg6fr")
+region = Rect2(30, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kx51i"]
+atlas = ExtResource("17_x35yu")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3t2p1"]
+atlas = ExtResource("17_x35yu")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdblm"]
+atlas = ExtResource("38_ogm7t")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crnqk"]
+atlas = ExtResource("38_ogm7t")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm8xd"]
+atlas = ExtResource("39_aopkd")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1d4n"]
+atlas = ExtResource("39_aopkd")
+region = Rect2(30, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5utm"]
+atlas = ExtResource("18_hppuf")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2pcq"]
+atlas = ExtResource("18_hppuf")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3ati"]
+atlas = ExtResource("40_pblgy")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ne6m3"]
+atlas = ExtResource("40_pblgy")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq68g"]
+atlas = ExtResource("41_oljua")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rh7pj"]
+atlas = ExtResource("41_oljua")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6d3r"]
+atlas = ExtResource("42_ih8wf")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uj1nx"]
+atlas = ExtResource("42_ih8wf")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5ibg"]
+atlas = ExtResource("43_tg5nq")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amg7w"]
+atlas = ExtResource("43_tg5nq")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma4mx"]
+atlas = ExtResource("19_teyjj")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sebx"]
+atlas = ExtResource("19_teyjj")
+region = Rect2(30, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65kwy"]
+atlas = ExtResource("20_jofjx")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uqlb"]
+atlas = ExtResource("20_jofjx")
+region = Rect2(30, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pro80"]
+atlas = ExtResource("21_wdjag")
+region = Rect2(0, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1d73"]
+atlas = ExtResource("21_wdjag")
+region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgkn3"]
+atlas = ExtResource("47_bjmhv")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4kkw"]
+atlas = ExtResource("47_bjmhv")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uir41"]
+atlas = ExtResource("48_licf0")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_earv4"]
+atlas = ExtResource("48_licf0")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7u850"]
+atlas = ExtResource("49_6u8te")
+region = Rect2(0, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4a5p"]
+atlas = ExtResource("49_6u8te")
+region = Rect2(34, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_id6fn"]
+atlas = ExtResource("50_llnb7")
+region = Rect2(0, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxb0h"]
+atlas = ExtResource("50_llnb7")
+region = Rect2(37, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwt8f"]
+atlas = ExtResource("51_45amc")
+region = Rect2(0, 0, 53, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uv6u"]
+atlas = ExtResource("51_45amc")
+region = Rect2(53, 0, 53, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gcah"]
+atlas = ExtResource("52_6rxev")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bue0s"]
+atlas = ExtResource("52_6rxev")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n5o0"]
+atlas = ExtResource("14_hwo2q")
+region = Rect2(0, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvpa3"]
+atlas = ExtResource("14_hwo2q")
+region = Rect2(37, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwin7"]
+atlas = ExtResource("23_yve74")
+region = Rect2(0, 0, 39, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sjkc"]
+atlas = ExtResource("23_yve74")
+region = Rect2(39, 0, 39, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh2g6"]
+atlas = ExtResource("24_fn6gc")
+region = Rect2(0, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3uk4"]
+atlas = ExtResource("24_fn6gc")
+region = Rect2(37, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_woxf0"]
+atlas = ExtResource("56_d2ylu")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx327"]
+atlas = ExtResource("56_d2ylu")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3oml"]
+atlas = ExtResource("3_y7bo0")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xj000"]
+atlas = ExtResource("3_y7bo0")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67h8y"]
+atlas = ExtResource("26_joxp2")
+region = Rect2(0, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epl7h"]
+atlas = ExtResource("26_joxp2")
+region = Rect2(37, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv42f"]
+atlas = ExtResource("61_akajo")
+region = Rect2(0, 0, 58, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_calae"]
+atlas = ExtResource("61_akajo")
+region = Rect2(58, 0, 58, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xaln"]
+atlas = ExtResource("62_w03t8")
+region = Rect2(0, 0, 50, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2lsm"]
+atlas = ExtResource("62_w03t8")
+region = Rect2(50, 0, 50, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iku2t"]
+atlas = ExtResource("63_bcwhq")
+region = Rect2(0, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qq6s"]
+atlas = ExtResource("63_bcwhq")
+region = Rect2(34, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axga0"]
+atlas = ExtResource("64_ul7f4")
+region = Rect2(0, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hayo4"]
+atlas = ExtResource("64_ul7f4")
+region = Rect2(40, 0, 40, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qirbx"]
+atlas = ExtResource("31_u4jfd")
+region = Rect2(0, 0, 39, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yg2uc"]
+atlas = ExtResource("31_u4jfd")
+region = Rect2(39, 0, 39, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh0au"]
+atlas = ExtResource("32_cy4om")
+region = Rect2(0, 0, 37, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7n6k8"]
+atlas = ExtResource("32_cy4om")
+region = Rect2(37, 0, 37, 30)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wbw8y"]
 animations = [{
@@ -32,10 +382,138 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_l7veu")
+}],
+"loop": true,
+"name": &"stand_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_rqnca")
+}],
+"loop": true,
+"name": &"stand_with_chili",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_0a7yi")
+}],
+"loop": true,
+"name": &"stand_with_chili_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8qkjw")
+}],
+"loop": true,
+"name": &"stand_with_elephant_poop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_c2wxe")
+}],
+"loop": true,
+"name": &"stand_with_fence",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ugtfs")
+}],
+"loop": true,
+"name": &"stand_with_fertilizer",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_johf2")
+}],
+"loop": true,
+"name": &"stand_with_item",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_b01r6")
+}],
+"loop": true,
+"name": &"stand_with_mango",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_g42vo")
+}],
+"loop": true,
+"name": &"stand_with_mango_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_kcp8w")
+}],
+"loop": true,
+"name": &"stand_with_noise_maker",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_2khjg")
+}],
+"loop": true,
+"name": &"stand_with_pineapple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ejmp1")
+}],
+"loop": true,
+"name": &"stand_with_pineapple_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_68frl")
 }],
 "loop": true,
-"name": &"stand_with_seed_pack",
+"name": &"stand_with_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_hvr52")
+}],
+"loop": true,
+"name": &"stand_with_stone_wall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_k8236")
+}],
+"loop": true,
+"name": &"stand_with_sunflower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_ebya1")
+}],
+"loop": true,
+"name": &"stand_with_sunflower_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_u0ogq")
+}],
+"loop": true,
+"name": &"stand_with_super_fertilizer",
 "speed": 5.0
 }, {
 "frames": [{
@@ -44,6 +522,22 @@ animations = [{
 }],
 "loop": true,
 "name": &"stand_with_watering_can",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_tiy8h")
+}],
+"loop": true,
+"name": &"stand_with_watermelon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_txomb")
+}],
+"loop": true,
+"name": &"stand_with_watermelon_seeds",
 "speed": 5.0
 }, {
 "frames": [{
@@ -81,13 +575,343 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_m6adl")
+"texture": SubResource("AtlasTexture_0hlx8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_gj7l5")
+"texture": SubResource("AtlasTexture_vihnp")
 }],
 "loop": true,
-"name": &"walk_left",
+"name": &"walk_forward_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8f7ef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fi54v")
+}],
+"loop": true,
+"name": &"walk_forward_with_chili",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bvy8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m5fy")
+}],
+"loop": true,
+"name": &"walk_forward_with_chili_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpa6b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqra7")
+}],
+"loop": true,
+"name": &"walk_forward_with_elephant_poop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouk3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ig5r")
+}],
+"loop": true,
+"name": &"walk_forward_with_fence",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klp1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwnre")
+}],
+"loop": true,
+"name": &"walk_forward_with_fertilizer",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytpu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfhbb")
+}],
+"loop": true,
+"name": &"walk_forward_with_item",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y1pd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fb234")
+}],
+"loop": true,
+"name": &"walk_forward_with_mango",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kx51i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3t2p1")
+}],
+"loop": true,
+"name": &"walk_forward_with_mango_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdblm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crnqk")
+}],
+"loop": true,
+"name": &"walk_forward_with_noise_maker",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mm8xd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1d4n")
+}],
+"loop": true,
+"name": &"walk_forward_with_pineapple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5utm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2pcq")
+}],
+"loop": true,
+"name": &"walk_forward_with_pineapple_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3ati")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ne6m3")
+}],
+"loop": true,
+"name": &"walk_forward_with_stone_wall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq68g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rh7pj")
+}],
+"loop": true,
+"name": &"walk_forward_with_sunflower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6d3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uj1nx")
+}],
+"loop": true,
+"name": &"walk_forward_with_sunflower_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5ibg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_amg7w")
+}],
+"loop": true,
+"name": &"walk_forward_with_super_fertilizer",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma4mx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1sebx")
+}],
+"loop": true,
+"name": &"walk_forward_with_watering_can",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65kwy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uqlb")
+}],
+"loop": true,
+"name": &"walk_forward_with_watermelon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pro80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1d73")
+}],
+"loop": true,
+"name": &"walk_forward_with_watermelon_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgkn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4kkw")
+}],
+"loop": true,
+"name": &"walk_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uir41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_earv4")
+}],
+"loop": true,
+"name": &"walk_with_chili",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7u850")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4a5p")
+}],
+"loop": true,
+"name": &"walk_with_chili_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_id6fn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxb0h")
+}],
+"loop": true,
+"name": &"walk_with_elephant_poop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwt8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uv6u")
+}],
+"loop": true,
+"name": &"walk_with_fence",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gcah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bue0s")
+}],
+"loop": true,
+"name": &"walk_with_fertilizer",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n5o0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvpa3")
+}],
+"loop": true,
+"name": &"walk_with_item",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwin7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sjkc")
+}],
+"loop": true,
+"name": &"walk_with_mango",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vh2g6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3uk4")
+}],
+"loop": true,
+"name": &"walk_with_mango_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_woxf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx327")
+}],
+"loop": true,
+"name": &"walk_with_noise_maker",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3oml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xj000")
+}],
+"loop": true,
+"name": &"walk_with_pineapple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67h8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epl7h")
+}],
+"loop": true,
+"name": &"walk_with_pineapple_seeds",
 "speed": 5.0
 }, {
 "frames": [{
@@ -98,7 +922,51 @@ animations = [{
 "texture": ExtResource("13_r7sfj")
 }],
 "loop": true,
-"name": &"walk_with_seed_pack",
+"name": &"walk_with_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv42f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_calae")
+}],
+"loop": true,
+"name": &"walk_with_stone_wall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xaln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2lsm")
+}],
+"loop": true,
+"name": &"walk_with_sunflower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iku2t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qq6s")
+}],
+"loop": true,
+"name": &"walk_with_sunflower_seeds",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axga0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hayo4")
+}],
+"loop": true,
+"name": &"walk_with_super_fertilizer",
 "speed": 5.0
 }, {
 "frames": [{
@@ -110,6 +978,28 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_with_watering_can",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qirbx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yg2uc")
+}],
+"loop": true,
+"name": &"walk_with_watermelon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh0au")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7n6k8")
+}],
+"loop": true,
+"name": &"walk_with_watermelon_seeds",
 "speed": 5.0
 }]
 
@@ -129,7 +1019,30 @@ texture_filter = 3
 texture_repeat = 1
 position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
-animation = &"stand_with_watering_can"
+animation = &"walk_forward_with_pineapple"
+
+[node name="ItemForward" type="TextureRect" parent="AnimatedSprite2D"]
+visible = false
+offset_left = -8.0
+offset_top = -4.0
+offset_right = 3.0
+offset_bottom = 13.0
+texture = ExtResource("19_yeftx")
+expand_mode = 3
+
+[node name="ItemAtRightHand" type="TextureRect" parent="AnimatedSprite2D"]
+visible = false
+offset_left = 5.0
+offset_top = -6.0
+offset_right = 13.0
+offset_bottom = 5.0
+
+[node name="ItemAtLeftHand" type="TextureRect" parent="AnimatedSprite2D"]
+visible = false
+offset_left = -19.0
+offset_top = -6.0
+offset_right = -12.0
+offset_bottom = 4.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)

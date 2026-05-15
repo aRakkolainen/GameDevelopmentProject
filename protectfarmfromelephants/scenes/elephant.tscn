@@ -1,7 +1,8 @@
-[gd_scene load_steps=50 format=3 uid="uid://d0dif54itofdm"]
+[gd_scene load_steps=80 format=3 uid="uid://d0dif54itofdm"]
 
 [ext_resource type="Script" path="res://scripts/Elephant.cs" id="1_66rpy"]
 [ext_resource type="Texture2D" uid="uid://der18or2hy4w5" path="res://assets/elephant_test.png" id="1_ej72v"]
+[ext_resource type="Texture2D" uid="uid://co2n5o1nx6eaw" path="res://assets/elephant_animations/elephant_eating_chili.png" id="3_2h2m4"]
 [ext_resource type="Texture2D" uid="uid://ct1318fcbiypu" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0000.png" id="3_m6gad"]
 [ext_resource type="Texture2D" uid="uid://duk3celicftrh" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0001.png" id="4_jbb15"]
 [ext_resource type="Texture2D" uid="uid://djbyb5tj1k7am" path="res://assets/elephant_animations/eat mango/eating_mango_frame_0002.png" id="5_24bew"]
@@ -47,6 +48,104 @@
 [ext_resource type="Texture2D" uid="uid://bj3r8g6qa2nn0" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0008.png" id="33_l01uj"]
 [ext_resource type="Texture2D" uid="uid://cteqvl73fld64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0009.png" id="34_ka8ky"]
 [ext_resource type="Texture2D" uid="uid://bxfdsnqoj4j64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0010.png" id="35_c3syx"]
+[ext_resource type="Texture2D" uid="uid://clyoa8ohwq7hl" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0000.png" id="37_7jsmn"]
+[ext_resource type="Texture2D" uid="uid://clxs6b2cpsoih" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0001.png" id="38_kd6b8"]
+[ext_resource type="Texture2D" uid="uid://dms5l2qa1j2wx" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0002.png" id="39_qqod8"]
+[ext_resource type="Texture2D" uid="uid://bxnu8c5uwb0h2" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0003.png" id="40_oeo7h"]
+[ext_resource type="Texture2D" uid="uid://cmau5ddcpv0gv" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0004.png" id="41_xreox"]
+[ext_resource type="Texture2D" uid="uid://dmj32apwf5p80" path="res://assets/elephant_animations/walk_annoyed.png" id="54_rg6wj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbd4f"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(0, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ibe7a"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(142, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lealy"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(284, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hf3g1"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(426, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkgbl"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(568, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uopj1"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(710, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hjjw"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(852, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rccm5"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(994, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr7wm"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(1136, 0, 140, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cccss"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(994, 0, 141, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trm0b"]
+atlas = ExtResource("3_2h2m4")
+region = Rect2(1136, 0, 141, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gsgo"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(0, 0, 129, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l108"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(129, 0, 129, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxa8b"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(258, 0, 129, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkhsk"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(387, 0, 129, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qql06"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(516, 0, 129, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bparv"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(640, 0, 126, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejxq1"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(768, 0, 126, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftmk2"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(894, 0, 141, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_su6rg"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(1029, 0, 140, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2dt8"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(1160, 0, 140, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_teduc"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(1287, 0, 140, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sl2mo"]
+atlas = ExtResource("54_rg6wj")
+region = Rect2(1424, 0, 130, 86)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u5phx"]
 animations = [{
@@ -56,6 +155,44 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbd4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ibe7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lealy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hf3g1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkgbl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uopj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hjjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rccm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr7wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cccss")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trm0b")
+}],
+"loop": false,
+"name": &"eat chili",
 "speed": 5.0
 }, {
 "frames": [{
@@ -174,6 +311,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("37_7jsmn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_kd6b8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_qqod8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_oeo7h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_xreox")
+}],
+"loop": false,
+"name": &"smell sunflower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("15_vr8cw")
 }, {
 "duration": 1.0,
@@ -212,6 +369,47 @@ animations = [{
 "loop": true,
 "name": &"walk",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gsgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7l108")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxa8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkhsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qql06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bparv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejxq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftmk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su6rg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2dt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_teduc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sl2mo")
+}],
+"loop": true,
+"name": &"walk annoyed",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n5iaa"]
@@ -227,7 +425,9 @@ script = ExtResource("1_66rpy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_u5phx")
-animation = &"walk"
+animation = &"eat chili"
+frame = 10
+frame_progress = 1.0
 offset = Vector2(0, -56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -53,6 +53,10 @@ public partial class Elephant : Area2D
 
 	private float SpeedBeforeDefenseItem = 0;
     private bool _shouldBounce;
+    private Vector2I eaten_fruit_coordinates;
+    private bool eaten_chili;
+    private float speedAfterEating;
+    private bool smelled_sunflower;
 
     public void Initialize()
 	{
@@ -65,6 +69,7 @@ public partial class Elephant : Area2D
 		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		_animatedSprite.Play("walk");
 		MoveDirection = MoveDirection.Normalized();
+		_animatedSprite.AnimationFinished += OnEatingFinished;
 		
 	}
 	public override void _PhysicsProcess(double delta)
@@ -190,6 +195,7 @@ public partial class Elephant : Area2D
 				EmitSignal(SignalName.CollidedWithItem, tileCoords, "puddle", this);
 			} else
 			{
+				eaten_fruit_coordinates = tileCoords;
 				EmitSignal(SignalName.CollidedWithItem, tileCoords, "dropped_plant", this);
 			}
 
@@ -241,13 +247,31 @@ public partial class Elephant : Area2D
 	{
 		SetPhysicsProcess(false);
 		_animatedSprite.Play(animation_name);
-		_animatedSprite.AnimationFinished += OnEatingFinished;
+		if (animation_name.Contains("chili"))
+		{
+			eaten_chili = true;
+			speedAfterEating = 2 * Speed;
+		} else if (animation_name.Contains("sunflower"))
+		{
+			smelled_sunflower = true;
+		}
 	}
 
     private void OnEatingFinished()
     {
         SetPhysicsProcess(true);
-		_animatedSprite.Play("walk");
+		if (eaten_chili)
+		{
+			Speed = speedAfterEating;
+			_animatedSprite.Play("walk");
+		} else if (smelled_sunflower)
+		{
+			_animatedSprite.Play("walk annoyed");
+		} else
+		{
+			_animatedSprite.Play("walk");
+			farm.PlaceElephantPoop(eaten_fruit_coordinates);
+		}
     }
 
 

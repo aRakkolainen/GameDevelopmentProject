@@ -17,6 +17,11 @@ public partial class LevelTransitionAnimations : Node2D
 		{
 			current_level_num = level_data.GetLevelNumber();
 			current_fruit = level_data.GetPlantType();
+			if (LevelManager.Instance.GetPlayerHasFailed())
+			{
+				transition_level_animations.Play("eat_player");
+			} else
+			{
 			switch (current_fruit)
 			{
 				case"pineapple":
@@ -30,6 +35,7 @@ public partial class LevelTransitionAnimations : Node2D
 					break;
 				default:
 					break;
+			}
 			}
 		}
 

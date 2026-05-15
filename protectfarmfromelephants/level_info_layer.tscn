@@ -24,7 +24,7 @@ script = ExtResource("1_ae0gq")
 offset_right = 54.0
 offset_bottom = 23.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 42
 text = "Level "
 
 [node name="TotalMoneyLabel" type="Label" parent="."]
@@ -32,7 +32,7 @@ offset_top = 64.0
 offset_right = 40.0
 offset_bottom = 137.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 40
 text = "0"
 
 [node name="WateringCanLabel" type="Label" parent="."]
@@ -40,7 +40,7 @@ offset_top = 232.0
 offset_right = 318.0
 offset_bottom = 301.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 40
 text = "Watering can"
 
 [node name="DaysLeftLabel" type="Label" parent="."]
@@ -48,7 +48,7 @@ offset_top = 152.0
 offset_right = 178.0
 offset_bottom = 221.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 40
 text = "Default"
 
 [node name="InfoLabel" type="Label" parent="."]
@@ -56,7 +56,7 @@ offset_top = 320.0
 offset_right = 285.0
 offset_bottom = 389.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 40
 text = "Placeholder"
 
 [node name="PassiveUpgradesLabel" type="Label" parent="."]
@@ -64,10 +64,11 @@ offset_top = 512.0
 offset_right = 652.0
 offset_bottom = 581.0
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 30
 text = "Passive upgrades activated"
 
 [node name="QuitGameButton" type="Button" parent="."]
+process_mode = 3
 offset_left = 1728.0
 offset_top = 24.0
 offset_right = 1896.0
@@ -77,6 +78,7 @@ theme_override_font_sizes/font_size = 53
 text = "Quit"
 
 [node name="RestartButton" type="Button" parent="."]
+process_mode = 3
 offset_left = 1368.0
 offset_top = 24.0
 offset_right = 1694.0
@@ -87,13 +89,13 @@ text = "Restart level"
 
 [node name="PassiveUpgrades" type="ItemList" parent="."]
 texture_filter = 1
-offset_top = 576.0
+offset_top = 552.0
 offset_right = 504.0
-offset_bottom = 768.0
+offset_bottom = 744.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/icon_margin = 10
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 20
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ty65y")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_jigbe")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_jl3ww")
@@ -104,7 +106,7 @@ theme_override_styles/cursor = SubResource("StyleBoxEmpty_8e43f")
 allow_search = false
 auto_height = true
 item_count = 2
-icon_scale = 3.0
+icon_scale = 2.0
 item_0/text = "Watering can puddle upgrade"
 item_0/icon = ExtResource("2_74p81")
 item_0/selectable = false

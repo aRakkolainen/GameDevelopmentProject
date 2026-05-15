@@ -91,7 +91,8 @@ public partial class LevelScript : Node2D
             timer.SetCurrentDay(timer.GetCurrentDay()+1);
             _change_day_dialog.DialogText = "Sold fruits: " + sold_quota + "/" + expected_quota;
             _change_day_dialog.OkButtonText = "Start new day";
-            _player.SetPlayerIsAlive(false);  
+            _player.SetPlayerIsAlive(false); 
+            GetTree().Paused = true;
         } else if (timer.GetDaysLeft() == 0)
         {
             GD.Print("Time's up!");
@@ -132,7 +133,7 @@ public partial class LevelScript : Node2D
             if (sold_quota < expected_quota)
             {
                 _player.Die();
-                LevelManager.Instance.LoadScene(Scenes.CutScenes.death_scene);
+                LevelManager.Instance.LoadScene(Scenes.CutScenes.between_levels_animations_scene);
                 LevelManager.Instance.SetPlayerHasFailed(true);
                 ResetLevel();
             } else
@@ -203,7 +204,7 @@ public partial class LevelScript : Node2D
         
         timer.StartTimer(timer.GetDaysLeft());
         _player.SetPlayerIsAlive(true);
-        elephants = new Node2D();
+        GetTree().Paused = false;
         //GetTree().CallGroup("elephants", Node.MethodName.QueueFree);
     }
 

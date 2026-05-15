@@ -22,6 +22,8 @@ public static class Scenes
         public const string settings_menu = "uid://cl335captacg7";
 
         public const string end_of_day_menu = "uid://tgg87b6yngvj";
+        public const string controls_menu = "uid://1v6ruobw5wj0";
+
     }
 
     public static class CutScenes
@@ -54,6 +56,8 @@ public static class Scenes
         public const string mango_seeds = "uid://w6xhmdwunej0";
 
         public const string fertilizer_boost = "uid://c1spdm8mymlen";
+
+        public const string elephant_poop = "uid://tmqnt4yqae2p";
     }
 
     public static class UpgradeItemTextures
@@ -70,13 +74,19 @@ public static class Scenes
 
         public const string chili = "uid://bf6y072vah72a";
 
+        public const string chili_seeds ="uid://ci81i8pigwsuo";
+
         public const string sunflower = "uid://ddr1biyrusl2w";
+
+        public const string sunflower_seeds = "uid://5e4lua67dtkc";
 
         public const string watering_can_upgrade = "uid://djcjvikkirh2c";
 
         public const string watering_can_puddle_upgrade = "uid://bkjrt7gr332em";
 
         public const string fertilizer_boost = "uid://c1spdm8mymlen";
+
+        public const string super_fertilizer_boost = "uid://c11bupcfrui1p";
 
     }
 
@@ -99,7 +109,7 @@ public static class Scenes
 
         public const string beehive = "Bees to scare the elephants away";
 
-        public const string chili = "Smell of chili is not appealing for elephants";
+        public const string chili = "Seeds to grow chili because smell of chili is not appealing for elephants";
 
         public const string sunflower = "Elephants don't like sunflowers so grow them to protect farm";
 
@@ -107,9 +117,11 @@ public static class Scenes
 
         public const string fertilizer = "Use on the plant to boost its growth by one phase";
 
+        public const string super_fertilizer = "Use on the plant to grow it fully but requires extra price of elephant poops gained by feeding fruits to elephants";
+
         public const string watering_can_upgrade = "Increase capacity of watering can by 5 tiles";
 
-        public const string watering_can_puddle_upgrade = "Ability to water grass tiles to make puddles. When elephants stumble on puddles, they may carry some water to farm and after few times, water puddles become mud that may help to fertilize farm";
+        public const string watering_can_puddle_upgrade = "Water grass tiles to make puddles that may enable elephants to water or fertilize farm tiles instead of destroying.";
 
 
     }
@@ -131,6 +143,8 @@ public partial class LevelManager : Node
     private int watering_can_level;
 
     private int watering_can_total_level = 10;
+
+    private int watering_can_total_default_level = 10;
 
     private bool player_has_failed;
     private bool player_has_watering_can_puddle_upgrade;
@@ -155,7 +169,7 @@ public void QuitGame()
 
 public void RestartLevel()
     {
-        int current_level = LevelManager.Instance.GetCurrentActiveLevel();
+        int current_level = Instance.GetCurrentActiveLevel();
 		switch (current_level)
 		{
 			case 1:
@@ -179,6 +193,7 @@ public Dictionary<int, LevelData> GetAllLevels()
     return levels;
 }
 
+//Future development idea: randomize upgrade items per level to make every level different and unique what combinations of upgrades to get!
 public void InitializeLevelData()
     {
         levels = new Dictionary<int, LevelData>();
@@ -190,9 +205,9 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2, 0, ""),
             new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 2, 4, 0, ""),
-            new UpgradeItem("005", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 1, 4, 0, ""),
             new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 10, 6, 0, ""),
-            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 5, 3, 1, " elephant poo"),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 5, 3, 0, ""),
+            new UpgradeItem("005", "super_fertilizer", Scenes.UpgradeItemDescriptions.super_fertilizer, "boost", 2, 2, 5, 1, "elephant poop"),
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2,2, 5, 0, ""),
             new UpgradeItem("009", "watering_can_puddle_upgrade", Scenes.UpgradeItemDescriptions.watering_can_puddle_upgrade, "boost", 1, 1, 10, 0, "")
         };
@@ -297,6 +312,8 @@ public void ResetLevel()
         levels.Clear();
         InitializeLevelData();
         player_has_failed = false;
+        watering_can_level = 0;
+        watering_can_total_level = watering_can_total_default_level;
         
     }
 
@@ -307,6 +324,11 @@ public void ResetLevelQuota()
         {
             levelData.SetCurrentQuota(0);
         }
+    }
+
+/**TO-DO: Edit this to transitions between days instead of simple pop up*/
+public void MoveToNextDay()
+    {
     }
 public int GetStarterMoney()
 {
@@ -385,11 +407,24 @@ public string GetTextureByItemName(string item_type)
 			case "chili":
 				texture = Scenes.UpgradeItemTextures.chili;
 				break;	
+
+            case "chili_seeds":
+				texture = Scenes.UpgradeItemTextures.chili_seeds;
+				break;	
 			case "sunflower":
 				texture = Scenes.UpgradeItemTextures.sunflower;
 				break;	
+            case "sunflower_seeds":
+				texture = Scenes.UpgradeItemTextures.sunflower_seeds;
+				break;
             case "fertilizer":
-                texture = Scenes.ItemTextures.fertilizer_boost;
+                texture = Scenes.UpgradeItemTextures.fertilizer_boost;
+                break;
+             case "super_fertilizer":
+                texture = Scenes.UpgradeItemTextures.super_fertilizer_boost;
+                break;
+            case "elephant_poop":
+                texture = Scenes.ItemTextures.elephant_poop;
                 break;
             case "checkbox_checked":
                 texture = Scenes.UITextures.checkbox_checked;

@@ -22,8 +22,8 @@ public class DistractionItem : PlacedItem
 
     private Vector2I coordinates;
 
-    public DistractionItem(int id, string item_type, string item_name, Vector2I coords, bool breakable, int duration, int range, bool isHostile, int damage_amount) 
-    : base(id, item_type, item_name, coords)
+    public DistractionItem(int id, string item_type, string item_name, Vector2I coords, bool isPickable, string uid, bool breakable, int duration, int range, bool isHostile, int damage_amount) 
+    : base(id, item_type, item_name, coords, isPickable, uid)
     {
         is_breakable = breakable;
         effect_duration = duration;

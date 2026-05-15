@@ -9,7 +9,7 @@ public class Plant : PlacedItem
 
     private bool IsWateredByElephant;
 
-	public Plant (int id, string type, Vector2I coords, int phase, bool watered, bool wateredByElephant) : base (id, type, coords)
+	public Plant (int id, string type, Vector2I coords, bool isPickable, int phase, bool watered, bool wateredByElephant) : base (id, type, coords, isPickable)
     {
 		GrowthPhase = phase;
         IsWatered = watered;

@@ -1,11 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://own1l2qsvex3"]
+[gd_scene load_steps=7 format=3 uid="uid://own1l2qsvex3"]
 
 [ext_resource type="Script" path="res://scripts/Upgrades/UpgradeShop.cs" id="1_fcqlg"]
 [ext_resource type="Texture2D" uid="uid://dk7qt7pir208x" path="res://assets/UI/exit_button.png" id="3_ymr2w"]
 [ext_resource type="Texture2D" uid="uid://bx3qfvybnec7c" path="res://assets/UI/exit_button_pressed.png" id="4_j7clx"]
 [ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="5_s3bp6"]
-
-[sub_resource type="Theme" id="Theme_msyuy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r15bv"]
 bg_color = Color(0.635294, 0.498039, 0.27451, 1)
@@ -27,6 +25,34 @@ border_color = Color(0.394462, 0.30052, 0.149192, 1)
 [node name="UpgradeShop" type="CanvasLayer"]
 script = ExtResource("1_fcqlg")
 
+[node name="Label" type="Label" parent="."]
+z_index = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -194.0
+offset_top = 72.0
+offset_right = 389.0
+offset_bottom = 141.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Upgrade items available"
+
+[node name="ExitButton" type="TextureButton" parent="."]
+process_mode = 3
+z_index = 1
+texture_filter = 1
+offset_left = 495.0
+offset_top = 75.0
+offset_right = 527.0
+offset_bottom = 107.0
+scale = Vector2(2, 2)
+toggle_mode = true
+texture_normal = ExtResource("3_ymr2w")
+texture_pressed = ExtResource("4_j7clx")
+texture_hover = ExtResource("4_j7clx")
+
 [node name="Background" type="ColorRect" parent="."]
 texture_filter = 1
 anchors_preset = 8
@@ -34,38 +60,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -404.5
-offset_top = -272.0
-offset_right = 404.5
-offset_bottom = 272.0
+offset_left = -223.0
+offset_top = -472.0
+offset_right = 407.0
+offset_bottom = -391.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.47451, 0.364706, 0.188235, 1)
-
-[node name="Label" type="Label" parent="Background"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -227.0
-offset_right = 227.0
-offset_bottom = 34.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Buy upgrade items by double-clicking it"
-
-[node name="ExitButton" type="TextureButton" parent="Background"]
-z_index = 1
-texture_filter = 1
-layout_mode = 1
-offset_left = 11.5
-offset_top = 10.0
-offset_right = 43.5
-offset_bottom = 42.0
-texture_normal = ExtResource("3_ymr2w")
-texture_pressed = ExtResource("4_j7clx")
-texture_hover = ExtResource("4_j7clx")
 
 [node name="UpgradeItems" type="ItemList" parent="."]
 texture_filter = 1
@@ -75,31 +76,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -381.5
-offset_top = -271.5
-offset_right = 381.5
-offset_bottom = 271.5
+offset_left = -471.0
+offset_top = -392.0
+offset_right = 588.0
+offset_bottom = 376.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_msyuy")
 theme_override_colors/guide_color = Color(0.407843, 0.301961, 0.117647, 1)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hovered_color = Color(0.91664, 0.91664, 0.91664, 1)
 theme_override_constants/icon_margin = 4
 theme_override_constants/line_separation = 4
-theme_override_constants/h_separation = 110
 theme_override_font_sizes/font_size = 16
 theme_override_styles/panel = SubResource("StyleBoxFlat_r15bv")
 theme_override_styles/hovered = SubResource("StyleBoxFlat_cb4af")
 theme_override_styles/selected = SubResource("StyleBoxFlat_cb4af")
 theme_override_styles/selected_focus = SubResource("StyleBoxFlat_cb4af")
+allow_reselect = true
 allow_search = false
-max_text_lines = 3
+max_text_lines = 10
 auto_height = true
-text_overrun_behavior = 0
-max_columns = 2
-fixed_column_width = 230
+text_overrun_behavior = 2
+max_columns = 4
+fixed_column_width = 300
 icon_mode = 0
 fixed_icon_size = Vector2i(48, 48)
 
@@ -133,6 +133,6 @@ offset_top = 543.0
 offset_right = 933.0
 offset_bottom = 646.0
 
-[connection signal="pressed" from="Background/ExitButton" to="." method="OnExitButtonPressed"]
+[connection signal="pressed" from="ExitButton" to="." method="OnExitButtonPressed"]
 [connection signal="item_activated" from="UpgradeItems" to="." method="OnUpgradeItemPurchaseClicked"]
 [connection signal="item_selected" from="UpgradeItems" to="." method="OnUpgradeItemsItemSelected"]

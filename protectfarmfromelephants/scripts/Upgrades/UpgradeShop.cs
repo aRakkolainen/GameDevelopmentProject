@@ -9,6 +9,7 @@ using System.Text;
 
 public partial class UpgradeShop : CanvasLayer
 {
+	[Export] SimpleInventory _inventory;
 	private List<UpgradeItem> upgrade_items = new List<UpgradeItem>();
 
 	private ItemList visible_upgrade_items;
@@ -42,7 +43,7 @@ public partial class UpgradeShop : CanvasLayer
 
 	[Signal] public delegate void UpdatedSeedCountEventHandler();
 
-	[Signal] public delegate void UpdatedItemQuantityEventHandler();
+	[Signal] public delegate void UpdatedItemQuantityEventHandler(string item_name, int quantity, string update_type);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -67,12 +68,21 @@ public partial class UpgradeShop : CanvasLayer
                 var texture = LevelManager.Instance.GetTextureByItemName(upgradeItem.GetItemName());
                 var icon = (Texture2D)GD.Load(texture);
 				ShopItem new_item = new ShopItem(upgradeItem.GetID(), upgradeItem.GetItemName(), upgradeItem.GetDescription(), icon, upgradeItem.GetTotalInStock(), upgradeItem.GetPrice());
-				string sell_text = "Available: " + new_item.InStock + " Price: " + new_item.Price;
 				StringBuilder sell_text_builder = new StringBuilder();
 				sell_text_builder.Append(new_item.Description);
 				sell_text_builder.Append(" ");
 				sell_text_builder.Append("\n");
-				sell_text_builder.Append(sell_text);
+				sell_text_builder.Append("Available: ");
+				sell_text_builder.Append(new_item.InStock);
+				sell_text_builder.Append(" Price: ");
+				sell_text_builder.Append(new_item.Price);
+				if (upgradeItem.GetAdditionalPrice() > 0)
+				{
+					sell_text_builder.Append(" Extra price: ");
+					sell_text_builder.Append(upgradeItem.GetAdditionalPrice());
+					sell_text_builder.Append(" ");
+					sell_text_builder.Append(upgradeItem.GetAdditionalPriceInfo());
+				}
                 visible_upgrade_items.AddItem(sell_text_builder.ToString(), new_item.Icon);
 				
             }
@@ -103,13 +113,27 @@ public partial class UpgradeShop : CanvasLayer
 			{
 				LevelManager.Instance.SetWateringCanPuddleUpgrade(true);
 				EmitSignal(SignalName.UpdatedPassiveUpgradesList, selected_item.GetItemName(), 1);
-			} else if (selected_item.GetItemName().Equals("fertilizer"))
+			} else if (selected_item.GetItemName().Equals("super_fertilizer"))
 			{
 				if (selected_item.GetAdditionalPrice() > 0)
 				{
-					GD.Print("Fertilizer has extra price, checking that player has collected elephant poo!");	
+					GD.Print("Super fertilizer has extra price, checking that player has collected elephant poop!");
+					if (_inventory.GetItemQuantityInInvetory("elephant_poop") > 0)
+					{
+						EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
+						EmitSignal(SignalName.UpdatedItemQuantity, "elephant_poop", 1, "decrease");
+					} else
+					{
+						GD.Print("You don't have the required extra price!");
+						return;
+					}
+
 				}
-			} else
+			} else if ("chili".Equals(selected_item.GetItemName()) || "sunflower".Equals(selected_item.GetItemName()))
+			{
+				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName()+"_seeds", selected_item.GetItemType(), 1, 0);
+			}
+				else
 			{
 				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 			}

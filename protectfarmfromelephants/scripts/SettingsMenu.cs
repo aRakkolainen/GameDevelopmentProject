@@ -22,4 +22,10 @@ public partial class SettingsMenu : Control
 	{
 		LevelManager.Instance.LoadScene(Scenes.Menus.main_menu);
 	}
+
+	public static void OnEditControlsButtonPressed()
+	{
+		LevelManager.Instance.LoadScene(Scenes.Menus.controls_menu);
+	}
+
 }
