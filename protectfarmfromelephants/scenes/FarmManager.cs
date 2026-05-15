@@ -239,16 +239,22 @@ public partial class FarmManager : TileMapLayer
 
 				if (plant_index != -1 && fertilizer_clicked && _inventory.GetItemQuantityInInvetory("fertilizer") > 0)
 				{
-					UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), plants[plant_index].GetGrowthPhase()+1);
-					EmitSignal(SignalName.UpdatedItemCount, "fertilizer", 1, "decrease");
+					bool fertilizingSucceeded = UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), plants[plant_index].GetGrowthPhase()+1);
+					if (fertilizingSucceeded)
+					{
+						EmitSignal(SignalName.UpdatedItemCount, "fertilizer", 1, "decrease");
+					}
 				}
 
 				if (plant_index != -1 && super_fertilizer_clicked && _inventory.GetItemQuantityInInvetory("fertilizer") > 0)
 				{
 					Dictionary<int, Vector2I> growth_phases =  plant_growth_phases_by_type.GetValueOrDefault(plants[plant_index].GetType());
 					int growth_phases_count = growth_phases.Count;
-					UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), growth_phases_count);
-					EmitSignal(SignalName.UpdatedItemCount, "super_fertilizer", 1, "decrease");
+					bool fertilizingSucceeded = UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), growth_phases_count);
+					if (fertilizingSucceeded)
+					{
+						EmitSignal(SignalName.UpdatedItemCount, "super_fertilizer", 1, "decrease");
+					}
 				}
 
             }
@@ -599,13 +605,13 @@ public partial class FarmManager : TileMapLayer
         if (selected_defense_item.Equals("fence"))
 		{
 			Vector2I fence_tile = defenses.GetValueOrDefault("fence");
-			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, "defense", selected_defense_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.fence, true, 2));
+			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, "defense", selected_defense_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.fence, true, 1));
 			SetCell(mouse_map_pos, usable_defense_items_id, fence_tile);
 			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
 		} else if (selected_defense_item.Equals("stone_wall"))
 		{
 			Vector2I stonewall_tile = defenses.GetValueOrDefault("stone_wall");
-			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, "defense", selected_defense_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.stone_wall, true, 4));
+			placed_defense_items.Add(new DefenseItem(placed_defense_items.Count+1, "defense", selected_defense_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.stone_wall, true, 3));
 			SetCell(mouse_map_pos, usable_defense_items_id, stonewall_tile);
 			EmitSignal(SignalName.UpdatedItemCount, selected_defense_item, 1, "decrease");
 		} else
@@ -982,15 +988,13 @@ public partial class FarmManager : TileMapLayer
 			if (item != null)
 			{
 				int currentHealth = item.GetHealth();
-				if (currentHealth-1 == 0 || currentHealth == 0)
+				item.TakeDamage(1);
+				elephant.OnPushBack();
+				if(item.GetHealth() == 0)
 				{
-					item.TakeDamage(1);
 					DestroyItemAtCoordinates(itemType, item.GetCoordinates());
-				} else if (currentHealth > 0)
-				{
-					item.TakeDamage(1);
 				}
-					elephant.OnPushBack();
+
 
 			}
 
@@ -1258,16 +1262,17 @@ public partial class FarmManager : TileMapLayer
 		}
 	}
 	//This method can be used in case of implementing fertilizer so that the plant would skip some phase.
-	private void UpdatePlantToCustomPhase(Vector2I coordinates, int new_phase)
+	private bool UpdatePlantToCustomPhase(Vector2I coordinates, int new_phase)
 	{
 		int index = FindPlantAtCoordinates(coordinates);
+		bool success = false;
 		if (index == -1)
 		{
 			GD.Print("Plant not found at this position!");
 		} else
 		{
 			Plant foundPlant = plants[index];
-			if (foundPlant.GetGrowthPhase() == new_phase)
+			if (foundPlant.GetGrowthPhase() >= new_phase)
 			{
 				GD.Print("Plant is already in this phase!");
 			} else if (new_phase < foundPlant.GetGrowthPhase())
@@ -1281,12 +1286,14 @@ public partial class FarmManager : TileMapLayer
 				{
 					foundPlant.SetGrowthPhase(new_phase);
 					Vector2I correctTile = phasesOfSelectedPlant.GetValueOrDefault(new_phase);
-					if (foundPlant.GetIsWatered())
+					if (foundPlant.GetIsWatered() && new_phase != 4)
 					{
-						SetCell(foundPlant.GetCoordinates(), 0, correctTile, 1);
+						SetCell(foundPlant.GetCoordinates(), farm_source_id, correctTile, 1);
+						success = true;
 					} else
 					{
-						SetCell(foundPlant.GetCoordinates(), 0, correctTile, 0);
+						SetCell(foundPlant.GetCoordinates(), farm_source_id, correctTile, 0);
+						success = true;
 					}
 				}
 
@@ -1294,6 +1301,7 @@ public partial class FarmManager : TileMapLayer
 				
 			}
 		}
+		return success;
 	}
 
 	private void InitializePlantTypesAndPhases()

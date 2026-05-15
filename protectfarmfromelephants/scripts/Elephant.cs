@@ -205,14 +205,13 @@ public partial class Elephant : Area2D
 
 	public void OnPushBack()
 	{
-		Speed = SpeedBeforeDefenseItem;
-		MoveDirection = MoveDirection.Bounce(-MoveDirection);
+		MoveDirection = -MoveDirection;
 
         Timer timer = new Timer
         {
-            WaitTime = 0.3,
+            WaitTime = 1.5,
+			Autostart = true,
 			OneShot = true,
-			Autostart = true
         };
 		AddChild(timer);
         timer.Timeout += FlipBack;
@@ -236,10 +235,7 @@ public partial class Elephant : Area2D
 
     private void FlipBack()
     {
-		if (SpeedBeforeDefenseItem > 0)
-		{
-			Speed = SpeedBeforeDefenseItem;
-		}
+		MoveDirection = -MoveDirection;
     }
 
 
