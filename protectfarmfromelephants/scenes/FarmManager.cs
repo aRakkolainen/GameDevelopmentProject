@@ -227,8 +227,14 @@ public partial class FarmManager : TileMapLayer
 			if(sourceId == farm_source_id)
 			{
                 int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
+
+				if(plant_index == -1 || plant_index >= plants.Count)
+				{
+					return;
+				}
 				
                 InteractWithPlant(mouse_map_pos, plant_index);
+
 
 				if (plant_index != -1 && fertilizer_clicked && _inventory.GetItemQuantityInInvetory("fertilizer") > 0)
 				{
