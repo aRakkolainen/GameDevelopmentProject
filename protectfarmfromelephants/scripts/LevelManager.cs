@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
 using Godot;
+using ProtectFarm;
 
 //Source for this code is this tutorial: https://www.youtube.com/watch?v=bIvxPawSup0
 public static class Scenes
@@ -205,11 +206,11 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2, 0, ""),
             new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 2, 4, 0, ""),
-            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 10, 6, 0, ""),
+            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 10, 3, 0, ""),
             new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 5, 3, 0, ""),
             new UpgradeItem("005", "super_fertilizer", Scenes.UpgradeItemDescriptions.super_fertilizer, "boost", 2, 2, 5, 1, "elephant poop"),
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2,2, 5, 0, ""),
-            new UpgradeItem("009", "watering_can_puddle_upgrade", Scenes.UpgradeItemDescriptions.watering_can_puddle_upgrade, "boost", 1, 1, 10, 0, "")
+            new UpgradeItem("009", "watering_can_puddle_upgrade", Scenes.UpgradeItemDescriptions.watering_can_puddle_upgrade, "boost", 1, 1, 5, 0, "")
         };
 
         List<UpgradeItem> level_2_upgrades = new()
@@ -314,6 +315,7 @@ public void ResetLevel()
         player_has_failed = false;
         watering_can_level = 0;
         watering_can_total_level = watering_can_total_default_level;
+        
         
     }
 

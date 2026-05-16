@@ -109,3 +109,6 @@ position = Vector2(960, 547)
 scale = Vector2(1, 1.01667)
 sprite_frames = SubResource("SpriteFrames_ae8td")
 animation = &"eat_player"
+frame = 6
+frame_progress = 1.0
+speed_scale = 0.75

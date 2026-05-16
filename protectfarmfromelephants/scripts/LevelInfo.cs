@@ -74,10 +74,24 @@ public partial class LevelInfo : CanvasLayer
 
 	public void OnUpdatedInfoText(string text)
 	{
+		info.Visible = true;
 		info.Text = text;
+		Timer timer = new Timer
+        {
+            WaitTime = 10,
+			Autostart = true,
+			OneShot = true,
+        };
+		AddChild(timer);
+        timer.Timeout += HideInfoText;
 	}
 
-	public void OnUpdatedPassiveUpgradesList(string passive_upgrade_name, int update_times)
+    private void HideInfoText()
+    {
+        info.Visible = false;
+    }
+
+    public void OnUpdatedPassiveUpgradesList(string passive_upgrade_name, int update_times)
 	{
 		GD.Print(passiveUpgrades);
 		int itemCount = passiveUpgrades.GetItemCount();

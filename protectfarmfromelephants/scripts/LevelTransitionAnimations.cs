@@ -44,6 +44,12 @@ public partial class LevelTransitionAnimations : Node2D
 
     private void OnAnimationFinished()
     {
+		if (LevelManager.Instance.GetPlayerHasFailed())
+		{
+			LevelManager.Instance.LoadScene(Scenes.CutScenes.death_scene);
+		} else
+		{
+			
        LevelManager.Instance.SetCurrentActiveLevel(current_level_num + 1);
 
 	   if (LevelManager.Instance.GetCurrentActiveLevel() == 2)
@@ -54,6 +60,7 @@ public partial class LevelTransitionAnimations : Node2D
         {
             LevelManager.Instance.LoadScene(Scenes.Levels.level_3);
         }
+		}
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -35,7 +35,7 @@ public abstract class PlacedItem
         TextureUid = uid;
     }
 
-    protected PlacedItem (int id, string type, string name, Vector2I coordinates, bool pickable)
+    protected PlacedItem (int id,  string name, string type, Vector2I coordinates, bool pickable)
     {
         ID = id;
         Name = name;

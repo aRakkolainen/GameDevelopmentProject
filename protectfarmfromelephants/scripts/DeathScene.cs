@@ -20,6 +20,7 @@ public partial class DeathScene : Control
 
 	public static void On_restart_button_pressed()
 	{
+		LevelManager.Instance.ResetLevel();
 		LevelManager.Instance.RestartLevel();
 	}
 }

@@ -74,6 +74,8 @@ public partial class Elephant : Area2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		var random = new RandomNumberGenerator();
+        random.Randomize();
 		Position += MoveDirection * Speed;
 		
 		if (_animatedSprite != null)
@@ -259,6 +261,12 @@ public partial class Elephant : Area2D
 		if (eaten_chili)
 		{
 			Speed = speedAfterEating;
+			var poop_roll = GD.Randf();
+			if (poop_roll > 0.60f)
+			{
+				farm.PlaceElephantPoop(eaten_fruit_coordinates);
+			}
+
 			_animatedSprite.Play("walk");
 		} else if (smelled_sunflower)
 		{

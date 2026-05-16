@@ -56,7 +56,7 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(string item_name);
 
-	[Signal] public delegate void PlayerTriedToDropFruitEventHandler(string item_name);
+	[Signal] public delegate void PlayerTriedToDropPlantEventHandler(string item_name);
 
 	public override void _Ready()
 	{
@@ -77,8 +77,8 @@ public partial class Player : CharacterBody2D
 	{
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
 		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
-		//Only for development
-		//EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "fruit", 3, max_stack);
+		//Only for development & testing
+		//EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "plant", 3, max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)
@@ -132,9 +132,9 @@ public partial class Player : CharacterBody2D
 				item_name = "";
 			}
 			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, item_name);
-		} else if (item_type.Equals("fruit"))
+		} else if (item_type.Equals("plant"))
 		{
-			EmitSignal(SignalName.PlayerTriedToDropFruit, item_name);
+			EmitSignal(SignalName.PlayerTriedToDropPlant, item_name);
 		}
 	}
 

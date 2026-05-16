@@ -54,7 +54,8 @@ public partial class SellPopup : CanvasLayer
 		if (itemsToBeSold > 0)
 		{
 			GD.Print("You are trying to sell " + itemsToBeSold + " fruits");
-			EmitSignal(SignalName.SoldNumberOfItemsFromInventory, (int) itemsToBeSold);
+			int fruits = (int) itemsToBeSold;
+			EmitSignal(SignalName.SoldNumberOfItemsFromInventory, fruits);
 		} else
 		{
 			GD.Print("You haven't selected any fruits to be sold!");

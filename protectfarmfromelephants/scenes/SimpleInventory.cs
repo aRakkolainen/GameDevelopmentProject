@@ -31,6 +31,9 @@ public partial class SimpleInventory : ItemList
 	public delegate void UpdatedMoneyTextEventHandler();
 
 	[Signal]
+	public delegate void UpdatedInfoTextEventHandler(string message);
+
+	[Signal]
 	public delegate void ItemRemovedFromInventoryEventHandler(string item_name);
 
 
@@ -187,13 +190,14 @@ public partial class SimpleInventory : ItemList
 		if(indexOfFruit == -1)
 		{
 			GD.Print("Fruit not found, cannot sell!");
+			EmitSignal(SignalName.UpdatedInfoText, "Fruit not found, cannot sell!");
 		} else
 		{
 			InventoryItem fruit = inventory_items[indexOfFruit];
 			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(fruit.GetQuantity());
 			if(quotaUpdated) {
 				LevelManager.Instance.AddToTotalMoney(fruit.GetQuantity()*fruit_sell_value);
-				fruit.SetQuantity(0);
+				RemoveFromInventory(fruit);
 				EmitSignal(SignalName.FruitsSold);
 				EmitSignal(SignalName.UpdatedMoneyText);
 				Clear();
@@ -210,17 +214,24 @@ public partial class SimpleInventory : ItemList
 		if(indexOfFruit == -1)
 		{
 			GD.Print("Fruit not found, cannot sell!");
+			EmitSignal(SignalName.UpdatedInfoText, "Fruit not found, cannot sell!");
 		} else
 		{
 			InventoryItem fruit = inventory_items[indexOfFruit];
-			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(amount);
-			if(quotaUpdated) {
-				LevelManager.Instance.AddToTotalMoney(amount*fruit_sell_value);
-				EmitSignal(SignalName.FruitsSold);
-				EmitSignal(SignalName.UpdatedMoneyText);
-				fruit.SetQuantity(0);
-				Clear();
-				DisplayNewItems();
+			if (amount <= fruit.GetQuantity())
+			{
+				bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(amount);
+				if(quotaUpdated) {
+					LevelManager.Instance.AddToTotalMoney(amount*fruit_sell_value);
+					EmitSignal(SignalName.FruitsSold);
+					EmitSignal(SignalName.UpdatedMoneyText);
+					fruit.SetQuantity(fruit.GetQuantity()-amount);
+					Clear();
+					DisplayNewItems();
+				}
+			} else
+			{
+				EmitSignal(SignalName.UpdatedInfoText, "You are trying to sell more than you have in your inventory!");
 			}
 		
 		}

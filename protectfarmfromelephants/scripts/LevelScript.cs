@@ -53,7 +53,8 @@ public partial class LevelScript : Node2D
 
     public override void _Ready()
     {
-        //Receiving data of this level: 
+        //Receiving data of this level:
+        //ResetLevel(); 
         GD.Randomize();
         level = LevelManager.Instance.GetLevelData(level_num);
         _farmManager = GetNode<FarmManager>("%Farm");
@@ -105,9 +106,8 @@ public partial class LevelScript : Node2D
             
         } else{
             GD.Print("You failed to fill the quota!");
-            LevelManager.Instance.LoadScene(Scenes.CutScenes.death_scene);
-           ResetLevel();
-            
+            LevelManager.Instance.SetPlayerHasFailed(true);
+            LevelManager.Instance.LoadScene(Scenes.CutScenes.between_levels_animations_scene);
         }
         } else {
                 
@@ -210,14 +210,13 @@ public partial class LevelScript : Node2D
 
     private void ResetLevel()
     {
-         timer.SetCurrentDay(1);
+        timer.SetCurrentDay(1);
         timer.StartTimer(level.GetLevelTotalDays());
         Godot.Collections.Array<Vector2I> farm_tile_coordinates = _farmManager.GetFarmTileCoordinates();
         for (int i=0; i < farm_tile_coordinates.Count; i++)
         {
             _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
         }
-        //_player.ClearInventory();
         LevelManager.Instance.ResetLevel();
     }
 
