@@ -228,16 +228,15 @@ public partial class FarmManager : TileMapLayer
 			{
                 int plant_index = CheckIfAlreadyPlanted(mouse_map_pos);
 
-				if(plant_index == -1 || plant_index >= plants.Count)
-				{
-					return;
-				}
 				
                 InteractWithPlant(mouse_map_pos, plant_index);
 
-
 				if (plant_index != -1 && fertilizer_clicked && _inventory.GetItemQuantityInInvetory("fertilizer") > 0)
 				{
+					if(plant_index >= plants.Count)
+					{
+						return;
+					}
 					bool fertilizingSucceeded = UpdatePlantToCustomPhase(plants[plant_index].GetCoordinates(), plants[plant_index].GetGrowthPhase()+1);
 					if (fertilizingSucceeded)
 					{
