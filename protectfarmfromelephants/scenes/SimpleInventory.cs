@@ -226,6 +226,10 @@ public partial class SimpleInventory : ItemList
 					EmitSignal(SignalName.FruitsSold);
 					EmitSignal(SignalName.UpdatedMoneyText);
 					fruit.SetQuantity(fruit.GetQuantity()-amount);
+					if(fruit.GetQuantity() == 0)
+					{
+						RemoveFromInventory(fruit);
+					}
 					Clear();
 					DisplayNewItems();
 				}

@@ -919,7 +919,7 @@ public partial class FarmManager : TileMapLayer
 					}
 						} else
 						{
-							if (elephant_might_water_plant <= 0.40f)
+							if (elephant_might_water_plant <= 0.60f)
 					{
 						WaterRandomPlant(plants_on_line);
 					}
@@ -929,7 +929,7 @@ public partial class FarmManager : TileMapLayer
 						var elephant_might_fertilize_plant = GD.Randf();
 						if (plants_on_line.Count == 1)
 						{
-							if (elephant_might_fertilize_plant <= 0.25f)
+							if (elephant_might_fertilize_plant <= 0.50f)
 					{
 						Plant plant_to_be_fertilized= plants_on_line[0];
 						fertilizingSucceeded = UpdatePlantToNextPhase(plant_to_be_fertilized.GetCoordinates());
@@ -940,7 +940,7 @@ public partial class FarmManager : TileMapLayer
 					}
 						} else
 						{
-							if (elephant_might_fertilize_plant <= 0.35f)
+							if (elephant_might_fertilize_plant <= 0.45f)
 					{
 						FertilizeRandomPlant(plants_on_line);
 					}
@@ -954,22 +954,10 @@ public partial class FarmManager : TileMapLayer
 				if (plants_on_line.Count == 1)
 				{
 					Plant plant_to_be_destroyed = plants_on_line[0];
-					if (plant_to_be_destroyed.GetIsWateredByElephant())
+					if (!plant_to_be_destroyed.GetIsWateredByElephant() || !plant_to_be_destroyed.GetIsFertilizedByElephant())
 					{
-						if(plant_roll <= 0.25)
-						{
+						if (plant_roll <= 0.50f){
 							RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-						}
-					} else if (plant_to_be_destroyed.GetIsFertilizedByElephant())
-					{
-						if(plant_roll <= 0.15)
-						{
-							RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-						}
-					} else
-					{
-					if (plant_roll <= 0.50f){
-						RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
 						}
 						
 					}
@@ -1070,26 +1058,14 @@ public partial class FarmManager : TileMapLayer
 			{
 				var roll = GD.Randf();
         		Plant plant_to_be_destroyed = plants_on_line[random_index];
-				if (plant_to_be_destroyed.GetIsWateredByElephant())
+				if (!plant_to_be_destroyed.GetIsWateredByElephant() || !plant_to_be_destroyed.GetIsFertilizedByElephant())
 					{
-						if(roll <= 0.25)
+						if(roll <= 0.40)
 						{
 							RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
+							plants_on_line.Remove(plant_to_be_destroyed);
 						}
-					} else if (plant_to_be_destroyed.GetIsFertilizedByElephant())
-					{
-						if(roll <= 0.15)
-						{
-							RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-						}
-					} else
-					{
-					if (roll <= 0.50f){
-						RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-						}
-					}
-        		RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
-				plants_on_line.Remove(plant_to_be_destroyed);
+			}
 			}
     }
 
