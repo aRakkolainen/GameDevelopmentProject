@@ -63,6 +63,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_gvbft")
 theme_override_styles/hovered = SubResource("StyleBoxFlat_rj8w7")
 theme_override_styles/selected = SubResource("StyleBoxFlat_p6837")
 theme_override_styles/selected_focus = SubResource("StyleBoxFlat_p6837")
+allow_reselect = true
 allow_search = false
 auto_height = true
 item_count = 10

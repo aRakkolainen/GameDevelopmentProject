@@ -281,6 +281,7 @@ offset_left = -266.0
 offset_top = -71.0
 offset_right = -202.0
 offset_bottom = -7.0
+sellDeskType = "fruit"
 
 [node name="Player" parent="." instance=ExtResource("7_6qfd7")]
 unique_name_in_owner = true
@@ -338,6 +339,13 @@ script = ExtResource("14_t13ud")
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
 
+[node name="SecondSellDesk" parent="." instance=ExtResource("6_si6ec")]
+offset_left = -160.0
+offset_top = -71.0
+offset_right = -40.0
+offset_bottom = -7.0
+sellDeskType = "distraction plant"
+
 [connection signal="pressed" from="Level1Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
 [connection signal="UpdatedInfoText" from="Level1Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
@@ -371,3 +379,4 @@ script = ExtResource("14_t13ud")
 [connection signal="UpdatedPassiveUpgradesList" from="UpgradeShop" to="Level info" method="OnUpdatedPassiveUpgradesList"]
 [connection signal="UpdatedSeedCount" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="UpdatedTimerText" from="Timer" to="Level info" method="OnUpdatedTimerText"]
+[connection signal="SellPopUpOpened" from="SecondSellDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]

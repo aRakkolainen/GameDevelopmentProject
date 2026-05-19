@@ -8,7 +8,7 @@ public partial class SellingDeskManager : TextureButton
 	[Export] TextureRect fruit_image;
 
 
-	[Signal] public delegate void SellPopUpOpenedEventHandler();
+	[Signal] public delegate void SellPopUpOpenedEventHandler(string sellDeskType, string distractionPlantName);
 
 	
 
@@ -16,8 +16,12 @@ public partial class SellingDeskManager : TextureButton
 	private int currentLevel;
 	private LevelData currentLevelData; 
 
+	[Export] private string sellDeskType;
+
 
 	string display_quota_text;
+
+	string distractionPlantName; 
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -28,8 +32,27 @@ public partial class SellingDeskManager : TextureButton
 		fruit_image ??= GetNode<TextureRect>("%Fruit");
 		if (currentLevelData != null)
 		{
-			UpdateLevelQuotaText();
-			var texture= GetTexture(currentLevelData.GetPlantType());
+			string texture= null;
+			string quotaText=null;
+			switch (sellDeskType)
+			{
+				case "fruit":
+					texture= GetTexture(currentLevelData.GetPlantType());
+					UpdateLevelQuotaText();
+					break;
+				case "distraction plant":
+				 	System.Collections.Generic.List<UpgradeItem> upgrades = currentLevelData.GetLevelUpgradeItems();
+				 	UpgradeItem distractionPlantUpgrade = upgrades.Find(upgrade => upgrade.GetItemType().Equals("distraction_plant"));
+					 if(distractionPlantUpgrade != null && distractionPlantUpgrade.GetItemName() != null)
+						{
+							texture= GetTexture(distractionPlantUpgrade.GetItemName());
+							distractionPlantName = distractionPlantUpgrade.GetItemName();
+							quotaText = currentLevelData.GetLevelDistractionPlantSellValue() + " extra coins / plant";
+							quota_text.Text = quotaText;
+					}
+					break;
+				
+			}
 			var texture2d = (Texture2D) GD.Load(texture);
 			fruit_image.Texture = texture2d;
 		}
@@ -57,6 +80,12 @@ public partial class SellingDeskManager : TextureButton
 			case "mango":
 				path = Scenes.ItemTextures.mango;
 				break;
+			case "chili":
+				path = Scenes.UpgradeItemTextures.chili;
+				break;
+			case "sunflower":
+				path = Scenes.UpgradeItemTextures.sunflower;
+				break;
 		}
 		return path;
 	}
@@ -69,7 +98,7 @@ public partial class SellingDeskManager : TextureButton
 
 	private void OnPressed()
 	{
-		EmitSignal(SignalName.SellPopUpOpened);
+		EmitSignal(SignalName.SellPopUpOpened, sellDeskType, distractionPlantName);
 	}
 
 	public void OnSimpleInventoryFruitsSold()

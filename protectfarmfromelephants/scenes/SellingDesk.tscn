@@ -1,13 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpi8m7nrm6pes"]
 
-[ext_resource type="Texture2D" uid="uid://ddpqus41yug3x" path="res://assets/selling_desk.png" id="1_j3und"]
+[ext_resource type="Texture2D" uid="uid://dh65en57ce3q5" path="res://assets/UI/selling_desk.png" id="1_hx8n7"]
 [ext_resource type="Script" path="res://scripts/SellingDeskManager.cs" id="1_r4rbh"]
 
 [node name="OpenSellPopUpButton" type="TextureButton"]
 texture_filter = 1
 offset_right = 64.0
 offset_bottom = 64.0
-texture_normal = ExtResource("1_j3und")
+texture_normal = ExtResource("1_hx8n7")
+stretch_mode = 0
 script = ExtResource("1_r4rbh")
 
 [node name="Fruit" type="TextureRect" parent="."]
@@ -26,10 +27,11 @@ unique_name_in_owner = true
 z_index = 1
 texture_filter = 1
 layout_mode = 0
-offset_left = 25.0
-offset_top = -2.0
-offset_right = 62.0
-offset_bottom = 21.0
+offset_left = 31.0
+offset_top = -1.0
+offset_right = 68.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 14
 text = "0/0"
 
 [connection signal="pressed" from="." to="." method="OnPressed"]

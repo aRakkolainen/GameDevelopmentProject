@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dv3yusfsmynat"]
+[gd_scene load_steps=8 format=3 uid="uid://dv3yusfsmynat"]
 
 [ext_resource type="Script" path="res://scripts/SellPopup.cs" id="1_ivcsa"]
+[ext_resource type="Texture2D" uid="uid://dk7qt7pir208x" path="res://assets/UI/exit_button.png" id="2_482yb"]
+[ext_resource type="Texture2D" uid="uid://bx3qfvybnec7c" path="res://assets/UI/exit_button_pressed.png" id="3_m5riv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuqum"]
 border_width_left = 3
@@ -36,39 +38,16 @@ border_color = Color(0, 0, 0, 1)
 [node name="SellPopup" type="CanvasLayer"]
 script = ExtResource("1_ivcsa")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -218.0
-offset_top = -149.0
-offset_right = 258.0
-offset_bottom = 198.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.873665, 0.76763, 0.535457, 1)
-
-[node name="Fruit" type="TextureRect" parent="ColorRect"]
-unique_name_in_owner = true
+[node name="TitleLabel" type="Label" parent="."]
+z_index = 1
 texture_filter = 1
-layout_mode = 0
-offset_left = 31.0
-offset_top = 64.0
-offset_right = 111.0
-offset_bottom = 176.0
-
-[node name="Label" type="Label" parent="ColorRect"]
-texture_filter = 1
-layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -171.0
-offset_top = 11.0
-offset_right = 221.0
-offset_bottom = 50.0
+offset_left = -131.0
+offset_top = 394.0
+offset_right = 261.0
+offset_bottom = 433.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -76,7 +55,29 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 22
 text = "How many fruits do you want to sell?"
 
-[node name="NumberOfItemsToBeSold" type="SpinBox" parent="ColorRect"]
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = -150.0
+offset_right = 323.0
+offset_bottom = 285.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.873665, 0.76763, 0.535457, 1)
+
+[node name="Fruit" type="TextureRect" parent="Background"]
+unique_name_in_owner = true
+texture_filter = 1
+offset_left = 208.0
+offset_top = 55.0
+offset_right = 342.0
+offset_bottom = 167.0
+
+[node name="NumberOfItemsToBeSold" type="SpinBox" parent="Background"]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 1
@@ -85,27 +86,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -71.0
-offset_top = -81.5
-offset_right = 190.0
-offset_bottom = -17.5
+offset_left = -130.5
+offset_top = -32.0
+offset_right = 130.5
+offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 update_on_text_changed = true
 
-[node name="SellCustomButton" type="Button" parent="ColorRect"]
+[node name="SellCustomButton" type="Button" parent="Background"]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -333.0
-offset_top = -165.0
-offset_right = -47.0
-offset_bottom = -129.0
-grow_horizontal = 0
+offset_left = -139.0
+offset_top = -166.0
+offset_right = 145.0
+offset_bottom = -132.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
@@ -115,15 +116,15 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
 text = "Sell selected custom amount"
 
-[node name="SellAllButton" type="Button" parent="ColorRect"]
+[node name="SellAllButton" type="Button" parent="Background"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -64.0
-offset_right = 240.0
-offset_bottom = -33.0
+offset_left = 150.0
+offset_top = -115.0
+offset_right = 433.0
+offset_bottom = -81.0
 grow_vertical = 0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
@@ -131,17 +132,20 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_nuqum")
 theme_override_styles/hover = SubResource("StyleBoxFlat_v4guf")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
-text = "Sell all fruits from inventory"
+text = "Sell all from inventory"
 
-[node name="CloseButton" type="Button" parent="ColorRect"]
+[node name="CloseButton" type="TextureButton" parent="Background"]
+texture_filter = 1
 layout_mode = 0
-offset_right = 66.0
-offset_bottom = 53.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Close"
-flat = true
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 74.0
+offset_bottom = 60.0
+texture_normal = ExtResource("2_482yb")
+texture_pressed = ExtResource("3_m5riv")
+texture_hover = ExtResource("3_m5riv")
 
-[connection signal="value_changed" from="ColorRect/NumberOfItemsToBeSold" to="." method="OnNumberOfItemsToBeSoldValueChanged"]
-[connection signal="pressed" from="ColorRect/SellCustomButton" to="." method="OnSellCustomButtonPressed"]
-[connection signal="pressed" from="ColorRect/SellAllButton" to="." method="OnSellAllButtonPressed"]
-[connection signal="pressed" from="ColorRect/CloseButton" to="." method="OnCloseButtonPressed"]
+[connection signal="value_changed" from="Background/NumberOfItemsToBeSold" to="." method="OnNumberOfItemsToBeSoldValueChanged"]
+[connection signal="pressed" from="Background/SellCustomButton" to="." method="OnSellCustomButtonPressed"]
+[connection signal="pressed" from="Background/SellAllButton" to="." method="OnSellAllButtonPressed"]
+[connection signal="pressed" from="Background/CloseButton" to="." method="OnCloseButtonPressed"]

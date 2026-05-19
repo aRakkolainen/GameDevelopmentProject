@@ -183,56 +183,76 @@ public partial class SimpleInventory : ItemList
 
 
 
-	public void OnSellPopupSoldAllItemsFromInventory()
+	public void OnSellPopupSoldAllItemsFromInventory(string itemName)
 	{
-		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
-		int fruit_sell_value = level.GetLevelFruitSellValue();
-		if(indexOfFruit == -1)
+		int indexOfItem = inventory_items.FindIndex(item => item.GetItemName() == itemName);
+		int itemSellValue = 0;
+		if("chili".Equals(itemName) || "sunflower".Equals(itemName))
 		{
-			GD.Print("Fruit not found, cannot sell!");
-			EmitSignal(SignalName.UpdatedInfoText, "Fruit not found, cannot sell!");
+			itemSellValue = level.GetLevelDistractionPlantSellValue();
 		} else
 		{
-			InventoryItem fruit = inventory_items[indexOfFruit];
-			bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(fruit.GetQuantity());
-			if(quotaUpdated) {
-				LevelManager.Instance.AddToTotalMoney(fruit.GetQuantity()*fruit_sell_value);
-				RemoveFromInventory(fruit);
-				EmitSignal(SignalName.FruitsSold);
-				EmitSignal(SignalName.UpdatedMoneyText);
-				Clear();
-				DisplayNewItems();
+			itemSellValue = level.GetLevelFruitSellValue();
+		}
+		if(indexOfItem == -1)
+		{
+			GD.Print("Item not found, cannot sell!");
+			EmitSignal(SignalName.UpdatedInfoText, "Item " + itemName + " not found, cannot sell!");
+		} else
+		{
+			InventoryItem item = inventory_items[indexOfItem];
+			LevelManager.Instance.AddToTotalMoney(item.GetQuantity()*itemSellValue);
+			if (itemName.Equals(level.GetPlantType()))
+			{
+				bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(item.GetQuantity());
+				if(quotaUpdated) {
+					EmitSignal(SignalName.FruitsSold);
 			}
+			}
+			RemoveFromInventory(item);
+			EmitSignal(SignalName.UpdatedMoneyText);
+			Clear();
+			DisplayNewItems();
 		
 		}
 	}
 
-	public void OnSellPopupSoldNumberOfItemsFromInventory(int amount)
+	public void OnSellPopupSoldNumberOfItemsFromInventory(int amount, string itemName)
 	{
-		int indexOfFruit = inventory_items.FindIndex(item => item.GetItemName() == level.GetPlantType());
-		int fruit_sell_value = level.GetLevelFruitSellValue();
-		if(indexOfFruit == -1)
+		int indexOfItem = inventory_items.FindIndex(item => item.GetItemName() == itemName);
+		int itemSellValue = 0;
+		if("chili".Equals(itemName) || "sunflower".Equals(itemName))
+		{
+			itemSellValue = level.GetLevelDistractionPlantSellValue();
+		} else
+		{
+			itemSellValue = level.GetLevelFruitSellValue();
+		}
+		if(indexOfItem == -1)
 		{
 			GD.Print("Fruit not found, cannot sell!");
 			EmitSignal(SignalName.UpdatedInfoText, "Fruit not found, cannot sell!");
 		} else
 		{
-			InventoryItem fruit = inventory_items[indexOfFruit];
-			if (amount <= fruit.GetQuantity())
+			InventoryItem item = inventory_items[indexOfItem];
+			if (amount <= item.GetQuantity())
+			{
+				if (itemName.Equals(level.GetPlantType()))
 			{
 				bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(amount);
 				if(quotaUpdated) {
-					LevelManager.Instance.AddToTotalMoney(amount*fruit_sell_value);
 					EmitSignal(SignalName.FruitsSold);
-					EmitSignal(SignalName.UpdatedMoneyText);
-					fruit.SetQuantity(fruit.GetQuantity()-amount);
-					if(fruit.GetQuantity() == 0)
-					{
-						RemoveFromInventory(fruit);
-					}
-					Clear();
-					DisplayNewItems();
 				}
+				}
+				LevelManager.Instance.AddToTotalMoney(amount*itemSellValue);
+				EmitSignal(SignalName.UpdatedMoneyText);
+				item.SetQuantity(item.GetQuantity()-amount);
+				if(item.GetQuantity() == 0)
+				{
+					RemoveFromInventory(item);
+				}
+				Clear();
+				DisplayNewItems();
 			} else
 			{
 				EmitSignal(SignalName.UpdatedInfoText, "You are trying to sell more than you have in your inventory!");

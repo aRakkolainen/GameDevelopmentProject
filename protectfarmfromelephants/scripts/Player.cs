@@ -31,15 +31,6 @@ public partial class Player : CharacterBody2D
 
 	private string selectedItem;
 
-	/* private TextureRect itemAtHandForward;
-
-	private TextureRect itemAtLeftHand;
-
-	private TextureRect itemAtRightHand; */
-
-
-	//[Export] public FarmManager farm_manager;
-
 	[Signal] public delegate void PlayerSellFruitEventHandler();
 
 	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
@@ -75,10 +66,11 @@ public partial class Player : CharacterBody2D
 
 	public void AddDefaultItemsToInventory()
 	{
-		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
 		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
 		//Only for development & testing
-		//EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "plant", 3, max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "plant", 3, max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 3, "chili", "plant", 4, max_stack);
 	}
 
 	public void AddToInventory(InventoryItem item)

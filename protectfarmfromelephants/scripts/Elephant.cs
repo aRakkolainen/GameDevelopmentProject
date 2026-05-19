@@ -27,6 +27,8 @@ public partial class Elephant : Area2D
 
 	private int elephant_detection_area = 2;
 
+	private int ElephantAttackedDefenseItemCount = 0;
+
 	
 	[Export] public float BoundaryDebounceSeconds = 0.1f;
     private double _debounceTimer = 0.0;
@@ -168,7 +170,10 @@ public partial class Elephant : Area2D
 		if (sourceId == 0)
 		{
 			GD.Print("Elephant collided with farm!");
-			EmitSignal(SignalName.CollidedWithFarm, tileCoords, this);
+			if (ElephantAttackedDefenseItemCount <= 3)
+			{
+				EmitSignal(SignalName.CollidedWithFarm, tileCoords, this);
+			}
 		} else if (sourceId == 1)
 		{
 			GD.Print("Elephant collided with distraction item!");

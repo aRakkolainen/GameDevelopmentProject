@@ -1,35 +1,25 @@
-[gd_scene load_steps=147 format=3 uid="uid://d0qgd502gu2p5"]
+[gd_scene load_steps=146 format=3 uid="uid://d0qgd502gu2p5"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_6mhrc"]
-[ext_resource type="Texture2D" uid="uid://doiucyiynt1hm" path="res://assets/player_forward.png" id="1_46j3o"]
-[ext_resource type="Texture2D" uid="uid://c10l4ptr5vf2y" path="res://assets/player_forward_with_seed_pack.png" id="3_68frl"]
+[ext_resource type="Texture2D" uid="uid://bimgwuunxhmb6" path="res://assets/player/player_forward.png" id="2_3kbv1"]
 [ext_resource type="Texture2D" uid="uid://deutmeq32tgn1" path="res://assets/player/player_walking_forward_with_item.png" id="3_d2vwx"]
-[ext_resource type="Texture2D" uid="uid://brrhu3jtuj4hh" path="res://assets/player_right_00.png" id="3_gifqq"]
 [ext_resource type="Texture2D" uid="uid://dlwdxupmttg4y" path="res://assets/player/player_forward_with_item.png" id="3_johf2"]
 [ext_resource type="Texture2D" uid="uid://cel0d7tr5pl1k" path="res://assets/player/player_forward_with_beehive.png" id="3_l7veu"]
 [ext_resource type="Texture2D" uid="uid://diejn7bvcdgqe" path="res://assets/player/player_walking_with_pineapple.png" id="3_y7bo0"]
-[ext_resource type="Texture2D" uid="uid://1nvaekopqga8" path="res://assets/player_right_01.png" id="4_8kij3"]
-[ext_resource type="Texture2D" uid="uid://dpi816jl77map" path="res://assets/player_watering_can_1.png" id="4_agyjm"]
 [ext_resource type="Texture2D" uid="uid://cmhk32om8t4dw" path="res://assets/player/player_stand_forward_with_mango_seeds.png" id="4_g42vo"]
 [ext_resource type="Texture2D" uid="uid://kh5sb5yp2k4y" path="res://assets/player/player_forward_with_watering_can.png" id="4_nn645"]
 [ext_resource type="Texture2D" uid="uid://bi6gipo76acgc" path="res://assets/player/player_forward_with_chili.png" id="4_rqnca"]
-[ext_resource type="Texture2D" uid="uid://sgkx3cy4cus4" path="res://assets/player_backward_walk_1.png" id="4_rvr4t"]
 [ext_resource type="Texture2D" uid="uid://o0ewi34lg1w3" path="res://assets/player/player_forward_with_chili_seeds.png" id="5_0a7yi"]
 [ext_resource type="Texture2D" uid="uid://c5cqjohtfol2m" path="res://assets/player/player_stand_forward_with_pineapple_seeds.png" id="5_ejmp1"]
-[ext_resource type="Texture2D" uid="uid://c22oey1mhnx5x" path="res://assets/player_watering_can_2.png" id="5_t4xl7"]
-[ext_resource type="Texture2D" uid="uid://1ik88dval1u5" path="res://assets/player_backward_walk_2.png" id="5_w31al"]
 [ext_resource type="Texture2D" uid="uid://738xsgo1d7xd" path="res://assets/player/player_forward_with_elephant_poop.png" id="6_8qkjw"]
-[ext_resource type="Texture2D" uid="uid://dwfa1bhhxl84d" path="res://assets/player_forward_walk_1.png" id="6_mkpnr"]
-[ext_resource type="Texture2D" uid="uid://b1xby5opvoueb" path="res://assets/player_forward_walk_2.png" id="7_1r6kq"]
 [ext_resource type="Texture2D" uid="uid://b7bbtvd3vn3pu" path="res://assets/player/player_forward_with_fence.png" id="7_c2wxe"]
 [ext_resource type="Texture2D" uid="uid://cb84gvssktfi" path="res://assets/player/player_stand_forward_with_watermelon_seeds.png" id="8_txomb"]
 [ext_resource type="Texture2D" uid="uid://dkbevnatt72jn" path="res://assets/player/player_forward_with_fertilizer.png" id="8_ugtfs"]
 [ext_resource type="Texture2D" uid="uid://ukelm4sxlu51" path="res://assets/player/player_forward_with_mango.png" id="10_b01r6"]
 [ext_resource type="Texture2D" uid="uid://bgtrl123rkfei" path="res://assets/player/player_forward_with_noise_maker.png" id="12_kcp8w"]
-[ext_resource type="Texture2D" uid="uid://bp0wwe0wxbd67" path="res://assets/player_walking_with_seed_pack_1.png" id="12_kvmu7"]
 [ext_resource type="Texture2D" uid="uid://y1yfa5lrrew8" path="res://assets/player/player_stand_with_pineapple.png" id="13_2khjg"]
-[ext_resource type="Texture2D" uid="uid://dfmwja3rwikeh" path="res://assets/player_walking_with_seed_pack_2.png" id="13_r7sfj"]
 [ext_resource type="Texture2D" uid="uid://2q0rm2mb83r8" path="res://assets/player/player_walking_with_item.png" id="14_hwo2q"]
+[ext_resource type="Texture2D" uid="uid://0lrfj7iy8vwn" path="res://assets/player/player_forward_with_seed_pack.png" id="15_u14dm"]
 [ext_resource type="Texture2D" uid="uid://52fsober6gkp" path="res://assets/player/player_walking_forward_with_mango.png" id="16_eg6fr"]
 [ext_resource type="Texture2D" uid="uid://bxo45vba103h" path="res://assets/player/player_forward_with_stonewall.png" id="16_hvr52"]
 [ext_resource type="Texture2D" uid="uid://bu47mlaauy3lf" path="res://assets/player/player_forward_with_sunflower.png" id="17_k8236"]
@@ -38,13 +28,18 @@
 [ext_resource type="Texture2D" uid="uid://djth1sx7hbbod" path="res://assets/player/player_walking_forward_with_pineapple_seeds.png" id="18_hppuf"]
 [ext_resource type="Texture2D" uid="uid://dp3e0csbnxg4y" path="res://assets/player/player_walking_forward_with_watering_can.png" id="19_teyjj"]
 [ext_resource type="Texture2D" uid="uid://bqhc2du7hgcst" path="res://assets/player/player_forward_with_super_fertilizer.png" id="19_u0ogq"]
-[ext_resource type="Texture2D" uid="uid://ciktrkurgbo8u" path="res://assets/fruits/pineapple.png" id="19_yeftx"]
 [ext_resource type="Texture2D" uid="uid://c7xdtij5nqp1u" path="res://assets/player/player_walking_forward_with_watermelon.png" id="20_jofjx"]
 [ext_resource type="Texture2D" uid="uid://c37ficep76a8e" path="res://assets/player/player_forward_with_watermelon.png" id="21_tiy8h"]
 [ext_resource type="Texture2D" uid="uid://caqc4xr0b2wop" path="res://assets/player/player_walking_forward_with_watermelon_seeds.png" id="21_wdjag"]
+[ext_resource type="Texture2D" uid="uid://cpq6sy3fyx8u5" path="res://assets/player/player_right_00.png" id="23_vjm2b"]
 [ext_resource type="Texture2D" uid="uid://cyymu0jk7pmda" path="res://assets/player/player_walking_with_mango.png" id="23_yve74"]
+[ext_resource type="Texture2D" uid="uid://dgn3vtbcywbqh" path="res://assets/player/player_right_01.png" id="24_5tp2y"]
 [ext_resource type="Texture2D" uid="uid://c68e8swxnvai0" path="res://assets/player/player_walking_with_mango_seeds.png" id="24_fn6gc"]
+[ext_resource type="Texture2D" uid="uid://duqdaopavrek6" path="res://assets/player/player_backward_walk_1.png" id="25_y4h5c"]
+[ext_resource type="Texture2D" uid="uid://buqdeed1h55s2" path="res://assets/player/player_backward_walk_2.png" id="26_bh0m4"]
 [ext_resource type="Texture2D" uid="uid://deinarcaqirtj" path="res://assets/player/player_walking_with_pineapple_seeds.png" id="26_joxp2"]
+[ext_resource type="Texture2D" uid="uid://cehd7atm6jo82" path="res://assets/player/player_forward_walk_1.png" id="27_1c5r0"]
+[ext_resource type="Texture2D" uid="uid://cn1jqbx4c2pnc" path="res://assets/player/player_forward_walk_2.png" id="28_7sxty"]
 [ext_resource type="Texture2D" uid="uid://b50nft6ikq6hk" path="res://assets/player/player_walking_forward_with_beehive.png" id="29_7la3w"]
 [ext_resource type="Texture2D" uid="uid://jwkwjs2e7qwx" path="res://assets/player/player_walking_forward_with_chili.png" id="30_3dh3r"]
 [ext_resource type="Texture2D" uid="uid://cxxn7oka3k5fq" path="res://assets/player/player_walking_with_watemelon.png" id="31_u4jfd"]
@@ -66,10 +61,14 @@
 [ext_resource type="Texture2D" uid="uid://drtfbmehojoku" path="res://assets/player/player_walking_with_fence.png" id="51_45amc"]
 [ext_resource type="Texture2D" uid="uid://p1cld6xn6yqs" path="res://assets/player/player_walking_with_fertilizer.png" id="52_6rxev"]
 [ext_resource type="Texture2D" uid="uid://cu34iwmetbxoe" path="res://assets/player/player_walking_with_noise_maker.png" id="56_d2ylu"]
+[ext_resource type="Texture2D" uid="uid://t4wjc1tixcwy" path="res://assets/player/player_walking_with_seed_pack_1.png" id="60_ftj44"]
 [ext_resource type="Texture2D" uid="uid://cxasgjnaca5u6" path="res://assets/player/player_walking_with_stonewall.png" id="61_akajo"]
+[ext_resource type="Texture2D" uid="uid://bxjp7m8i8ibvi" path="res://assets/player/player_walking_with_seed_pack_2.png" id="61_sal3k"]
 [ext_resource type="Texture2D" uid="uid://djw0nr8p3ebof" path="res://assets/player/player_walking_with_sunflower.png" id="62_w03t8"]
 [ext_resource type="Texture2D" uid="uid://bykb2slfbn1q1" path="res://assets/player/player_walking_with_sunflower_seeds.png" id="63_bcwhq"]
 [ext_resource type="Texture2D" uid="uid://cljq7sgd1knt2" path="res://assets/player/player_walking_with_super_fertilizer.png" id="64_ul7f4"]
+[ext_resource type="Texture2D" uid="uid://bou2tr2a0wjek" path="res://assets/player/player_watering_can_1.png" id="66_8j8wb"]
+[ext_resource type="Texture2D" uid="uid://bhop227uf73cr" path="res://assets/player/player_watering_can_2.png" id="67_fcwwb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgu2t"]
 size = Vector2(19, 30.1563)
@@ -374,7 +373,7 @@ region = Rect2(37, 0, 37, 30)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_46j3o")
+"texture": ExtResource("2_3kbv1")
 }],
 "loop": true,
 "name": &"default",
@@ -478,7 +477,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_68frl")
+"texture": ExtResource("15_u14dm")
 }],
 "loop": true,
 "name": &"stand_with_seeds",
@@ -542,10 +541,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_gifqq")
+"texture": ExtResource("23_vjm2b")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_8kij3")
+"texture": ExtResource("24_5tp2y")
 }],
 "loop": true,
 "name": &"walk",
@@ -553,10 +552,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_rvr4t")
+"texture": ExtResource("25_y4h5c")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_w31al")
+"texture": ExtResource("26_bh0m4")
 }],
 "loop": true,
 "name": &"walk_backward",
@@ -564,10 +563,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6_mkpnr")
+"texture": ExtResource("27_1c5r0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_1r6kq")
+"texture": ExtResource("28_7sxty")
 }],
 "loop": true,
 "name": &"walk_forward",
@@ -916,10 +915,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("12_kvmu7")
+"texture": ExtResource("60_ftj44")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_r7sfj")
+"texture": ExtResource("61_sal3k")
 }],
 "loop": true,
 "name": &"walk_with_seeds",
@@ -971,10 +970,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_agyjm")
+"texture": ExtResource("66_8j8wb")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_t4xl7")
+"texture": ExtResource("67_fcwwb")
 }],
 "loop": true,
 "name": &"walk_with_watering_can",
@@ -1019,30 +1018,7 @@ texture_filter = 3
 texture_repeat = 1
 position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
-animation = &"walk_forward_with_pineapple"
-
-[node name="ItemForward" type="TextureRect" parent="AnimatedSprite2D"]
-visible = false
-offset_left = -8.0
-offset_top = -4.0
-offset_right = 3.0
-offset_bottom = 13.0
-texture = ExtResource("19_yeftx")
-expand_mode = 3
-
-[node name="ItemAtRightHand" type="TextureRect" parent="AnimatedSprite2D"]
-visible = false
-offset_left = 5.0
-offset_top = -6.0
-offset_right = 13.0
-offset_bottom = 5.0
-
-[node name="ItemAtLeftHand" type="TextureRect" parent="AnimatedSprite2D"]
-visible = false
-offset_left = -19.0
-offset_top = -6.0
-offset_right = -12.0
-offset_bottom = 4.0
+animation = &"stand_with_seeds"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)

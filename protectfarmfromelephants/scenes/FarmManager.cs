@@ -1141,11 +1141,9 @@ public partial class FarmManager : TileMapLayer
 				SetCell(position, 0, new Vector2I(2,0));
 				if ("chili".Equals(plant_name) || "sunflower".Equals(plant_name)){
 					EmitSignal(SignalName.UpdatedItemCount, plant_name + "_seeds", 1, "decrease");
-					other_plant_type_clicked = false;
 				} else
 				{
 					EmitSignal(SignalName.UpdatedSeedCount, 1, "decrease");
-					seeds_clicked = false;
 				}
 					EmitSignal(SignalName.SeedPlaced, true);
 
@@ -1184,12 +1182,15 @@ public partial class FarmManager : TileMapLayer
 			{
 				Vector2I wateredtTile = phasesOfSelectedPlant.GetValueOrDefault(foundPlant.GetGrowthPhase());
 				GD.Print(foundPlant.GetGrowthPhase());
-				SetCell(foundPlant.GetCoordinates(), 0, wateredtTile, 1);
-				foundPlant.SetIsWatered(true);
-				water_level--;
-				LevelManager.Instance.SetWateringCanLevel(water_level);
-				EmitSignal(SignalName.UpdatedWateringcanText);
-				wateredPlantSuccessfully = true;
+				if (!foundPlant.GetIsWatered() || !foundPlant.GetIsWateredByElephant())
+				{
+					SetCell(foundPlant.GetCoordinates(), 0, wateredtTile, 1);
+					foundPlant.SetIsWatered(true);
+					water_level--;
+					LevelManager.Instance.SetWateringCanLevel(water_level);
+					EmitSignal(SignalName.UpdatedWateringcanText);
+					wateredPlantSuccessfully = true;
+				}
 			}
 			
 		}

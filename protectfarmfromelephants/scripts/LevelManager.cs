@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
@@ -110,9 +111,9 @@ public static class Scenes
 
         public const string beehive = "Bees to scare the elephants away";
 
-        public const string chili = "Seeds to grow chili because smell of chili is not appealing for elephants";
+        public const string chili = "Fully grown plant acts as fence on farm tiles. If fully grown chili is picked up, it can be sold for extra money or placed on ground to cause elephants to run away";
 
-        public const string sunflower = "Elephants don't like sunflowers so grow them to protect farm";
+        public const string sunflower = "Grow to guard your farm, smell of sunflowers keep elephants away.";
 
         public const string extra_seeds = "Extra seeds for the level";
 
@@ -122,8 +123,7 @@ public static class Scenes
 
         public const string watering_can_upgrade = "Increase capacity of watering can by 5 tiles";
 
-        public const string watering_can_puddle_upgrade = "Water grass tiles to make puddles that may enable elephants to water or fertilize farm tiles instead of destroying.";
-
+        public const string watering_can_puddle_upgrade = "Create puddles on grass tiles around farm so elephants will water your plants instead of destroying them.";
 
     }
 }
@@ -206,7 +206,7 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2, 0, ""),
             new UpgradeItem("004", "noise_maker", Scenes.UpgradeItemDescriptions.noise_maker,"distraction", 2, 2, 4, 0, ""),
-            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "plant_distraction", 10, 10, 3, 0, ""),
+            new UpgradeItem("006", "chili", Scenes.UpgradeItemDescriptions.chili, "distraction_plant", 10, 10, 3, 0, ""),
             new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 5, 5, 3, 0, ""),
             new UpgradeItem("005", "super_fertilizer", Scenes.UpgradeItemDescriptions.super_fertilizer, "boost", 2, 2, 5, 1, "elephant poop"),
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2,2, 5, 0, ""),
@@ -219,7 +219,7 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1, 0, ""),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2,0, ""),
             new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 2, 2, 4, 0, ""),
-            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "plant_distraction", 15, 15, 6, 0, ""),
+            new UpgradeItem("005", "sun_flower", Scenes.UpgradeItemDescriptions.sunflower, "distraction_plant", 15, 15, 6, 0, ""),
             new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "boost", 10, 10, 10, 0, ""),
             new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 2, 2, 20, 2, " elephant poo"),
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 10, 0, "")
@@ -238,9 +238,9 @@ public void InitializeLevelData()
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 15, 0, "")
         };
 
-        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 30, 30, 1, level_1_upgrades);
-        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 15, 25, 2, level_2_upgrades);
-        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 30, 2, level_3_upgrades);
+        LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 30, 30, 3, 4, level_1_upgrades);
+        LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 15, 25, 3, 4, level_2_upgrades);
+        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 30, 3, 4, level_3_upgrades);
         levels.Add(1, level_1);
         levels.Add(2, level_2);
         levels.Add(3, level_3);
