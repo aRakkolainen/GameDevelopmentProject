@@ -3,6 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 
 public partial class Player : CharacterBody2D
 {
@@ -39,15 +40,15 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerTriedToPlantSeedEventHandler();
 
-	[Signal] public delegate void PlayerTriedToUseFertilizerEventHandler(bool isSuperFertilizer);
+	[Signal] public delegate void PlayerTriedToUseFertilizerEventHandler(bool isSuperFertilizer, int id);
 
-	[Signal] public delegate void PlayerTriedToPlantDistractionPlantEventHandler(string item_name);
+	[Signal] public delegate void PlayerTriedToPlantDistractionPlantEventHandler(int id, string item_name);
 
-	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler(string item_name);
+	[Signal] public delegate void PlayerTriedToPlaceDefenseItemEventHandler(int id, string item_name);
 
-	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(string item_name);
+	[Signal] public delegate void PlayerTriedToPlaceDistractionItemEventHandler(int id, string item_name);
 
-	[Signal] public delegate void PlayerTriedToDropPlantEventHandler(string item_name);
+	[Signal] public delegate void PlayerTriedToDropPlantEventHandler(int id, string item_name);
 
 	public override void _Ready()
 	{
@@ -66,11 +67,11 @@ public partial class Player : CharacterBody2D
 
 	public void AddDefaultItemsToInventory()
 	{
-		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
 		EmitSignal(SignalName.PlayerAddToInventory, 0, "watering_can", "tool", 1, 1);
+		EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_seeds", "seeds", level.GetLevelAvailableSeeds(), max_stack);
 		//Only for development & testing
-		EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "plant", 3, max_stack);
-		EmitSignal(SignalName.PlayerAddToInventory, 3, "chili", "plant", 4, max_stack);
+		/* EmitSignal(SignalName.PlayerAddToInventory, 2, "pineapple", "plant", 3, max_stack);
+		EmitSignal(SignalName.PlayerAddToInventory, 3, "chili", "plant", 4, max_stack); */
 	}
 
 	public void AddToInventory(InventoryItem item)
@@ -83,7 +84,7 @@ public partial class Player : CharacterBody2D
 		
 	}
 
-	public void OnInventoryItemActivatedForUse(string item_name, string item_type, int quantity)
+	public void OnInventoryItemActivatedForUse(int id, string item_name, string item_type, int quantity)
 	{
 		GD.Print("You are trying to use item: " + item_name);
 		holdItem = true;
@@ -94,24 +95,24 @@ public partial class Player : CharacterBody2D
 
 		} else if (item_type.Equals("seeds"))
 		{
-			EmitSignal(SignalName.PlayerTriedToPlantSeed);
+			EmitSignal(SignalName.PlayerTriedToPlantSeed, id);
 		} else if (item_type.Equals("boost"))
 			{
 				if ("super_fertilizer".Equals(item_name))
 			{
-				EmitSignal(SignalName.PlayerTriedToUseFertilizer, true);
+				EmitSignal(SignalName.PlayerTriedToUseFertilizer, true, id);
 			} else
 			{
-				EmitSignal(SignalName.PlayerTriedToUseFertilizer, false);
+				EmitSignal(SignalName.PlayerTriedToUseFertilizer, false, id);
 			}
 			
 		} else if (item_type.Equals("defense"))
 		{
-			EmitSignal(SignalName.PlayerTriedToPlaceDefenseItem, item_name);
+			EmitSignal(SignalName.PlayerTriedToPlaceDefenseItem, id, item_name);
 		} else if (item_type.Equals("distraction"))
 		{
-			EmitSignal(SignalName.PlayerTriedToPlaceDistractionItem, item_name);
-		} else if (item_type.Equals("plant_distraction"))
+			EmitSignal(SignalName.PlayerTriedToPlaceDistractionItem, id, item_name);
+		} else if (item_type.Equals("distraction_plant"))
 		{
 			if ("chili_seeds".Equals(item_name))
 			{
@@ -123,10 +124,10 @@ public partial class Player : CharacterBody2D
 			{
 				item_name = "";
 			}
-			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, item_name);
+			EmitSignal(SignalName.PlayerTriedToPlantDistractionPlant, id, item_name);
 		} else if (item_type.Equals("plant"))
 		{
-			EmitSignal(SignalName.PlayerTriedToDropPlant, item_name);
+			EmitSignal(SignalName.PlayerTriedToDropPlant, id, item_name);
 		}
 	}
 

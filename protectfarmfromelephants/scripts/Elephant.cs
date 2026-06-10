@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Numerics;
 namespace ProtectFarm;
 
 public partial class Elephant : Area2D
@@ -45,15 +46,13 @@ public partial class Elephant : Area2D
 
 	public bool IsInitialized { get; private set; }
 
-	private bool isInRangeOfNoiseMaker = false;
-
-	private bool isInRangeOfCampfire = false;
+	private bool isInRangeOfDistractionItemWithSound = false;
 
 	private Godot.Vector2? directionBeforeNoise = null;
 
-	private Godot.Vector2? directionBeforeCampfire = null;
-
 	private float SpeedBeforeDefenseItem = 0;
+
+	private Godot.Vector2 ElephantMoveDirectionBeforeDefenseItem;
     private bool _shouldBounce;
     private Vector2I eaten_fruit_coordinates;
     private bool eaten_chili;
@@ -90,62 +89,37 @@ public partial class Elephant : Area2D
 		
 		bool currentlyInNoiseEffect = false;
 
-		if (farm.GetActiveNoiseMaker() != null)
+		if (farm.GetActiveDistractionItemWithSound() != null)
 		{
-			DistractionItem noise_maker = farm.GetActiveNoiseMaker();
+			DistractionItem distraction_item_with_sound = farm.GetActiveDistractionItemWithSound();
 			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
 			
-			int distance_x = Math.Abs(elephant_position_local_to_map.X - noise_maker.GetCoordinates().X);
-        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - noise_maker.GetCoordinates().Y);
+			int distance_x = Math.Abs(elephant_position_local_to_map.X - distraction_item_with_sound.GetCoordinates().X);
+        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - distraction_item_with_sound.GetCoordinates().Y);
 
-			currentlyInNoiseEffect = distance_x < noise_maker.GetEffectRange();
+			currentlyInNoiseEffect = distance_x < distraction_item_with_sound.GetEffectRange();
 			if (_debounceTimer <= 0.0)
 			{
 				
-			if (currentlyInNoiseEffect && !isInRangeOfNoiseMaker)
+			if (currentlyInNoiseEffect && !isInRangeOfDistractionItemWithSound)
 			{
 				directionBeforeNoise = MoveDirection;
 				MoveDirection = -MoveDirection;
-				isInRangeOfNoiseMaker = currentlyInNoiseEffect;
+				isInRangeOfDistractionItemWithSound = currentlyInNoiseEffect;
 				_debounceTimer = BoundaryDebounceSeconds;
-			} else if (!currentlyInNoiseEffect && !isInRangeOfNoiseMaker)
+			} else if (!currentlyInNoiseEffect && !isInRangeOfDistractionItemWithSound)
 			{
 				if (directionBeforeNoise.HasValue)
 				{
 					MoveDirection = directionBeforeNoise.Value;
 					directionBeforeNoise = null; 
-					isInRangeOfNoiseMaker = false;
+					isInRangeOfDistractionItemWithSound = false;
 					_debounceTimer = BoundaryDebounceSeconds;
 				}
 			}
 			}
 		} 
 
-		bool currentlyInCampfireEffect = false;
-		if (farm.GetActiveCampfire() != null)
-		{
-			DistractionItem camp_fire = farm.GetActiveCampfire();
-			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
-			
-			int distance_x = Math.Abs(elephant_position_local_to_map.X - camp_fire.GetCoordinates().X);
-        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - camp_fire.GetCoordinates().Y);
-
-			currentlyInCampfireEffect = distance_x < camp_fire.GetEffectRange();
-			if (currentlyInCampfireEffect && !isInRangeOfCampfire)
-			{
-				directionBeforeCampfire = MoveDirection;
-				MoveDirection = -MoveDirection;
-				Speed *= (float)1.5;
-				isInRangeOfCampfire = currentlyInCampfireEffect;
-			} else if(!currentlyInCampfireEffect && !isInRangeOfCampfire && directionBeforeCampfire.HasValue)
-			{
-				MoveDirection = directionBeforeCampfire.Value;
-				directionBeforeCampfire = null; 
-				isInRangeOfCampfire = false; 
-			}
-
-			
-		}
 	}
 
 
@@ -170,18 +144,14 @@ public partial class Elephant : Area2D
 		if (sourceId == 0)
 		{
 			GD.Print("Elephant collided with farm!");
-			if (ElephantAttackedDefenseItemCount <= 3)
-			{
-				EmitSignal(SignalName.CollidedWithFarm, tileCoords, this);
-			}
+			EmitSignal(SignalName.CollidedWithFarm, tileCoords, this);
 		} else if (sourceId == 1)
 		{
 			GD.Print("Elephant collided with distraction item!");
 			EmitSignal(SignalName.CollidedWithItem, tileCoords, "distraction");
 		}else if (sourceId == 2)
 		{
-			_shouldBounce = true;
-
+			ElephantMoveDirectionBeforeDefenseItem = MoveDirection;
 			EmitSignal(SignalName.CollidedWithItem, tileCoords, "defense", this);
 		} else if (sourceId == 4)
 		{
@@ -212,22 +182,41 @@ public partial class Elephant : Area2D
 
 	public void OnPushBack()
 	{
-		MoveDirection = -MoveDirection;
-
+		PushAwayAfterAttack();
         Timer timer = new Timer
         {
             WaitTime = 1.5,
 			Autostart = true,
 			OneShot = true,
         };
-		AddChild(timer);
-        timer.Timeout += FlipBack;
+		if(ElephantAttackedDefenseItemCount < 2)
+		{
+			AddChild(timer);
+        	ElephantAttackedDefenseItemCount++;
+			timer.Timeout += FlipBack;
+		}
 		
+		
+	}
+
+	public void PushAwayAfterAttack()
+	{
+		MoveDirection = -ElephantMoveDirectionBeforeDefenseItem;
+	}
+
+	public void PushAway()
+	{
+		MoveDirection = -MoveDirection;
 	}
 
 	public bool GetElephantCollidedWithPuddle()
 	{
 		return elephant_collided_with_puddle;
+	}
+
+	public bool GetElephantEatenChili()
+	{
+		return eaten_chili;
 	}
 
 	public bool GetElephantCollidedWithMudPuddle()
@@ -240,9 +229,20 @@ public partial class Elephant : Area2D
 		elephant_collided_with_mud_puddle = collided;
 	}
 
+	public int GetElephantAttackedDefenseItemCount()
+	{
+		return ElephantAttackedDefenseItemCount;
+	}
+
+	public void SetElephantAttackedDefenseItemCount(int num)
+	{
+		ElephantAttackedDefenseItemCount = num;
+	}
+
+
     private void FlipBack()
     {
-		MoveDirection = -MoveDirection;
+		MoveDirection = ElephantMoveDirectionBeforeDefenseItem;
     }
 
 
@@ -307,6 +307,9 @@ public partial class Elephant : Area2D
 
 	}
 
-
+    public bool GetElephantSmelledSunflower()
+    {
+        return smelled_sunflower;
+    }
 
 }

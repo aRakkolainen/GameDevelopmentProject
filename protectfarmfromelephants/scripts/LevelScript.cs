@@ -64,13 +64,22 @@ public partial class LevelScript : Node2D
         _change_day_dialog.CloseRequested += OnDialogCloseRequested;
         _change_day_dialog.Confirmed += OnDialogConfirmed;
         _sell_popup = GetNode<SellPopup>("SellPopup");
-        if (!timer.IsInsideTree())
+        if(GetTree() != null)
         {
-            AddChild(timer);
+            if (!timer.IsInsideTree())
+            {
+                AddChild(timer);
+            }
+
+            if (!_elephant_timer.IsInsideTree())
+            {
+                AddChild(_elephant_timer);
+            }
+
+                timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
+                timer.StartTimer(level.GetLevelTotalDays());
+                _elephant_timer.Start();
         }
-        timer.Connect(TimeManager.SignalName.TimerFinished, new Callable(this, nameof(OnDayEnd)));
-        timer.StartTimer(level.GetLevelTotalDays());
-        _elephant_timer.Start();
         total_enemies = GD.RandRange(level.GetLevelMininumEnemies(), level.GetLevelMaximumEnemies());
         elephants = new Node2D();
         if (!elephants.IsInsideTree())
@@ -83,6 +92,7 @@ public partial class LevelScript : Node2D
     private void OnDayEnd()
     {
         timer.SetDaysLeft(timer.GetDaysLeft()-1);
+        LevelManager.Instance.SetCurrentDay(LevelManager.Instance.GetCurrentDay()+1);
         int sold_quota = level.GetCurrentQuota();
         int expected_quota = level.GetExpectedQuota();
         
@@ -112,9 +122,7 @@ public partial class LevelScript : Node2D
         } else {
                 
             }
-            //timer.SetCurrentDay(1);
             _change_day_dialog.PopupCentered();
-            //timer.SetCurrentDay(1);
     
     }
     
@@ -198,13 +206,15 @@ public partial class LevelScript : Node2D
             GD.Print("Trying to update tile: " + farm_tile_coordinates[i]);
             _farmManager.UpdatePlantToNextPhase(farm_tile_coordinates[i]);
             _farmManager.ResetWateredByElephant();
-            
-                
         }
+        _farmManager.RemoveOldPuddles();
         
         timer.StartTimer(timer.GetDaysLeft());
         _player.SetPlayerIsAlive(true);
-        GetTree().Paused = false;
+        if(GetTree() != null)
+        {
+            GetTree().Paused = false;
+        }
         //GetTree().CallGroup("elephants", Node.MethodName.QueueFree);
     }
 
@@ -334,16 +344,18 @@ public partial class LevelScript : Node2D
 
     public void OnPauseTimer()
     {
-        _elephant_timer.Stop();
+       /*  _elephant_timer.Stop();
         _player.Pause();
-        timer.PauseTimer();
+        timer.PauseTimer(); */
+        GetTree().Paused = true;
     }
 
     public void OnContinueTimer()
     {
-        _elephant_timer.Start();
+       /*  _elephant_timer.Start();
         timer.StartTimer(timer.GetDaysLeft());
-        _player.Continue();
+        _player.Continue(); */
+        GetTree().Paused = false;
 
     }
 

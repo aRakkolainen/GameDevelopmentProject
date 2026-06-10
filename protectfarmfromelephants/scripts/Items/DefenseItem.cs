@@ -10,6 +10,8 @@ public class DefenseItem : PlacedItem
     private bool Is_breakable;
     private int HP;  
 
+    private int TotalHP;
+
     private string TextureUid;
 
     public DefenseItem(int id, string type, string name, Vector2I coordinates, bool isPickable, string uid, bool breakable, int hp) 
@@ -17,6 +19,7 @@ public class DefenseItem : PlacedItem
     {
         Is_breakable = breakable; 
         HP = hp;
+        TotalHP = hp;
         TextureUid = uid;
     }
 
@@ -28,6 +31,11 @@ public class DefenseItem : PlacedItem
     public int GetHealth()
     {
         return HP;
+    }
+
+    public int GetTotalHealth()
+    {
+        return TotalHP;
     }
 
     public string GetTextureUid()
@@ -43,6 +51,11 @@ public class DefenseItem : PlacedItem
     public void SetHealth(int hp)
     {
         HP = hp;
+    }
+
+    public void SetTotalHealth(int totalHP)
+    {
+        TotalHP = totalHP;
     }
 
     public void TakeDamage(int damage)

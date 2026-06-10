@@ -22,9 +22,11 @@ public partial class LevelData : Node
     private int Level_Fruit_Sell_Value;
 
     private List<UpgradeItem> Level_Upgrades = new List<UpgradeItem>();
+
+    private string Level_Distraction_Plant_Type;
     private int Level_Distraction_Plant_Sell_Value;
 
-    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max, int starter_money, int fruit_value, int plant_value, List<UpgradeItem> upgrades)
+    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max, int starter_money, int fruit_value, string distraction_plant, int plant_value, List<UpgradeItem> upgrades)
     {
         Level_Number = num;
         Level_Expected_Quota = expected_quota;
@@ -36,6 +38,7 @@ public partial class LevelData : Node
         Level_Maximum_Enemies = max;
         Level_Starter_Money = starter_money;
         Level_Fruit_Sell_Value = fruit_value;
+        Level_Distraction_Plant_Type = distraction_plant;
         Level_Distraction_Plant_Sell_Value = plant_value;
         Level_Upgrades = upgrades;
     }   
@@ -153,6 +156,17 @@ public partial class LevelData : Node
      public int GetLevelDistractionPlantSellValue()
     {
         return Level_Distraction_Plant_Sell_Value;
+    }
+
+     public void SetLevelDistractionPlantType(string type)
+    {
+        Level_Distraction_Plant_Type = type;
+    }
+
+
+     public string GetLevelDistractionPlantType()
+    {
+        return Level_Distraction_Plant_Type;
     }
 
     public List<UpgradeItem> GetLevelUpgradeItems()

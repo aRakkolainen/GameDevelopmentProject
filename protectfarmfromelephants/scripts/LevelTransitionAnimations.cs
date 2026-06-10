@@ -9,40 +9,49 @@ public partial class LevelTransitionAnimations : Node2D
 	private int current_level_num;
 
 	private string current_fruit;
+
+	private int frame_number = 0;
+
+	private int max_frames = 0;
 	public override void _Ready()
 	{
-		AnimatedSprite2D transition_level_animations = GetNode<AnimatedSprite2D>("BetweenLevelsAnimations");
+
+		transition_level_animations = GetNode<AnimatedSprite2D>("BetweenLevelsAnimations");
 		LevelData level_data = LevelManager.Instance.GetLevelDataForActiveLevel();
 		if (level_data != null)
 		{
 			current_level_num = level_data.GetLevelNumber();
 			current_fruit = level_data.GetPlantType();
+			SpriteFrames frames = transition_level_animations.GetSpriteFrames();
+			string animation_name = "";
 			if (LevelManager.Instance.GetPlayerHasFailed())
 			{
-				transition_level_animations.Play("eat_player");
+				animation_name = "eat_player";
 			} else
 			{
 			switch (current_fruit)
 			{
 				case"pineapple":
-					transition_level_animations.Play("eat_pineapple");
+					animation_name = "eat_pineapple";
 					break;
 				case"mango":
-					transition_level_animations.Play("eat_mango");
+					animation_name ="eat_mango";
 					break;
 				case"watermelon":
-					transition_level_animations.Play("eat_watermelon");
+					animation_name = "eat_watermelon";
 					break;
 				default:
 					break;
 			}
 			}
+				transition_level_animations.Stop();
+				transition_level_animations.Animation = animation_name;
+				max_frames = frames.GetFrameCount(animation_name);
 		}
 
-		transition_level_animations.AnimationFinished += OnAnimationFinished;
 	}
 
-    private void OnAnimationFinished()
+    private void AnimationFinished()
     {
 		if (LevelManager.Instance.GetPlayerHasFailed())
 		{
@@ -62,6 +71,23 @@ public partial class LevelTransitionAnimations : Node2D
         }
 		}
     }
+
+	public void OnSkipButtonPressed()
+	{
+		AnimationFinished();
+	}
+
+	public void OnNextButtonPressed()
+	{
+		frame_number++;
+		if(frame_number < max_frames)
+		{
+			transition_level_animations.SetFrame(frame_number);
+		} else
+		{
+			AnimationFinished();
+		}
+	}
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)

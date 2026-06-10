@@ -72,6 +72,7 @@ color = Color(0.873665, 0.76763, 0.535457, 1)
 [node name="Fruit" type="TextureRect" parent="Background"]
 unique_name_in_owner = true
 texture_filter = 1
+layout_mode = 0
 offset_left = 208.0
 offset_top = 55.0
 offset_right = 342.0

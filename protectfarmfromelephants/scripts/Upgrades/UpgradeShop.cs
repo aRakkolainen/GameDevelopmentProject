@@ -101,8 +101,8 @@ public partial class UpgradeShop : CanvasLayer
 		{
 			if (selected_item.GetItemName().Equals("seeds"))
 			{
-				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
-				EmitSignal(SignalName.UpdatedSeedCount, 1, "increase");
+				EmitSignal(SignalName.PlayerAddToInventory, 1, level.GetPlantType() + "_" + selected_item.GetItemName(), selected_item.GetItemType(), 10, 0);
+				//EmitSignal(SignalName.UpdatedSeedCount, 10, "increase");
 			} else if (selected_item.GetItemName().Equals("watering_can_upgrade"))
 			{
 				int currentWaterTotal = LevelManager.Instance.GetWateringCanTotalLevel();
@@ -115,10 +115,9 @@ public partial class UpgradeShop : CanvasLayer
 				EmitSignal(SignalName.UpdatedPassiveUpgradesList, selected_item.GetItemName(), 1);
 			} else if (selected_item.GetItemName().Equals("super_fertilizer"))
 			{
-				if (selected_item.GetAdditionalPrice() > 0)
+				/* if (selected_item.GetAdditionalPrice() > 0)
 				{
 					GD.Print("Super fertilizer has extra price, checking that player has collected elephant poop!");
-					if (_inventory.GetItemQuantityInInvetory("elephant_poop") > 0)
 					{
 						EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 						EmitSignal(SignalName.UpdatedItemQuantity, "elephant_poop", 1, "decrease");
@@ -128,7 +127,7 @@ public partial class UpgradeShop : CanvasLayer
 						return;
 					}
 
-				}
+				} */
 			} else if ("chili".Equals(selected_item.GetItemName()) || "sunflower".Equals(selected_item.GetItemName()))
 			{
 				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName()+"_seeds", selected_item.GetItemType(), 1, 0);

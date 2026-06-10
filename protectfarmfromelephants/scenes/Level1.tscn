@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=37 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/LevelScript.cs" id="1_g5xdi"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -18,10 +18,14 @@
 [ext_resource type="Script" path="res://scenes/FarmManager.cs" id="11_lwdve"]
 [ext_resource type="Texture2D" uid="uid://b83gcvt2ei6an" path="res://assets/upgrades/elephant_poop_tile.png" id="11_mhxcd"]
 [ext_resource type="PackedScene" uid="uid://dv3yusfsmynat" path="res://scenes/SellPopup.tscn" id="12_3xfhx"]
+[ext_resource type="Script" path="res://scenes/DistractionAudioPlayer.cs" id="13_e1njl"]
 [ext_resource type="PackedScene" uid="uid://bugdap2slktnw" path="res://level_info_layer.tscn" id="13_v8lej"]
 [ext_resource type="PackedScene" uid="uid://own1l2qsvex3" path="res://scenes/UpgradeShop.tscn" id="13_we4uu"]
 [ext_resource type="Script" path="res://scenes/TimeManager.cs" id="14_t13ud"]
+[ext_resource type="AudioStream" uid="uid://b2uuwvtj3ty5t" path="res://assets/audio/sound_effects/beehive_sound.mp3" id="15_mqfu3"]
+[ext_resource type="AudioStream" uid="uid://0rlcu2mueqbh" path="res://assets/audio/sound_effects/camp_fire.mp3" id="16_rm83t"]
 [ext_resource type="PackedScene" uid="uid://jj0dt4w4obyt" path="res://ChangeDayDialog.tscn" id="17_a6hci"]
+[ext_resource type="AudioStream" uid="uid://beeq27rt8mc5c" path="res://assets/audio/music/background_option_2.mp3" id="26_62aul"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -273,7 +277,10 @@ script = ExtResource("11_lwdve")
 [node name="DistractionDurationTimer" type="Timer" parent="Level1Map/Farm"]
 
 [node name="DistractionAudioPlayer" type="AudioStreamPlayer2D" parent="Level1Map/Farm"]
-stream = ExtResource("10_bq3pw")
+script = ExtResource("13_e1njl")
+noise_maker_sound = ExtResource("10_bq3pw")
+beehive_sound = ExtResource("15_mqfu3")
+campfire_sound = ExtResource("16_rm83t")
 
 [node name="SellingDesk" parent="." instance=ExtResource("6_si6ec")]
 unique_name_in_owner = true
@@ -322,7 +329,7 @@ theme_override_constants/v_separation = 5
 theme_override_constants/h_separation = 93
 
 [node name="ElephantTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 20.0
 one_shot = true
 autostart = true
 
@@ -334,15 +341,17 @@ autostart = true
 _inventory = NodePath("../CanvasLayer/SimpleInventory")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 20.0
 script = ExtResource("14_t13ud")
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("26_62aul")
+autoplay = true
 
 [node name="SecondSellDesk" parent="." instance=ExtResource("6_si6ec")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -40.0
+offset_right = -24.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=3 uid="uid://d0qgd502gu2p5"]
+[gd_scene load_steps=153 format=3 uid="uid://d0qgd502gu2p5"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_6mhrc"]
 [ext_resource type="Texture2D" uid="uid://bimgwuunxhmb6" path="res://assets/player/player_forward.png" id="2_3kbv1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cmhk32om8t4dw" path="res://assets/player/player_stand_forward_with_mango_seeds.png" id="4_g42vo"]
 [ext_resource type="Texture2D" uid="uid://kh5sb5yp2k4y" path="res://assets/player/player_forward_with_watering_can.png" id="4_nn645"]
 [ext_resource type="Texture2D" uid="uid://bi6gipo76acgc" path="res://assets/player/player_forward_with_chili.png" id="4_rqnca"]
+[ext_resource type="Texture2D" uid="uid://dbyeghs7bgph1" path="res://assets/player/player_forward_with_campfire.png" id="4_yaet0"]
 [ext_resource type="Texture2D" uid="uid://o0ewi34lg1w3" path="res://assets/player/player_forward_with_chili_seeds.png" id="5_0a7yi"]
 [ext_resource type="Texture2D" uid="uid://c5cqjohtfol2m" path="res://assets/player/player_stand_forward_with_pineapple_seeds.png" id="5_ejmp1"]
 [ext_resource type="Texture2D" uid="uid://738xsgo1d7xd" path="res://assets/player/player_forward_with_elephant_poop.png" id="6_8qkjw"]
@@ -42,6 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://cn1jqbx4c2pnc" path="res://assets/player/player_forward_walk_2.png" id="28_7sxty"]
 [ext_resource type="Texture2D" uid="uid://b50nft6ikq6hk" path="res://assets/player/player_walking_forward_with_beehive.png" id="29_7la3w"]
 [ext_resource type="Texture2D" uid="uid://jwkwjs2e7qwx" path="res://assets/player/player_walking_forward_with_chili.png" id="30_3dh3r"]
+[ext_resource type="Texture2D" uid="uid://c1yxl2hwgx25" path="res://assets/player/player_walking_forward_with_campfire.png" id="31_qwhjk"]
 [ext_resource type="Texture2D" uid="uid://cxxn7oka3k5fq" path="res://assets/player/player_walking_with_watemelon.png" id="31_u4jfd"]
 [ext_resource type="Texture2D" uid="uid://dhg2lqjj85881" path="res://assets/player/player_walking_forward_with_chili_seeds.png" id="31_x4o0x"]
 [ext_resource type="Texture2D" uid="uid://dbyeehrjbqith" path="res://assets/player/player_walking_with_watermelon_seeds.png" id="32_cy4om"]
@@ -59,6 +61,7 @@
 [ext_resource type="Texture2D" uid="uid://cisg20eh0dugn" path="res://assets/player/player_walking_with_chili_seeds.png" id="49_6u8te"]
 [ext_resource type="Texture2D" uid="uid://b2woquxsa3tl2" path="res://assets/player/player_walking_with_elephant_poop.png" id="50_llnb7"]
 [ext_resource type="Texture2D" uid="uid://drtfbmehojoku" path="res://assets/player/player_walking_with_fence.png" id="51_45amc"]
+[ext_resource type="Texture2D" uid="uid://cii36jbqo33gc" path="res://assets/player/player_walking_with_campfire.png" id="51_r5llr"]
 [ext_resource type="Texture2D" uid="uid://p1cld6xn6yqs" path="res://assets/player/player_walking_with_fertilizer.png" id="52_6rxev"]
 [ext_resource type="Texture2D" uid="uid://cu34iwmetbxoe" path="res://assets/player/player_walking_with_noise_maker.png" id="56_d2ylu"]
 [ext_resource type="Texture2D" uid="uid://t4wjc1tixcwy" path="res://assets/player/player_walking_with_seed_pack_1.png" id="60_ftj44"]
@@ -80,6 +83,14 @@ region = Rect2(0, 0, 32, 30)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vihnp"]
 atlas = ExtResource("29_7la3w")
 region = Rect2(32, 0, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2g0la"]
+atlas = ExtResource("31_qwhjk")
+region = Rect2(0, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb3my"]
+atlas = ExtResource("31_qwhjk")
+region = Rect2(34, 0, 34, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8f7ef"]
 atlas = ExtResource("30_3dh3r")
@@ -233,6 +244,14 @@ region = Rect2(0, 0, 40, 30)
 atlas = ExtResource("47_bjmhv")
 region = Rect2(40, 0, 40, 30)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqdb8"]
+atlas = ExtResource("51_r5llr")
+region = Rect2(0, 0, 46, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv7fq"]
+atlas = ExtResource("51_r5llr")
+region = Rect2(46, 0, 46, 30)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_uir41"]
 atlas = ExtResource("48_licf0")
 region = Rect2(0, 0, 40, 30)
@@ -379,12 +398,25 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_l7veu")
 }],
 "loop": true,
 "name": &"stand_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_yaet0")
+}],
+"loop": true,
+"name": &"stand_with_camp_fire",
 "speed": 5.0
 }, {
 "frames": [{
@@ -581,6 +613,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_forward_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2g0la")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb3my")
+}],
+"loop": true,
+"name": &"walk_forward_with_camp_fire",
 "speed": 5.0
 }, {
 "frames": [{
@@ -790,6 +833,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_with_beehive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqdb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv7fq")
+}],
+"loop": true,
+"name": &"walk_with_camp_fire",
 "speed": 5.0
 }, {
 "frames": [{
@@ -1018,7 +1072,7 @@ texture_filter = 3
 texture_repeat = 1
 position = Vector2(-28, 5)
 sprite_frames = SubResource("SpriteFrames_wbw8y")
-animation = &"stand_with_seeds"
+animation = &"walk_with_camp_fire"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-18, 12)

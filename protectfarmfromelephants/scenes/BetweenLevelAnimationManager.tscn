@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cugj4r5nmh6hj"]
+[gd_scene load_steps=24 format=3 uid="uid://cugj4r5nmh6hj"]
 
 [ext_resource type="Script" path="res://scripts/LevelTransitionAnimations.cs" id="1_eymsg"]
 [ext_resource type="Texture2D" uid="uid://yfn27cuv1463" path="res://assets/cut_scenes/level_2_win_scene/eating_mango_1.png" id="2_bf4nu"]
@@ -101,7 +101,24 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jekfu"]
+bg_color = Color(0.390164, 0.568786, 0.356701, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n58rw"]
+bg_color = Color(0.280225, 0.421607, 0.253479, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
 [node name="AnimationManager" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_eymsg")
 
 [node name="BetweenLevelsAnimations" type="AnimatedSprite2D" parent="."]
@@ -112,3 +129,30 @@ animation = &"eat_player"
 frame = 6
 frame_progress = 1.0
 speed_scale = 0.75
+
+[node name="SkipButton" type="Button" parent="."]
+offset_left = 1144.0
+offset_top = 992.0
+offset_right = 1473.0
+offset_bottom = 1073.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_jekfu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n58rw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n58rw")
+text = "SKIP TO END"
+
+[node name="NextButton" type="Button" parent="."]
+offset_left = 968.0
+offset_top = 992.0
+offset_right = 1110.0
+offset_bottom = 1073.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_jekfu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n58rw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n58rw")
+text = "NEXT"
+
+[connection signal="pressed" from="SkipButton" to="." method="OnSkipButtonPressed"]
+[connection signal="pressed" from="NextButton" to="." method="OnNextButtonPressed"]

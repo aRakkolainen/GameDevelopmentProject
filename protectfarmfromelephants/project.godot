@@ -30,6 +30,12 @@ window/stretch/aspect="expand"
 
 project/assembly_name="ProtectFarmFromElephants"
 
+[file_customization]
+
+folder_colors={
+"res://assets/audio/sound_effects/": "yellow"
+}
+
 [input]
 
 ui_left={
