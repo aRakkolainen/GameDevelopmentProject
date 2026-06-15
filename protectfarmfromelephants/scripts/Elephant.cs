@@ -219,6 +219,11 @@ public partial class Elephant : Area2D
 		return eaten_chili;
 	}
 
+	public void SetElephantEatenChili(bool eaten)
+	{
+		eaten_chili = eaten;
+	}
+
 	public bool GetElephantCollidedWithMudPuddle()
 	{
 		return elephant_collided_with_mud_puddle;
@@ -276,6 +281,8 @@ public partial class Elephant : Area2D
 		} else if (smelled_sunflower)
 		{
 			_animatedSprite.Play("walk annoyed");
+			PushAway();
+
 		} else
 		{
 			_animatedSprite.Play("walk");
@@ -310,6 +317,11 @@ public partial class Elephant : Area2D
     public bool GetElephantSmelledSunflower()
     {
         return smelled_sunflower;
+    }
+
+	public void SetElephantSmelledSunflower(bool smelled)
+    {
+       smelled_sunflower = smelled;
     }
 
 }

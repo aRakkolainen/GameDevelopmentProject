@@ -53,8 +53,7 @@ public partial class LevelScript : Node2D
 
     public override void _Ready()
     {
-        //Receiving data of this level:
-        //ResetLevel(); 
+        GetTree().Paused = false;
         GD.Randomize();
         level = LevelManager.Instance.GetLevelData(level_num);
         _farmManager = GetNode<FarmManager>("%Farm");
@@ -100,15 +99,24 @@ public partial class LevelScript : Node2D
         {
             _change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
             timer.SetCurrentDay(timer.GetCurrentDay()+1);
-            _change_day_dialog.DialogText = "Sold fruits: " + sold_quota + "/" + expected_quota;
-            _change_day_dialog.OkButtonText = "Start new day";
-            _player.SetPlayerIsAlive(false); 
-            GetTree().Paused = true;
+            if(sold_quota >= expected_quota)
+            {
+                 _change_day_dialog.DialogText = "You reached the quota and passed this level: " + sold_quota + "/" + expected_quota;
+                 _change_day_dialog.OkButtonText = "Move to next level";
+            } else
+            {
+                _change_day_dialog.DialogText = "Sold fruits: " + sold_quota + "/" + expected_quota;
+                _change_day_dialog.OkButtonText = "Start new day";
+                _player.SetPlayerIsAlive(false); 
+                GetTree().Paused = true;
+            }
+
         } else if (timer.GetDaysLeft() == 0)
         {
             GD.Print("Time's up!");
             if (sold_quota >= expected_quota)
         {
+             GetTree().Paused = true;
             GD.Print("You survived and managed to fill the quota!");
             _change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
             _change_day_dialog.DialogText = "You reached the quota and passed this week: " + sold_quota + "/" + expected_quota;

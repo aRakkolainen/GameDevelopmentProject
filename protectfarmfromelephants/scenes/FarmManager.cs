@@ -584,7 +584,7 @@ public partial class FarmManager : TileMapLayer
     {
 		Dictionary<string, Vector2I> defenses = upgrade_items_by_name.GetValueOrDefault("defense");
 		string infoMessage = "";
-		if (farm_tile_coordinates.IndexOf(mouse_map_pos) != -1 || water_tile_coordinates.IndexOf(mouse_map_pos) != -1)
+		if (farm_tile_coordinates.IndexOf(mouse_map_pos) != -1 || water_tile_coordinates.IndexOf(mouse_map_pos) != -1 && FindPlantAtCoordinates(mouse_map_pos) == -1)
 		{
 			infoMessage = "Cannot place item at farm or water tiles!";
 			GD.Print("Cannot place item at farm or water!");
@@ -653,7 +653,7 @@ public partial class FarmManager : TileMapLayer
 			} else if (selected_distraction_item.Equals("beehive"))
 			{
 				Vector2I beehive_tile = distractions.GetValueOrDefault("beehive");
-				DistractionItem beehive = new DistractionItem(placed_distraction_items.Count+1, "distraction", selected_distraction_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.beehive, true, 15, 2, true, 5);
+				DistractionItem beehive = new DistractionItem(placed_distraction_items.Count+1, "distraction", selected_distraction_item, mouse_map_pos, true, Scenes.UpgradeItemTextures.beehive, false, 15, 2, true, 5);
 				if (active_distraction_item_with_sound == null)
 					{
 					placed_distraction_items.Add(beehive);
@@ -891,9 +891,16 @@ public partial class FarmManager : TileMapLayer
 				if(plant_phases != null)
 				{
 					int final_phase = plant_phases.Count;
-					List<Plant> fully_grown_distraction_plants_within_range = distraction_plants_on_line.FindAll(plant => plant.GetGrowthPhase() == final_phase && (Math.Abs(plant.GetCoordinates().X - elephant_position.X) <= 3));
+					List<Plant> fully_grown_distraction_plants_within_range = distraction_plants_on_line.FindAll(plant => plant.GetGrowthPhase() == final_phase && (Math.Abs(plant.GetCoordinates().X - elephant_position.X) < 2));
 					if (fully_grown_distraction_plants_within_range.Count > 0)
 					{
+							if ("chilI".Equals(distraction_plant_type))
+							{
+								elephant.SetElephantEatenChili(true);
+							} else if ("sunflower".Equals(distraction_plant_type))
+							{
+								elephant.SetElephantSmelledSunflower(true);
+							}
 						elephant.PushAway();
 						return;
 					}
@@ -960,19 +967,19 @@ public partial class FarmManager : TileMapLayer
 				if (plants_on_line.Count == 1)
 				{
 					Plant plant_to_be_destroyed = plants_on_line[0];
+					if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed.GetName()))
+						{
+							return;
+						}
 					if(plant_to_be_destroyed.GetIsWateredByElephant() || plant_to_be_destroyed.GetIsFertilizedByElephant())
 					{
-							if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed))
-							{
-								return;
-							}
 						if (plant_roll <= 0.20f){
 							RemovePlantAtCoordinates(plant_to_be_destroyed.GetCoordinates());
 						}
 					} else
 					{
 						if (plant_roll <= 0.40f){
-							if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed))
+							if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed.GetName()))
 							{
 								return;
 							}
@@ -1060,7 +1067,7 @@ public partial class FarmManager : TileMapLayer
 				elephant.PauseMovementAndPlayAnimation("eat chili");
 			} else if ("sunflower".Equals(droppedPlant.GetName()))
 			{
-				
+				elephant.PauseMovementAndPlayAnimation("smell sunflower");
 			}
 				else
 			{
@@ -1086,7 +1093,7 @@ public partial class FarmManager : TileMapLayer
 			{
 				var roll = GD.Randf();
         		Plant plant_to_be_destroyed = plants_on_line[random_index];
-				if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed))
+				if("chili".Equals(plant_to_be_destroyed.GetName()) || "sunflower".Equals(plant_to_be_destroyed.GetName()))
 					{
 						return;
 					} else if(plant_to_be_destroyed.GetIsFertilizedByElephant() || plant_to_be_destroyed.GetIsWateredByElephant())
@@ -1412,8 +1419,7 @@ public partial class FarmManager : TileMapLayer
 		{
 			{1, new Vector2I(2,0)},
 			{2, new Vector2I(3,0)},
-			{3, new Vector2I(5,1)},
-			{4, new Vector2I(6,1)}
+			{3, new Vector2I(6,1)}
 		};
 		plant_growth_phases_by_name.Add("sunflower", sunflowerDic);
 
@@ -1441,11 +1447,11 @@ public partial class FarmManager : TileMapLayer
 		Dictionary<string, Vector2I> distractionDic = new()
 
         {
-            { "camp_fire", new Vector2I(0, 0) },
+            { "camp_fire", new Vector2I(0, 2) },
             { "noise_maker", new Vector2I(0, 1) },
             { "noise_maker_2", new Vector2I(1, 1) },
             { "noise_maker_3", new Vector2I(2, 1) },
-			 { "beehive", new Vector2I(1, 0) },
+			 { "beehive", new Vector2I(0, 0) },
 			{ "beehive_angry", new Vector2I(2, 0) },
 			{ "beehive_angry_2", new Vector2I(3, 0) }
         };

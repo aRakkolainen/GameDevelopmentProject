@@ -21,7 +21,7 @@ public class UpgradeItem
 
     string AdditionalPriceInfo { get; set; }
 
-    public UpgradeItem(string id, string item_name, string desc, string item_type, int amount, int total_level, int item_price, int additional, string price_info)
+    public UpgradeItem(string id, string item_name, string desc, string item_type, int amount, int total_level, int item_price)
     {
         ID = id; 
         Name = item_name;
@@ -30,8 +30,6 @@ public class UpgradeItem
         TotalInStock = amount;
         TotalForLevel = total_level;
         Price = item_price;
-        AdditionalPrice = additional;
-        AdditionalPriceInfo = price_info;
     }
 
 

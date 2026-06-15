@@ -322,9 +322,33 @@ public partial class SimpleInventory : ItemList
 		{
 		if(index == -1)
 		{
-			InventoryItem item = new InventoryItem(inventory_items.Count+1, item_name, item_type, quantity, max_quantity);
-        	inventory_items.Add(item);
-			GD.Print("You collected new item " + item.GetItemName() + " and total quantity is " + item.GetQuantity());
+			if(quantity > max_stack)
+				{
+				int over_max_stack = 0;
+				int remainder = 0;
+				int divider = quantity % max_stack;
+				GD.Print(16%32);
+				while(quantity > max_stack)
+					{
+						if(divider == 0)
+						{
+							break;
+						}
+					quantity -= divider;
+					InventoryItem item = new InventoryItem(inventory_items.Count+1, item_name, item_type, quantity, max_quantity);
+					inventory_items.Add(item);
+					if(divider > 0)
+						{
+						InventoryItem extra_item = new InventoryItem(inventory_items.Count+1, item_name, item_type, divider, max_quantity);
+						inventory_items.Add(extra_item);
+							
+						}
+					}
+				} else
+				{
+					InventoryItem item = new InventoryItem(inventory_items.Count+1, item_name, item_type, quantity, max_quantity);
+					inventory_items.Add(item);
+				}
 		} else
             {
                 if (items_with_same_name > 0)

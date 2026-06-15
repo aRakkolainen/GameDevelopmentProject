@@ -32,6 +32,16 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_enaiv")
 
+[node name="SelectedMusicVolumeLabel" type="Label" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 1168.0
+offset_top = 336.0
+offset_right = 1356.0
+offset_bottom = 408.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 23
+
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 1923.0
@@ -74,6 +84,7 @@ offset_top = 272.0
 offset_right = 1136.0
 offset_bottom = 440.0
 theme_override_constants/center_grabber = 0
+value = 100.0
 tick_count = 1
 ticks_on_borders = true
 
@@ -84,6 +95,7 @@ offset_top = 552.0
 offset_right = 1144.0
 offset_bottom = 720.0
 theme_override_constants/center_grabber = 0
+value = 100.0
 tick_count = 1
 ticks_on_borders = true
 
@@ -138,5 +150,39 @@ offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 0
 
+[node name="MusicMinimum" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 752.0
+offset_top = 368.0
+offset_right = 768.0
+offset_bottom = 400.0
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 23
+text = "0%"
+
+[node name="MusicMinimum" type="Label" parent="MusicMinimum"]
+visible = false
+layout_mode = 0
+offset_left = 360.0
+offset_right = 399.0
+offset_bottom = 32.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 23
+text = "100%"
+
+[node name="SelectedSoundEffectsVolumeLabel" type="Label" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 1152.0
+offset_top = 600.0
+offset_right = 1340.0
+offset_bottom = 672.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 23
+
+[connection signal="value_changed" from="ColorRect/MusicVolumeSlider" to="." method="OnMusicVolumeSliderValueChanged"]
+[connection signal="value_changed" from="ColorRect/SoundEffectVolumeSlider" to="." method="OnSoundEffectVolumeSliderValueChanged"]
 [connection signal="pressed" from="ColorRect/EditControlsButton" to="." method="OnEditControlsButtonPressed"]
+[connection signal="pressed" from="ColorRect/SaveSettingsButton" to="." method="OnSaveSettingsButtonPressed"]
 [connection signal="pressed" from="ColorRect/MainMenuButton" to="." method="OnMainMenuButtonPressed"]
