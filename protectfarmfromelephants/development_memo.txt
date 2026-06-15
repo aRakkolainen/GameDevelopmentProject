@@ -14,7 +14,7 @@ cutsceneen next nappula tai menee vaan hiirellä seuraavaan frame by frame (teht
 
 Mieti itemien tarkoitus paremmin! 
 
-Mieti voisiko aitojen logiikan korjata toimimaan niin, että jos siirretään toiseen paikkaan, hp ei nollaannu (koska epäloogista että se korjaantuu jos sen nostaa inventoryyn!)
+Mieti voisiko aitojen logiikan korjata toimimaan niin, että jos siirretään toiseen paikkaan, hp ei nollaannu (koska epäloogista että se korjaantuu jos sen nostaa inventoryyn!) => voi tosin vaatia aika isoja muutoksia inventoryn logiikkaan!
 
 Mieti kannattaako tehä että itemit yhdistyy yhdeks stackiks automaattisesti jos on kahta samaa itemiä sillee että ne mahtuis myös yhteen stackiin.
 
