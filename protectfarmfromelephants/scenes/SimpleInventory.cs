@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 
 public partial class SimpleInventory : ItemList
@@ -325,21 +326,29 @@ public partial class SimpleInventory : ItemList
 			if(quantity > max_stack)
 				{
 				int over_max_stack = 0;
-				int remainder = 0;
-				int divider = quantity % max_stack;
-				GD.Print(16%32);
+				int remainder = quantity % max_stack;
 				while(quantity > max_stack)
 					{
-						if(divider == 0)
+						if(remainder == 0)
 						{
+							int divisor = quantity/ max_stack;
+							if(divisor > 0)
+							{
+								for (int i=0; i < divisor; i++)
+								{
+									InventoryItem extra_item = new InventoryItem(inventory_items.Count+1, item_name, item_type, max_quantity, max_quantity);
+									inventory_items.Add(extra_item);
+								}
+							}
 							break;
+							
 						}
-					quantity -= divider;
+					quantity -= remainder;
 					InventoryItem item = new InventoryItem(inventory_items.Count+1, item_name, item_type, quantity, max_quantity);
 					inventory_items.Add(item);
-					if(divider > 0)
+					if(remainder > 0)
 						{
-						InventoryItem extra_item = new InventoryItem(inventory_items.Count+1, item_name, item_type, divider, max_quantity);
+						InventoryItem extra_item = new InventoryItem(inventory_items.Count+1, item_name, item_type, remainder, max_quantity);
 						inventory_items.Add(extra_item);
 							
 						}
@@ -411,6 +420,7 @@ public partial class SimpleInventory : ItemList
 			GD.Print("Item not found!");
 		} else
 		{
+
 			InventoryItem current = inventory_items[index];
 			int current_quantity = current.GetQuantity();
 
@@ -428,6 +438,24 @@ public partial class SimpleInventory : ItemList
 					
 				} else if (update_type.Equals("decrease"))
 			{
+				List<InventoryItem> items_with_same_name_list = FindAllItemsForNameInInventory(name);
+				if(items_with_same_name_list != null && items_with_same_name_list.Count > 1)
+				{
+					//Combining the two items together if the one of them has enough space to combain..
+					InventoryItem first_item = items_with_same_name_list[0];
+					int space_left_in_firs_item = max_stack - first_item.GetQuantity();
+					for (int i=1; i < items_with_same_name_list.Count-1; i++)
+					{
+						InventoryItem current_item = items_with_same_name_list[i];
+						if(space_left_in_firs_item <= current_item.GetQuantity())
+						{
+							first_item.SetQuantity(first_item.GetQuantity()+current_item.GetQuantity());
+							break;
+						}
+					}
+
+				}
+
 				if (quantity >= 0 && current_quantity - quantity >= 0 && current_quantity - quantity < current.GetMaxQuantity())
 				{
 					int new_quantity = current_quantity - quantity;

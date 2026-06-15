@@ -1400,10 +1400,11 @@ public partial class FarmManager : TileMapLayer
 
 		Dictionary<int, Vector2I> mangoDic = new()
         {
-            { 1, new Vector2I(3, 3) },
-            { 2, new Vector2I(4, 3) },
-            { 3, new Vector2I(5, 3) },
-            { 4, new Vector2I(6, 3) }
+            { 1, new Vector2I(2, 0) },
+			{ 2, new Vector2I(3, 3) },
+            { 3, new Vector2I(4, 3) },
+            { 4, new Vector2I(5, 3) },
+            { 5, new Vector2I(6, 3) }
         };
 		plant_growth_phases_by_name.Add("mango", mangoDic);
 

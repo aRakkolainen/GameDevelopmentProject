@@ -1,0 +1,23 @@
+Muuta aidan logiikkaa siten, että jonkun x määrä hyökkäyksien jälkeen elefantti luovuttaa (muutettu niin että elefantti luovuttaa kolmen kerran jälkeen)
+
+Muuta chilin kuvausta tarkemmaksi (ja ehkä myös niiden toimintaperiaatetta voisi vielä muuttaa) (yritetty tehdä)
+
+Paranna yhden ananaksen hintaa kun sen myy (tehty)
+
+Muuta hintoja järkevämmiksi (tehty leveli kohtaisesti, mutta pitää muokata koko gameplayn kannalta)
+
+Muuta istuttaminen siten että voi laittaa suoraan maahan monta peräkkäin (tehty)
+
+Ei voi kastella samaa tilea uudelleen tai edes laiteta samaan tileen uudestaan asioita. (tehty)
+
+cutsceneen next nappula tai menee vaan hiirellä seuraavaan frame by frame (tehty)
+
+Mieti itemien tarkoitus paremmin! 
+
+Mieti voisiko aitojen logiikan korjata toimimaan niin, että jos siirretään toiseen paikkaan, hp ei nollaannu (koska epäloogista että se korjaantuu jos sen nostaa inventoryyn!)
+
+Mieti kannattaako tehä että itemit yhdistyy yhdeks stackiks automaattisesti jos on kahta samaa itemiä sillee että ne mahtuis myös yhteen stackiin.
+
+
+
+
