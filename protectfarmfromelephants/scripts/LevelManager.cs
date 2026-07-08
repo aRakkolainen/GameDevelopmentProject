@@ -223,7 +223,7 @@ public void InitializeLevelData()
             new UpgradeItem("002", "fence", Scenes.UpgradeItemDescriptions.fence, "defense", 10, 10, 1),
             new UpgradeItem("003", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 2),
             new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 8, 8, 3),
-            new UpgradeItem("005", "sunflower", Scenes.UpgradeItemDescriptions.sunflower, "distraction_plant", 15, 20, 3),
+            new UpgradeItem("005", "sunflower", Scenes.UpgradeItemDescriptions.sunflower, "distraction_plant", 20, 20, 3),
             new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds, "seeds", 2, 2, 7),
             new UpgradeItem("006", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 30, 30, 3),
             new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 3, 3, 5),
@@ -233,19 +233,19 @@ public void InitializeLevelData()
         List<UpgradeItem> level_3_upgrades = new()
 
         {
-            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds,"seeds", 15, 15, 8),
-            new UpgradeItem("002", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 10, 10, 1),
+            new UpgradeItem("001", "seeds", Scenes.UpgradeItemDescriptions.extra_seeds,"seeds", 5, 5, 8),
+            new UpgradeItem("002", "stone_wall", Scenes.UpgradeItemDescriptions.stone_wall, "defense", 20, 20, 1),
             new UpgradeItem("003", "beehive", Scenes.UpgradeItemDescriptions.beehive, "distraction", 10, 10, 2),
-            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 1, 1, 4),
-            new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 1, 1, 4),
-            new UpgradeItem("006", "sunflower", Scenes.UpgradeItemDescriptions.sunflower, "distraction_plant", 15, 15, 8),
-            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 3, 3, 25),
-            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 15)
+            new UpgradeItem("004", "camp_fire", Scenes.UpgradeItemDescriptions.camp_fire, "distraction", 5, 5, 4),
+            new UpgradeItem("005", "noise_maker",Scenes.UpgradeItemDescriptions.noise_maker, "distraction", 5, 5, 4),
+            new UpgradeItem("006", "sunflower", Scenes.UpgradeItemDescriptions.sunflower, "distraction_plant", 15, 15, 3),
+            new UpgradeItem("007", "fertilizer", Scenes.UpgradeItemDescriptions.fertilizer, "boost", 25, 25, 4),
+            new UpgradeItem("008", "watering_can_upgrade", Scenes.UpgradeItemDescriptions.watering_can_upgrade, "boost", 2, 2, 7)
         };
 
         LevelData level_1 = new(1, 20, 0, 5, 28, "pineapple", 15, 10, 25, 3, level_1_upgrades.Find(item => item.GetItemType().Equals("distraction_plant")).GetItemName(), 4, level_1_upgrades);
         LevelData level_2 = new(2, 40, 0, 5, 48, "watermelon", 5, 15, 35, 3, level_2_upgrades.Find(item => item.GetItemType().Equals("distraction_plant")).GetItemName(), 4, level_2_upgrades);
-        LevelData level_3 = new(3, 60, 0, 4, 64, "mango", 10, 15, 30, 3, level_3_upgrades.Find(item => item.GetItemType().Equals("distraction_plant")).GetItemName(),4, level_3_upgrades);
+        LevelData level_3 = new(3, 60, 0, 5, 64, "mango", 10, 15, 30, 3, level_3_upgrades.Find(item => item.GetItemType().Equals("distraction_plant")).GetItemName(),4, level_3_upgrades);
         levels.Add(1, level_1);
         levels.Add(2, level_2);
         levels.Add(3, level_3);

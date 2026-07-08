@@ -1229,7 +1229,7 @@ public partial class FarmManager : TileMapLayer
 		{
 			Plant foundPlant = plants[index];
 			Dictionary<int, Vector2I> phasesOfSelectedPlant = plant_growth_phases_by_name.GetValueOrDefault(foundPlant.GetName());
-			if (phasesOfSelectedPlant != null && water_level > 0 && foundPlant.GetGrowthPhase() < 4)
+			if (phasesOfSelectedPlant != null && water_level > 0 && foundPlant.GetGrowthPhase() < phasesOfSelectedPlant.Count)
 			{
 				Vector2I wateredtTile = phasesOfSelectedPlant.GetValueOrDefault(foundPlant.GetGrowthPhase());
 				GD.Print(foundPlant.GetGrowthPhase());
@@ -1300,14 +1300,15 @@ public partial class FarmManager : TileMapLayer
 		} else
 		{
 			Plant foundPlant = plants[index];
-			if(foundPlant.GetGrowthPhase() == 4)
+			
+			Dictionary<int, Vector2I> phasesOfSelectedPlant = plant_growth_phases_by_name.GetValueOrDefault(foundPlant.GetName());
+			if(foundPlant.GetGrowthPhase() == phasesOfSelectedPlant.Count)
 			{
 				return isSuccess;
 			}
 			if (foundPlant.GetIsWatered())
 			{
 				int newPhase = foundPlant.GetGrowthPhase() + 1;
-				Dictionary<int, Vector2I> phasesOfSelectedPlant = plant_growth_phases_by_name.GetValueOrDefault(foundPlant.GetName());
 				if (phasesOfSelectedPlant != null)
 				{
 					foundPlant.SetGrowthPhase(newPhase);
@@ -1356,7 +1357,7 @@ public partial class FarmManager : TileMapLayer
 				{
 					foundPlant.SetGrowthPhase(new_phase);
 					Vector2I correctTile = phasesOfSelectedPlant.GetValueOrDefault(new_phase);
-					if (foundPlant.GetIsWatered() && new_phase != 4)
+					if (foundPlant.GetIsWatered() && new_phase < phasesOfSelectedPlant.Count)
 					{
 						SetCell(foundPlant.GetCoordinates(), farm_source_id, correctTile, 1);
 						success = true;
