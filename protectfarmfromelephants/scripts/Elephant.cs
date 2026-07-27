@@ -10,6 +10,7 @@ public partial class Elephant : Area2D
 	[Export] public Godot.Vector2 MoveDirection = Godot.Vector2.Right;
 
 	[Export] public FarmManager farm;
+
 	private AnimatedSprite2D _animatedSprite;
 
 	private CollisionShape2D _collisionShape;
@@ -37,8 +38,7 @@ public partial class Elephant : Area2D
 	private bool elephant_collided_with_puddle = false;
 
 	private bool elephant_collided_with_mud_puddle = false;
-
-
+	Timer sfxTimer;
 	
 	private const int tileSize = 32;
 	private const int pushBackwardTiles = 1;
@@ -56,8 +56,16 @@ public partial class Elephant : Area2D
     private bool _shouldBounce;
     private Vector2I eaten_fruit_coordinates;
     private bool eaten_chili;
+    private bool elephant_was_surprised;
+    private float speedAfterSurprise;
     private float speedAfterEating;
-    private bool smelled_sunflower;
+    private bool smelled_unpleasant_item;
+    private bool currentlyInNoiseEffect = false;
+
+	private SoundEffectPlayer soundEffectPlayer;
+
+
+    [Signal] public delegate void ElephantSoundEffectStartedEventHandler(string starter, string effect);
 
     public void Initialize()
 	{
@@ -69,6 +77,9 @@ public partial class Elephant : Area2D
 		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 		_animatedSprite.Play("walk");
+		soundEffectPlayer = GetNode<SoundEffectPlayer>("SoundEffectPlayer");
+		OnSoundEffectStarted("elephant", "walk", 20);
+
 		MoveDirection = MoveDirection.Normalized();
 		_animatedSprite.AnimationFinished += OnEatingFinished;
 		
@@ -79,15 +90,39 @@ public partial class Elephant : Area2D
         random.Randomize();
 		Position += MoveDirection * Speed;
 		
+		if(smelled_unpleasant_item)
+		{
+			OnSoundEffectStarted("elephant", "frutrated_walk", 120);
+		}
 		if (_animatedSprite != null)
             _animatedSprite.FlipH = MoveDirection.X < 0f;
 
-        // 3) Debounce timer (optional but helps near the edge)
-        if (_debounceTimer > 0.0)
-            _debounceTimer -= delta;
+        /* This logic below is based on recommendations from Microsoft Copilot with the following two prompts
+        Prompt 1: My current code is this and the elephant still appears to stop: public override void _PhysicsProcess(double delta)
+	{
+		Position += MoveDirection * Speed;
+			if (MoveDirection.Equals(Godot.Vector2I.Left)){
+				_animatedSprite.FlipH = true;
+			}
 
-		
-		bool currentlyInNoiseEffect = false;
+		if (farm.GetActiveNoiseMaker() != null)
+		{
+			DistractionItem noise_maker = farm.GetActiveNoiseMaker();
+			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
+			
+			int distance_x = Math.Abs(elephant_position_local_to_map.X - noise_maker.GetCoordinates().X);
+        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - noise_maker.GetCoordinates().Y);
+			if (distance_x <= noise_maker.GetEffectRange())
+			{
+				MoveDirection = -MoveDirection;
+				//Position += MoveDirection * Speed;
+			}
+		} 
+	}
+		Prompt 2: What if I want to make the elephant turn back when the noise maker's effect has ended? 
+		*/
+		if (_debounceTimer > 0.0)
+            _debounceTimer -= delta;
 
 		if (farm.GetActiveDistractionItemWithSound() != null)
 		{
@@ -95,16 +130,17 @@ public partial class Elephant : Area2D
 			Vector2I elephant_position_local_to_map = farm.LocalToMap(Position);
 			
 			int distance_x = Math.Abs(elephant_position_local_to_map.X - distraction_item_with_sound.GetCoordinates().X);
-        	int distance_y = Math.Abs(elephant_position_local_to_map.Y - distraction_item_with_sound.GetCoordinates().Y);
 
 			currentlyInNoiseEffect = distance_x < distraction_item_with_sound.GetEffectRange();
-			if (_debounceTimer <= 0.0)
+			if (_debounceTimer <= 0.0) 
 			{
 				
 			if (currentlyInNoiseEffect && !isInRangeOfDistractionItemWithSound)
 			{
 				directionBeforeNoise = MoveDirection;
 				MoveDirection = -MoveDirection;
+				PauseMovementAndPlayAnimation("walk scared");
+				PlaySoundEffect("afraid_elephant", 10);
 				isInRangeOfDistractionItemWithSound = currentlyInNoiseEffect;
 				_debounceTimer = BoundaryDebounceSeconds;
 			} else if (!currentlyInNoiseEffect && !isInRangeOfDistractionItemWithSound)
@@ -113,6 +149,7 @@ public partial class Elephant : Area2D
 				{
 					MoveDirection = directionBeforeNoise.Value;
 					directionBeforeNoise = null; 
+					PlaySoundEffect("walk", 10);
 					isInRangeOfDistractionItemWithSound = false;
 					_debounceTimer = BoundaryDebounceSeconds;
 				}
@@ -135,7 +172,6 @@ public partial class Elephant : Area2D
     		return;
 		}
 		Godot.Vector2I tileCoords = tileMap.GetCoordsForBodyRid(body_rid);
-		GD.Print(tileCoords);
 		int sourceId = tileMap.GetCellSourceId(tileCoords);
 		if(sourceId == -1)
 		{
@@ -156,7 +192,7 @@ public partial class Elephant : Area2D
 		} else if (sourceId == 4)
 		{
 			Speed = 0; 
-			GD.Print("Collided with border!");
+			
 			QueueFree();
 			
 		} else if (sourceId == 5)
@@ -224,6 +260,17 @@ public partial class Elephant : Area2D
 		eaten_chili = eaten;
 	}
 
+	public bool GetElephantSmelledUnpleasantItem()
+	{
+		return smelled_unpleasant_item;
+	}
+
+	public void SetElephantSmelledUnpleasantItem(bool smelled)
+	{
+		smelled_unpleasant_item = smelled;
+	}
+
+
 	public bool GetElephantCollidedWithMudPuddle()
 	{
 		return elephant_collided_with_mud_puddle;
@@ -259,9 +306,15 @@ public partial class Elephant : Area2D
 		{
 			eaten_chili = true;
 			speedAfterEating = 2 * Speed;
-		} else if (animation_name.Contains("sunflower"))
+			PlaySoundEffect("afraid_elephant",2);
+		} else if (animation_name.Contains("smell"))
 		{
-			smelled_sunflower = true;
+			PlaySoundEffect("afraid_elephant", 2);
+		} else if (animation_name.Contains("scared"))
+		{
+			elephant_was_surprised = true;
+			speedAfterSurprise = 1.5f * Speed;
+			
 		}
 	}
 
@@ -271,57 +324,38 @@ public partial class Elephant : Area2D
 		if (eaten_chili)
 		{
 			Speed = speedAfterEating;
-			var poop_roll = GD.Randf();
-			if (poop_roll > 0.60f)
-			{
-				farm.PlaceElephantPoop(eaten_fruit_coordinates);
-			}
-
-			_animatedSprite.Play("walk");
-		} else if (smelled_sunflower)
+			_animatedSprite.Play("walk annoyed");
+		} else if (smelled_unpleasant_item)
 		{
 			_animatedSprite.Play("walk annoyed");
-			PushAway();
+			PlaySoundEffect("frustrated_walk", 120);
 
-		} else
+		} else if (isInRangeOfDistractionItemWithSound && currentlyInNoiseEffect)
+		{
+			Speed = speedAfterSurprise;
+			_animatedSprite.Play("walk annoyed");
+			PlaySoundEffect("frustrated_walk", 120);
+		}
+			else
 		{
 			_animatedSprite.Play("walk");
 			farm.PlaceElephantPoop(eaten_fruit_coordinates);
 		}
     }
 
-
-    private bool CheckIfCloseToFarmTiles(Godot.Collections.Array<Vector2I> farm_tiles, Vector2I collisionPosition)
+	public void OnSoundEffectStarted(string starter, string effect, int duration)
 	{
-		if (farm_tiles.Contains(collisionPosition)){
-			return true;
-		} else if (farm_tiles.Contains(new Vector2I(collisionPosition.X+elephant_detection_area, collisionPosition.Y + elephant_detection_area))) 
+		if (effect.Equals("walk"))
 		{
-			return true;
-		} else if (farm_tiles.Contains(new Vector2I(collisionPosition.X+elephant_detection_area, collisionPosition.Y - elephant_detection_area)))
-		{
-			return true;
-		} else if (farm_tiles.Contains(new Vector2I(collisionPosition.X-elephant_detection_area, collisionPosition.Y + elephant_detection_area)))
-		{
-			return true;
-		}  else if (farm_tiles.Contains(new Vector2I(collisionPosition.X-elephant_detection_area, collisionPosition.Y - elephant_detection_area)))
-		{
-			return true;
+			EmitSignal(SignalName.ElephantSoundEffectStarted, starter, effect, duration);
 		} else
 		{
-			return false;
+			EmitSignal(SignalName.ElephantSoundEffectStarted, starter, effect, duration);
 		}
-
 	}
 
-    public bool GetElephantSmelledSunflower()
+    internal void PlaySoundEffect(string effect, int duration)
     {
-        return smelled_sunflower;
+        EmitSignal(SignalName.ElephantSoundEffectStarted, "elephant", effect, duration);
     }
-
-	public void SetElephantSmelledSunflower(bool smelled)
-    {
-       smelled_sunflower = smelled;
-    }
-
 }

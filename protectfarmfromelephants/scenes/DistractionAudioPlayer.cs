@@ -14,6 +14,7 @@ public partial class DistractionAudioPlayer : AudioStreamPlayer2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		ChangeVolume();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,4 +38,16 @@ public partial class DistractionAudioPlayer : AudioStreamPlayer2D
 		}
 		Play();
 	}
+
+	public void OnSoundEffectVolumeChanged()
+    {
+        ChangeVolume();
+    }
+
+    private void ChangeVolume()
+    {
+        float volume = SettingsManager.Instance.GetSoundEffectsVolume() / 100.0f;
+        VolumeDb = Mathf.LinearToDb(volume);
+    }
+
 }

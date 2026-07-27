@@ -25,8 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://jj0dt4w4obyt" path="res://ChangeDayDialog.tscn" id="17_kpocg"]
 [ext_resource type="PackedScene" uid="uid://own1l2qsvex3" path="res://scenes/UpgradeShop.tscn" id="18_a683p"]
 [ext_resource type="Script" path="res://scenes/TimeManager.cs" id="19_mogbc"]
-[ext_resource type="Script" path="res://scripts/BackgroundMusicPlayer.cs" id="24_4g1kn"]
-[ext_resource type="AudioStream" uid="uid://4diax26lq1wf" path="res://assets/audio/music/background_option_1.mp3" id="26_1ohit"]
+[ext_resource type="PackedScene" uid="uid://8gnqojqk66bo" path="res://scenes/BackgroundMusicPlayer.tscn" id="26_ogk5o"]
+[ext_resource type="PackedScene" uid="uid://d3dfnivv3dqcg" path="res://scenes/change_day_popup.tscn" id="28_nh7sg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("3_yc3ud")
@@ -80,20 +80,24 @@ texture_region_size = Vector2i(32, 32)
 4:0/1 = 1
 4:0/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 4:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-5:0/next_alternative_id = 2
+5:0/next_alternative_id = 3
 5:0/0 = 0
 5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 5:0/0/custom_data_1 = true
 5:0/0/custom_data_2 = "pineapple"
 5:0/0/custom_data_3 = 3
 5:0/0/custom_data_4 = true
-6:0/next_alternative_id = 2
+5:0/1 = 1
+5:0/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
+6:0/next_alternative_id = 3
 6:0/0 = 0
 6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:0/0/custom_data_1 = true
 6:0/0/custom_data_2 = "melon"
 6:0/0/custom_data_3 = 3
 6:0/0/custom_data_4 = true
+6:0/1 = 1
+6:0/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -131,23 +135,32 @@ texture_region_size = Vector2i(32, 32)
 5:3/1 = 1
 5:3/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:3/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:3/next_alternative_id = 3
 6:3/0 = 0
 6:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:3/0/custom_data_2 = "mango"
 6:3/0/custom_data_3 = 4
 6:3/0/custom_data_4 = true
+6:3/1 = 1
+6:3/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 3:1/next_alternative_id = 2
 3:1/0 = 0
 3:1/1 = 1
 3:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 3:1/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:1/next_alternative_id = 2
 4:1/0 = 0
+4:1/1 = 1
+4:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:1/next_alternative_id = 2
 5:1/0 = 0
 5:1/1 = 1
 5:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:1/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:1/next_alternative_id = 2
 6:1/0 = 0
+6:1/1 = 1
+6:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gfvmr"]
 resource_name = "distraction"
@@ -352,20 +365,19 @@ _inventory = NodePath("../CanvasLayer/SimpleInventory")
 wait_time = 70.0
 script = ExtResource("19_mogbc")
 
-[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
-process_mode = 3
-stream = ExtResource("26_1ohit")
-autoplay = true
-parameters/looping = true
-script = ExtResource("24_4g1kn")
+[node name="BackgroundMusicPlayer" parent="." instance=ExtResource("26_ogk5o")]
 
 [node name="SecondSellDesk" parent="." instance=ExtResource("12_edlx1")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -24.0
+offset_right = -40.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 
+[node name="ChangeDayPopup" parent="." instance=ExtResource("28_nh7sg")]
+
+[connection signal="ChangeDayPopupOpened" from="." to="ChangeDayPopup" method="OnChangeDayPopUpOpened"]
+[connection signal="UpdatedMoneyText" from="." to="Level info" method="OnUpdatedMoneyText"]
 [connection signal="pressed" from="Level2Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
 [connection signal="UpdatedInfoText" from="Level2Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level2Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
@@ -385,6 +397,7 @@ sellDeskType = "distraction plant"
 [connection signal="FruitsSold" from="CanvasLayer/SimpleInventory" to="SellingDesk" method="OnSimpleInventoryFruitsSold"]
 [connection signal="InventoryItemActivatedForUse" from="CanvasLayer/SimpleInventory" to="Player" method="OnInventoryItemActivatedForUse"]
 [connection signal="ItemRemovedFromInventory" from="CanvasLayer/SimpleInventory" to="Player" method="OnInventoryItemRemoved"]
+[connection signal="PlayedSoundEffect" from="CanvasLayer/SimpleInventory" to="SecondSellDesk" method="OnDistractionPlantSold"]
 [connection signal="UpdatedInfoText" from="CanvasLayer/SimpleInventory" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedMoneyText" from="CanvasLayer/SimpleInventory" to="Level info" method="OnUpdatedMoneyText"]
 [connection signal="item_selected" from="CanvasLayer/SimpleInventory" to="CanvasLayer/SimpleInventory" method="OnItemSelected"]
@@ -400,3 +413,4 @@ sellDeskType = "distraction plant"
 [connection signal="UpdatedSeedCount" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="UpdatedTimerText" from="Timer" to="Level info" method="OnUpdatedTimerText"]
 [connection signal="SellPopUpOpened" from="SecondSellDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
+[connection signal="ChangeDayPopupClosed" from="ChangeDayPopup" to="." method="OnDialogConfirmed"]

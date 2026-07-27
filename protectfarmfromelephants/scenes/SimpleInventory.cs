@@ -38,6 +38,8 @@ public partial class SimpleInventory : ItemList
 	[Signal]
 	public delegate void ItemRemovedFromInventoryEventHandler(string item_name);
 
+	[Signal] public delegate void PlayedSoundEffectEventHandler(string starter, string effect, int duration);
+
 
 
 	public override void _Ready()
@@ -207,7 +209,7 @@ public partial class SimpleInventory : ItemList
 
 	public void OnSellPopupSoldAllItemsFromInventory(string itemName)
 	{
-		int indexOfItem = inventory_items.FindIndex(item => item.GetItemName() == itemName);
+		List<InventoryItem> items_with_name = inventory_items.FindAll(item => item.GetItemName() == itemName);
 		int itemSellValue = 0;
 		if("chili".Equals(itemName) || "sunflower".Equals(itemName))
 		{
@@ -216,30 +218,40 @@ public partial class SimpleInventory : ItemList
 		{
 			itemSellValue = level.GetLevelFruitSellValue();
 		}
-		if(indexOfItem == -1)
+		if(items_with_name.Count == 0)
 		{
-			GD.Print("Item not found, cannot sell!");
+			GD.Print("Item(s) not found, cannot sell!");
 			EmitSignal(SignalName.UpdatedInfoText, "Item " + itemName + " not found, cannot sell!");
 		} else
-		{
-			InventoryItem item = inventory_items[indexOfItem];
-			LevelManager.Instance.AddToTotalMoney(item.GetQuantity()*itemSellValue);
-			if (itemName.Equals(level.GetPlantType()))
+        {
+			for(int i=0; i < items_with_name.Count; i++)
 			{
-				bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(item.GetQuantity());
-				if(quotaUpdated) {
-					EmitSignal(SignalName.FruitsSold);
+				InventoryItem item = items_with_name[i];
+            	SellInventoryItem(itemName, item, itemSellValue);
 			}
-			}
-			RemoveFromInventory(item);
-			EmitSignal(SignalName.UpdatedMoneyText);
-			Clear();
-			DisplayNewItems();
-		
+			EmitSignal(SignalName.PlayedSoundEffect, "UI", "sell_item", 3);
 		}
-	}
 
-	public void OnSellPopupSoldNumberOfItemsFromInventory(int amount, string itemName)
+    }
+
+    private void SellInventoryItem(string itemName, InventoryItem item, int itemSellValue)
+    {
+        LevelManager.Instance.AddToTotalMoney(item.GetQuantity() * itemSellValue);
+        if (itemName.Equals(level.GetPlantType()))
+        {
+            bool quotaUpdated = LevelManager.Instance.UpdateLevelQuota(item.GetQuantity());
+            if (quotaUpdated)
+            {
+                EmitSignal(SignalName.FruitsSold);
+            }
+        }
+        RemoveFromInventory(item);
+        EmitSignal(SignalName.UpdatedMoneyText);
+        Clear();
+        DisplayNewItems();
+    }
+
+    public void OnSellPopupSoldNumberOfItemsFromInventory(int amount, string itemName)
 	{
 		int indexOfItem = inventory_items.FindIndex(item => item.GetItemName() == itemName);
 		int itemSellValue = 0;
@@ -268,6 +280,7 @@ public partial class SimpleInventory : ItemList
 				}
 				LevelManager.Instance.AddToTotalMoney(amount*itemSellValue);
 				EmitSignal(SignalName.UpdatedMoneyText);
+				EmitSignal(SignalName.PlayedSoundEffect, "UI", "sell_item", 3);
 				item.SetQuantity(item.GetQuantity()-amount);
 				if(item.GetQuantity() == 0)
 				{
@@ -447,7 +460,7 @@ public partial class SimpleInventory : ItemList
 					for (int i=1; i < items_with_same_name_list.Count-1; i++)
 					{
 						InventoryItem current_item = items_with_same_name_list[i];
-						if(space_left_in_firs_item <= current_item.GetQuantity())
+						if(space_left_in_firs_item < current_item.GetQuantity())
 						{
 							first_item.SetQuantity(first_item.GetQuantity()+current_item.GetQuantity());
 							break;

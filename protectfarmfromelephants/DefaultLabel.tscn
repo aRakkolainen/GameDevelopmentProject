@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dgpem16qme6hy"]
+
+[node name="Label" type="Label"]
+offset_left = 781.0
+offset_top = 247.0
+offset_right = 1005.0
+offset_bottom = 382.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+text = "Default
+"

@@ -11,6 +11,8 @@ public partial class Player : CharacterBody2D
 	private bool playerIsAlive;
 
 	private bool playerIsPaused;
+
+	private bool playerIsWalking = false;
 	public const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D player;
 
@@ -32,6 +34,9 @@ public partial class Player : CharacterBody2D
 
 	private string selectedItem;
 
+
+	private SoundEffectPlayer soundEffectPlayer;
+
 	[Signal] public delegate void PlayerSellFruitEventHandler();
 
 	[Signal] public delegate void PlayerAddToInventoryEventHandler(int id, string name, int quantity, int maxQuantity);
@@ -50,10 +55,15 @@ public partial class Player : CharacterBody2D
 
 	[Signal] public delegate void PlayerTriedToDropPlantEventHandler(int id, string item_name);
 
+	[Signal] public delegate void PlayerPlayedSoundEffectEventHandler(string starter, string effect, int duration);
+
+	[Signal] public delegate void PlayerSoundEffectEndedEventHandler();
+
 	public override void _Ready()
 	{
 		level = LevelManager.Instance.GetLevelDataForActiveLevel();
 		player = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		soundEffectPlayer = GetNode<SoundEffectPlayer>("SoundEffectPlayer");
 		playerIsAlive = true;
 		inventory = new List<InventoryItem>();
 		AddDefaultItemsToInventory();
@@ -84,7 +94,19 @@ public partial class Player : CharacterBody2D
 		
 	}
 
-	public void OnInventoryItemActivatedForUse(int id, string item_name, string item_type, int quantity)
+	public void OnSoundEffectStarted(string starter, string effect, int duration)
+	{
+		if (!effect.Equals("walk"))
+		{
+			soundEffectPlayer.GetSoundEffectTimer().Start();
+			EmitSignal(SignalName.PlayerPlayedSoundEffect, starter, effect, duration);
+		} else
+		{
+			EmitSignal(SignalName.PlayerPlayedSoundEffect, starter, effect, duration);
+		}
+	}
+
+    public void OnInventoryItemActivatedForUse(int id, string item_name, string item_type, int quantity)
 	{
 		GD.Print("You are trying to use item: " + item_name);
 		holdItem = true;
@@ -92,7 +114,6 @@ public partial class Player : CharacterBody2D
 		if (item_name.Equals("watering_can"))
 		{
 			EmitSignal(SignalName.PlayerTriedToWaterPlant);
-
 		} else if (item_type.Equals("seeds"))
 		{
 			EmitSignal(SignalName.PlayerTriedToPlantSeed, id);
@@ -174,8 +195,9 @@ public partial class Player : CharacterBody2D
         } else
 		{
 		GetInput();
-		if (Input.IsActionPressed("move_left"))
+		if (Input.IsActionPressed("move_left") || Input.IsActionJustPressed("move_left"))
 		{
+			playerIsWalking = true;
 			if (holdItem)
 				{
 					if (selectedItem != null)
@@ -191,6 +213,7 @@ public partial class Player : CharacterBody2D
 		}
 		else if (Input.IsActionPressed("move_right"))
 		{
+			playerIsWalking = true;
 			player.FlipH = false;
 			if (!holdItem)
 				{
@@ -203,12 +226,13 @@ public partial class Player : CharacterBody2D
 					}
 				}
 		}
-		else if (Input.IsActionPressed("move_up"))
+		else if (Input.IsActionPressed("move_up") || Input.IsActionJustPressed("move_up"))
 		{
 			player.Play("walk_backward");
 		}
-		else if (Input.IsActionPressed("move_down"))
+		else if (Input.IsActionPressed("move_down") || Input.IsActionJustPressed("move_down"))
 		{
+			playerIsWalking = true;
 			if (!holdItem)
 				{
 					player.Play("walk_forward");
@@ -226,19 +250,26 @@ public partial class Player : CharacterBody2D
 			if (!holdItem)
 				{
 					player.Play("default");
+					playerIsWalking = false;
 				}
 			else
 				{
 					if (selectedItem != null)
 					{
+						playerIsWalking = false;
 						player.Play(GetAnimationName(false, true));
 					}
 				}
 		}
-		var collision = MoveAndCollide(Velocity * (float)delta);
-			
-		}
 
+		if(Input.IsActionJustPressed("move_right") || Input.IsActionJustPressed("move_left") || Input.IsActionJustPressed("move_up") || Input.IsActionJustPressed("move_down"))
+			{
+				soundEffectPlayer.PlaySoundEffect("player", "walk", 1);
+			}
+		var collision = MoveAndCollide(Velocity * (float)delta);
+
+
+	}
 	}
 
     private string GetAnimationName(bool isMoving, bool isFacingForward)

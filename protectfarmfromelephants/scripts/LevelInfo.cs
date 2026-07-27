@@ -18,61 +18,86 @@ public partial class LevelInfo : CanvasLayer
 
     private int watering_can_upgrades_total;
 
+	private LevelData level_data;
+    private Label title;
+
+	private Timer updateTimer;
+
+    [Signal] public delegate void SettingsMenuOpenedEventHandler();
+
 
     public override void _Ready()
-	{
-		LevelData level = LevelManager.Instance.GetLevelDataForActiveLevel();
-		Label title = GetNode<Label>("LevelTitleLabel");
-		title.Text = "Level " + level.GetLevelNumber();
-		money = GetNode<Label>("TotalMoneyLabel");
-		money.Text = "Money: " + LevelManager.Instance.GetMoneyAvailable();
-		days = GetNode<Label>("DaysLeftLabel");
-		days.Text = "Days left: " + level.GetLevelTotalDays();
-		watering_can_level = GetNode<Label>("WateringCanLabel");
-		watering_can_level.Text = "Enough water for " + LevelManager.Instance.GetWateringCanLevel() + " tile(s)";
-		info = GetNode<Label>("InfoLabel");
-		info.Text = "";
-		passiveUpgrades = GetNode<ItemList>("PassiveUpgrades");
+    {
+        level_data = LevelManager.Instance.GetLevelDataForActiveLevel();
+		updateTimer = GetNode<Timer>("UpdateTimer");
+		updateTimer.Start();
+        title = GetNode<Label>("LevelTitleLabel");
+        UpdateTitle();
+        money = GetNode<Label>("TotalMoneyLabel");
+        UpdateMoneyText();
+        days = GetNode<Label>("DaysLeftLabel");
+        UpdateTimerText(level_data.GetLevelTotalDays());
+        watering_can_level = GetNode<Label>("WateringCanLabel");
+		UpdateWateringCanText();
+        info = GetNode<Label>("InfoLabel");
+        info.Text = "";
+        passiveUpgrades = GetNode<ItemList>("PassiveUpgrades");
+        watering_can_upgrades_total = LevelManager.Instance.GetCurrentLevelWatercanUpgradeTotal();
 
-		watering_can_upgrades_total = LevelManager.Instance.GetCurrentLevelWatercanUpgradeTotal();
-		
 
-	}
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    private void UpdateTitle()
+    {
+        title.Text = "Level " + level_data.GetLevelNumber();
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
 	public void OnUpdatedMoneyText()
 	{
-		money.Text = "Money: " + LevelManager.Instance.GetMoneyAvailable();
+		UpdateMoneyText();
 	}
 	
 	public void OnUpdatedWateringCanText()
-	{
-		if (LevelManager.Instance.GetWateringCanLevel() == 0)
-		{
-			watering_can_level.Text = "Collect more water!";
-		} else
-		{
-			watering_can_level.Text = "Enough water for " + LevelManager.Instance.GetWateringCanLevel() + " tile(s)";
+    {
+        UpdateWateringCanText();
+    }
 
-		}
-	}
-	public void OnUpdatedTimerText(int days_left)
-	{
-		if (days_left == 1)
-		{
-			days.Text = "Days left: " + days_left + " (Final day)";
-		} else
-		{
-			days.Text = "Days left: " + days_left;
-			
-		}
-	}
+    private void UpdateWateringCanText()
+    {
+        if (LevelManager.Instance.GetWateringCanLevel() == 0)
+        {
+            watering_can_level.Text = "Collect more water!";
+        }
+        else
+        {
+            watering_can_level.Text = "Enough water for " + LevelManager.Instance.GetWateringCanLevel() + " tile(s)";
+        }
+    }
 
-	public void OnUpdatedInfoText(string text)
+    public void OnUpdatedTimerText(int days_left)
+    {
+        UpdateTimerText(days_left);
+    }
+
+    private void UpdateTimerText(int days_left)
+    {
+        if (days_left == 1)
+        {
+            days.Text = "Days left: " + days_left + " (Final day)";
+        }
+        else
+        {
+            days.Text = "Days left: " + days_left;
+
+        }
+    }
+
+    public void OnUpdatedInfoText(string text)
 	{
 		info.Visible = true;
 		info.Text = text;
@@ -93,11 +118,9 @@ public partial class LevelInfo : CanvasLayer
 
     public void OnUpdatedPassiveUpgradesList(string passive_upgrade_name, int update_times)
 	{
-		GD.Print(passiveUpgrades);
 		int itemCount = passiveUpgrades.GetItemCount();
 		for (int i=0; i < itemCount; i++)
 		{
-			GD.Print(passiveUpgrades.GetItemText(i));
 				var texture = LevelManager.Instance.GetTextureByItemName("checkbox_checked");
             	var icon = (Texture2D)GD.Load(texture);
 				string item_description = passiveUpgrades.GetItemText(i);
@@ -115,7 +138,20 @@ public partial class LevelInfo : CanvasLayer
 		
 	}
 
-	public static void OnQuitGameButtonPressed()
+	 public void OnUpdateTimerTimeout()
+    {
+		UpdateTitle();
+        UpdateMoneyText();
+        UpdateWateringCanText();
+
+    }
+
+    private void UpdateMoneyText()
+    {
+        money.Text = "Money: " + LevelManager.Instance.GetMoneyAvailable();
+    }
+
+    public static void OnQuitGameButtonPressed()
 	{
 		LevelManager.Instance.QuitGame();
 	}
@@ -123,6 +159,13 @@ public partial class LevelInfo : CanvasLayer
 	public static void OnRestartButtonPressed()
 	{
 		LevelManager.Instance.RestartLevel();
-		LevelManager.Instance.ResetLevel();
+		int current_level = LevelManager.Instance.GetCurrentActiveLevel();
+		LevelManager.Instance.ResetLevel(current_level);
+
+	}
+
+	public void OnSettingsButtonPressed()
+	{
+		EmitSignal(SignalName.SettingsMenuOpened);
 	}
 }

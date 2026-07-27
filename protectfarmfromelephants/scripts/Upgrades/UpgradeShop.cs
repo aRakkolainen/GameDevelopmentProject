@@ -14,6 +14,8 @@ public partial class UpgradeShop : CanvasLayer
 
 	private ItemList visible_upgrade_items;
 
+	private SoundEffectPlayer soundEffectPlayer;
+
 	private LevelData level;
 
 	private string[] itemTypes;
@@ -56,6 +58,7 @@ public partial class UpgradeShop : CanvasLayer
 			upgrade_items = level.GetLevelUpgradeItems();
 			DisplayItemsInShop();
 		}
+		soundEffectPlayer = GetNode<SoundEffectPlayer>("SoundEffectPlayer");
     }
 
 	private void DisplayItemsInShop()
@@ -137,6 +140,7 @@ public partial class UpgradeShop : CanvasLayer
 				EmitSignal(SignalName.PlayerAddToInventory, selected_item.GetID(), selected_item.GetItemName(), selected_item.GetItemType(), 1, 0);
 			}
 			LevelManager.Instance.MinusFromTotalMoney(selected_item.GetPrice());
+			soundEffectPlayer.OnSoundEffectStarted("UI", "buy_item", 1);
 			EmitSignal(SignalName.UpdatedMoneyText);
 			selected_item.SetTotalInStock(selected_item.GetTotalInStock()-1);
 			visible_upgrade_items.Clear();

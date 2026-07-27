@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=3 uid="uid://d0qgd502gu2p5"]
+[gd_scene load_steps=154 format=3 uid="uid://d0qgd502gu2p5"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_6mhrc"]
 [ext_resource type="Texture2D" uid="uid://bimgwuunxhmb6" path="res://assets/player/player_forward.png" id="2_3kbv1"]
@@ -72,6 +72,7 @@
 [ext_resource type="Texture2D" uid="uid://cljq7sgd1knt2" path="res://assets/player/player_walking_with_super_fertilizer.png" id="64_ul7f4"]
 [ext_resource type="Texture2D" uid="uid://bou2tr2a0wjek" path="res://assets/player/player_watering_can_1.png" id="66_8j8wb"]
 [ext_resource type="Texture2D" uid="uid://bhop227uf73cr" path="res://assets/player/player_watering_can_2.png" id="67_fcwwb"]
+[ext_resource type="PackedScene" uid="uid://bcre7xan5g1os" path="res://scenes/SoundEffectPlayer.tscn" id="73_4kiet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgu2t"]
 size = Vector2(19, 30.1563)
@@ -1080,3 +1081,7 @@ zoom = Vector2(2.5, 2.5)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
+
+[node name="SoundEffectPlayer" parent="." instance=ExtResource("73_4kiet")]
+
+[connection signal="PlayerPlayedSoundEffect" from="." to="SoundEffectPlayer" method="OnSoundEffectStarted"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=10 format=3 uid="uid://bcre7xan5g1os"]
+
+[ext_resource type="Script" path="res://scripts/SoundEffectPlayer.cs" id="1_a6dam"]
+[ext_resource type="AudioStream" uid="uid://ca6m0jmcb6y76" path="res://assets/audio/sound_effects/watering_can_filled_sound.mp3" id="2_8krln"]
+[ext_resource type="AudioStream" uid="uid://dkalqrfplopjy" path="res://assets/audio/sound_effects/watering_plant.mp3" id="3_4nbps"]
+[ext_resource type="AudioStream" uid="uid://da1o63wwowknh" path="res://assets/audio/sound_effects/player_walk.mp3" id="4_usg3m"]
+[ext_resource type="AudioStream" uid="uid://wvcytgej02t0" path="res://assets/audio/sound_effects/place_seed.mp3" id="5_1eqoh"]
+[ext_resource type="AudioStream" uid="uid://b2wkbno8wt37j" path="res://assets/audio/sound_effects/elephant_walk.mp3" id="6_4dts8"]
+[ext_resource type="AudioStream" uid="uid://cxe0w6dvqwb4" path="res://assets/audio/sound_effects/elephant_walk_frustrated.mp3" id="7_wnrpw"]
+[ext_resource type="AudioStream" uid="uid://b6uhq5i77iqk6" path="res://assets/audio/sound_effects/buy_item.mp3" id="9_l8tlx"]
+[ext_resource type="AudioStream" uid="uid://vcmfi3qq7gv0" path="res://assets/audio/sound_effects/sell_item.mp3" id="10_vst72"]
+
+[node name="SoundEffectPlayer" type="AudioStreamPlayer2D"]
+volume_db = -3.832
+autoplay = true
+max_polyphony = 2
+script = ExtResource("1_a6dam")
+watering_can_filled_sound = ExtResource("2_8krln")
+watering_plants = ExtResource("3_4nbps")
+walk = ExtResource("4_usg3m")
+placing_seed = ExtResource("5_1eqoh")
+normal_walk = ExtResource("6_4dts8")
+frustrated_walk = ExtResource("7_wnrpw")
+buy_item = ExtResource("9_l8tlx")
+sell_item = ExtResource("10_vst72")
+
+[node name="SoundEffectTimer" type="Timer" parent="."]

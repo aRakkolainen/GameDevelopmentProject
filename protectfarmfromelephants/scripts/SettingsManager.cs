@@ -9,53 +9,74 @@ public partial class SettingsManager : Node
 {
     public static SettingsManager Instance {get; private set; }
 
-    private Dictionary<string, float> AudioSettings;
+    private Dictionary<string, float> Settings;
     
     public override void _Ready()
     {
         Instance = this;
-        InitializeDefaultAudioSettings();
+        InitializeDefaultSettings();
     }
 
-    public Dictionary<string, float> GetAllAudioSettings()
+    public Dictionary<string, float> GetAllSettings()
 {
-    return AudioSettings;
+    return Settings;
 }
 
     public float GetMusicVolume()
     {
-        return  AudioSettings["music"];
+        return  Settings["music"];
     }
 
     public void SetMusicVolume(float volume)
     {
-        if (AudioSettings != null)
+        if (Settings != null)
         {
-            AudioSettings["music"] = volume;
+            Settings["music"] = volume;
         }
     }
 
     public float GetSoundEffectsVolume()
     {
-        return  AudioSettings["sound_effects"];
+        return  Settings["sound_effects"];
     }
 
     public void SetSoundEffectsVolume(float volume)
     {
-        if (AudioSettings != null)
+        if (Settings != null)
         {
-            AudioSettings["sound_effects"] = volume;
+            Settings["sound_effects"] = volume;
         }
     }
 
-    public void InitializeDefaultAudioSettings()
+    public void InitializeDefaultSettings()
     {
-        AudioSettings = new Dictionary<string, float>
+        Settings = new Dictionary<string, float>
         {
             { "music", 100 },
-            { "sound_effects", 100 }
+            { "sound_effects", 100 },
+            {"skip_start_cut_scene", 0}
         };
     }
 
+    public bool GetSkipStartCutScene()
+    {
+        if(Settings["skip_start_cut_scene"] == 1)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
 
+    internal void SetSkipStartCutScene(bool skipStartCutscene)
+    {
+        if (skipStartCutscene)
+        {
+            Settings["skip_start_cut_scene"] = 1;
+        } else
+        {
+            Settings["skip_start_cut_scene"] = 0;
+        }
+    }
 }

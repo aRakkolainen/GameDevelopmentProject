@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://nedc84ruy5lu"]
+[gd_scene load_steps=13 format=3 uid="uid://nedc84ruy5lu"]
 
 [ext_resource type="Script" path="res://scripts/MainMenu.cs" id="1_intf0"]
 [ext_resource type="Texture2D" uid="uid://bgvx6rdixki36" path="res://assets/start_menu_background.png" id="2_liiuj"]
+[ext_resource type="PackedScene" uid="uid://c6ssvy7vshhg1" path="res://scenes/settings_menu_canvas_layer.tscn" id="3_sx5ia"]
+[ext_resource type="PackedScene" uid="uid://8gnqojqk66bo" path="res://scenes/BackgroundMusicPlayer.tscn" id="4_5ygdf"]
+[ext_resource type="AudioStream" uid="uid://p62xvtypnpu3" path="res://assets/audio/music/menu_music.mp3" id="5_noune"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b74x"]
 bg_color = Color(0.390164, 0.568786, 0.356701, 1)
@@ -43,6 +46,13 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventKey" id="InputEventKey_qpesf"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_q5504"]
+events = [SubResource("InputEventKey_qpesf")]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -116,8 +126,16 @@ theme_override_font_sizes/font_size = 53
 theme_override_styles/hover = SubResource("StyleBoxFlat_dxwhj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_t660j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ln1gs")
+shortcut = SubResource("Shortcut_q5504")
 text = "Quit Game"
 
+[node name="SettingsMenu" parent="." instance=ExtResource("3_sx5ia")]
+visible = false
+
+[node name="BackgroundMusicPlayer" parent="." instance=ExtResource("4_5ygdf")]
+stream = ExtResource("5_noune")
+
+[connection signal="SettingsPopupOpened" from="." to="SettingsMenu" method="OnLevelSettingsMenuOpened"]
 [connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButtonPressed"]
 [connection signal="pressed" from="StartButton" to="." method="OnStartButtonPressed"]
 [connection signal="pressed" from="QuitButton" to="." method="OnQuitButtonPressed"]

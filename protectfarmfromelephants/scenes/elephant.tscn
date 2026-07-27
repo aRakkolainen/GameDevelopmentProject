@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://d0dif54itofdm"]
+[gd_scene load_steps=94 format=3 uid="uid://d0dif54itofdm"]
 
 [ext_resource type="Script" path="res://scripts/Elephant.cs" id="1_66rpy"]
 [ext_resource type="Texture2D" uid="uid://der18or2hy4w5" path="res://assets/elephant_test.png" id="1_ej72v"]
@@ -48,12 +48,26 @@
 [ext_resource type="Texture2D" uid="uid://bj3r8g6qa2nn0" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0008.png" id="33_l01uj"]
 [ext_resource type="Texture2D" uid="uid://cteqvl73fld64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0009.png" id="34_ka8ky"]
 [ext_resource type="Texture2D" uid="uid://bxfdsnqoj4j64" path="res://assets/elephant_animations/eat watermelon/eating_watermelon_frame_0010.png" id="35_c3syx"]
+[ext_resource type="Texture2D" uid="uid://byq5yqapcj20o" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0000.png" id="37_4lvcl"]
 [ext_resource type="Texture2D" uid="uid://clyoa8ohwq7hl" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0000.png" id="37_7jsmn"]
+[ext_resource type="Texture2D" uid="uid://du8wk65ao73t6" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0001.png" id="38_e4tmx"]
 [ext_resource type="Texture2D" uid="uid://clxs6b2cpsoih" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0001.png" id="38_kd6b8"]
+[ext_resource type="Texture2D" uid="uid://bmq0wd7daiib7" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0002.png" id="39_c24qi"]
 [ext_resource type="Texture2D" uid="uid://dms5l2qa1j2wx" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0002.png" id="39_qqod8"]
 [ext_resource type="Texture2D" uid="uid://bxnu8c5uwb0h2" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0003.png" id="40_oeo7h"]
+[ext_resource type="Texture2D" uid="uid://b2kq3sxyndjqa" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0003.png" id="40_wsorv"]
+[ext_resource type="Texture2D" uid="uid://u12kb1k1scjo" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0004.png" id="41_av3ft"]
 [ext_resource type="Texture2D" uid="uid://cmau5ddcpv0gv" path="res://assets/elephant_animations/smell sunflower/elephant_smelling_sunflower_frame_0004.png" id="41_xreox"]
+[ext_resource type="Texture2D" uid="uid://bgd8u4f8qxwhw" path="res://assets/elephant_animations/smell and walk away frustrated/elephant_walk_away_frustrated_frame_0005.png" id="42_36ihl"]
 [ext_resource type="Texture2D" uid="uid://dmj32apwf5p80" path="res://assets/elephant_animations/walk_annoyed.png" id="54_rg6wj"]
+[ext_resource type="Texture2D" uid="uid://bgaphii47rsi6" path="res://assets/elephant_animations/scared/scared_elephant_frame_0000.png" id="61_552fk"]
+[ext_resource type="PackedScene" uid="uid://bcre7xan5g1os" path="res://scenes/SoundEffectPlayer.tscn" id="61_hcw0g"]
+[ext_resource type="Texture2D" uid="uid://dywrnp0to8q1o" path="res://assets/elephant_animations/scared/scared_elephant_frame_0001.png" id="62_0nxhq"]
+[ext_resource type="AudioStream" uid="uid://b2ls2juwhtko8" path="res://assets/audio/sound_effects/elephant_afraid.mp3" id="62_c6tdv"]
+[ext_resource type="Texture2D" uid="uid://d4tys44r4ooj" path="res://assets/elephant_animations/scared/scared_elephant_frame_0002.png" id="63_l7jdc"]
+[ext_resource type="Texture2D" uid="uid://3duoj0v7hdgg" path="res://assets/elephant_animations/scared/scared_elephant_frame_0003.png" id="64_dbcer"]
+[ext_resource type="Texture2D" uid="uid://cjmd1xphkud52" path="res://assets/elephant_animations/scared/scared_elephant_frame_0004.png" id="65_b2jxt"]
+[ext_resource type="Texture2D" uid="uid://dw4prar21jsmn" path="res://assets/elephant_animations/scared/scared_elephant_frame_0005.png" id="66_k7d5t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbd4f"]
 atlas = ExtResource("3_2h2m4")
@@ -311,6 +325,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("37_4lvcl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_e4tmx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_c24qi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_wsorv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_av3ft")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_36ihl")
+}],
+"loop": false,
+"name": &"smell something unpleasant",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("37_7jsmn")
 }, {
 "duration": 1.0,
@@ -410,10 +447,33 @@ animations = [{
 "loop": true,
 "name": &"walk annoyed",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("61_552fk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_0nxhq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_l7jdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_dbcer")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_b2jxt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_k7d5t")
+}],
+"loop": false,
+"name": &"walk scared",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n5iaa"]
-size = Vector2(32, 83)
+size = Vector2(32, 60.5)
 
 [node name="Elephant" type="Area2D" groups=["elephants"]]
 z_index = 1
@@ -425,17 +485,22 @@ script = ExtResource("1_66rpy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_u5phx")
-animation = &"eat chili"
-frame = 10
-frame_progress = 1.0
+animation = &"smell something unpleasant"
 offset = Vector2(0, -56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-14, -33)
+position = Vector2(1, -34)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_n5iaa")
 debug_color = Color(0.818673, 0.304448, 0.677766, 0.42)
 
+[node name="SoundEffectPlayer" parent="." instance=ExtResource("61_hcw0g")]
+volume_db = 3.547
+autoplay = false
+max_distance = 2500.0
+afraid_elephant = ExtResource("62_c6tdv")
+
 [connection signal="CollidedWithFarm" from="." to="." method="OnElephantCollidedWithFarm"]
 [connection signal="CollidedWithItem" from="." to="." method="OnElephantCollidedWithItem"]
+[connection signal="ElephantSoundEffectStarted" from="." to="SoundEffectPlayer" method="OnSoundEffectStarted"]
 [connection signal="body_shape_entered" from="." to="." method="OnBodyShapeEntered"]

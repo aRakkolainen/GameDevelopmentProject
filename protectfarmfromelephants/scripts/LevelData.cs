@@ -9,6 +9,8 @@ public partial class LevelData : Node
     private int Level_Sold_Quota = 0;
 
     private int Level_Total_Days;
+    private int Level_Day_When_Quota_Filled;
+
     private int Level_Seeds_Available;
 
     private string Level_Plant_Type;
@@ -19,6 +21,10 @@ public partial class LevelData : Node
 
     private int Level_Starter_Money;
 
+    private int Level_Current_Money;
+
+    private int Level_Used_Upgrade_Items_Count;
+
     private int Level_Fruit_Sell_Value;
 
     private List<UpgradeItem> Level_Upgrades = new List<UpgradeItem>();
@@ -26,17 +32,20 @@ public partial class LevelData : Node
     private string Level_Distraction_Plant_Type;
     private int Level_Distraction_Plant_Sell_Value;
 
-    public LevelData(int num, int expected_quota, int current_quota, int days, int number_of_seeds, string type, int min, int max, int starter_money, int fruit_value, string distraction_plant, int plant_value, List<UpgradeItem> upgrades)
+    public LevelData(int num, int expected_quota, int current_quota, int days, int day_number, int number_of_seeds, string type, int min, int max, int starter_money, int items_count, int fruit_value, string distraction_plant, int plant_value, List<UpgradeItem> upgrades)
     {
         Level_Number = num;
         Level_Expected_Quota = expected_quota;
         Level_Sold_Quota = current_quota;
         Level_Total_Days = days;
+        Level_Day_When_Quota_Filled = day_number;
         Level_Seeds_Available = number_of_seeds;
         Level_Plant_Type = type;
         Level_Minimum_Enemies = min;
         Level_Maximum_Enemies = max;
         Level_Starter_Money = starter_money;
+        Level_Current_Money = starter_money;
+        Level_Used_Upgrade_Items_Count = items_count;
         Level_Fruit_Sell_Value = fruit_value;
         Level_Distraction_Plant_Type = distraction_plant;
         Level_Distraction_Plant_Sell_Value = plant_value;
@@ -81,6 +90,16 @@ public partial class LevelData : Node
     public void SetLevelTotalDays(int days)
     {
         Level_Total_Days = days;
+    }
+
+    public int GetLevelDayWhenQuotaFilled()
+    {
+        return Level_Day_When_Quota_Filled;
+    }
+
+    public void SetLevelDayWhenQuotaFilled(int day)
+    {
+        Level_Day_When_Quota_Filled = day;
     }
 
     public int GetLevelAvailableSeeds()
@@ -136,6 +155,36 @@ public partial class LevelData : Node
         Level_Starter_Money = money;
     }
 
+     public int GetLevelCurrentMoney()
+    {
+        return Level_Current_Money;
+    }
+
+    public void SetLevelCurrentMoney(int money)
+    {
+        Level_Current_Money = money;
+    }
+
+    public int GetLevelUsedUpgradeItemsCount()
+    {
+        return Level_Used_Upgrade_Items_Count;
+    }
+
+    public void SetLevelUsedUpgradeItemsCount(int count)
+    {
+        Level_Used_Upgrade_Items_Count = count;
+    }
+
+    public void IncreaseLevelUsedUpgradeItemsCountByOne()
+    {
+        Level_Used_Upgrade_Items_Count++;
+    }
+
+    public void DecreaseLevelUsedUpgradeItemsCountByOne()
+    {
+        Level_Used_Upgrade_Items_Count--;
+    }
+
     public void SetLevelFruitSellValue(int value)
     {
         Level_Fruit_Sell_Value = value;
@@ -172,6 +221,11 @@ public partial class LevelData : Node
     public List<UpgradeItem> GetLevelUpgradeItems()
     {
         return Level_Upgrades;
+    }
+
+    public void SetLevelUpgradeItems(List<UpgradeItem> items)
+    {
+        Level_Upgrades = items;
     }
 
 

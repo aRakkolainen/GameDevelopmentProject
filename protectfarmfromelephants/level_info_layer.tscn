@@ -1,7 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://bugdap2slktnw"]
+[gd_scene load_steps=15 format=3 uid="uid://bugdap2slktnw"]
 
 [ext_resource type="Script" path="res://scripts/LevelInfo.cs" id="1_ae0gq"]
 [ext_resource type="Texture2D" uid="uid://bo8pww66vxhi7" path="res://assets/UI/check_box_unchecked.png" id="2_74p81"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpklk"]
+bg_color = Color(0.372549, 0.552941, 0.345098, 0.854902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ku61i"]
+bg_color = Color(0.160784, 0.254902, 0.145098, 0.854902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5d12e"]
+bg_color = Color(0.278431, 0.423529, 0.254902, 0.854902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gdxf"]
+bg_color = Color(0.278431, 0.423529, 0.254902, 0.854902)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ty65y"]
 
@@ -16,6 +28,9 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_taqq1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8e43f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n24i6"]
+bg_color = Color(0.278431, 0.423529, 0.254902, 0.854902)
 
 [node name="Level info" type="CanvasLayer"]
 script = ExtResource("1_ae0gq")
@@ -72,9 +87,12 @@ process_mode = 3
 offset_left = 1728.0
 offset_top = 24.0
 offset_right = 1896.0
-offset_bottom = 80.0
+offset_bottom = 104.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_fpklk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ku61i")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5d12e")
 text = "Quit"
 
 [node name="RestartButton" type="Button" parent="."]
@@ -85,6 +103,9 @@ offset_right = 1694.0
 offset_bottom = 105.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_fpklk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ku61i")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5gdxf")
 text = "Restart level"
 
 [node name="PassiveUpgrades" type="ItemList" parent="."]
@@ -105,14 +126,27 @@ theme_override_styles/cursor_unfocused = SubResource("StyleBoxEmpty_taqq1")
 theme_override_styles/cursor = SubResource("StyleBoxEmpty_8e43f")
 allow_search = false
 auto_height = true
-item_count = 2
+item_count = 1
 icon_scale = 2.0
-item_0/text = "Watering can puddle upgrade"
+item_0/text = "Watering can size increased "
 item_0/icon = ExtResource("2_74p81")
 item_0/selectable = false
-item_1/text = "Watering can size increased "
-item_1/icon = ExtResource("2_74p81")
-item_1/selectable = false
+
+[node name="SettingsButton" type="Button" parent="."]
+offset_left = 1128.0
+offset_top = 24.0
+offset_right = 1341.0
+offset_bottom = 105.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_fpklk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ku61i")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n24i6")
+text = "Settings"
+
+[node name="UpdateTimer" type="Timer" parent="."]
 
 [connection signal="pressed" from="QuitGameButton" to="." method="OnQuitGameButtonPressed"]
 [connection signal="pressed" from="RestartButton" to="." method="OnRestartButtonPressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="timeout" from="UpdateTimer" to="." method="OnUpdateTimerTimeout"]

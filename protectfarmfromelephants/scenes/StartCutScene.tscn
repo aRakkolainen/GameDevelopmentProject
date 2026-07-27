@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://m8plw4kg2tcy"]
+[gd_scene load_steps=15 format=3 uid="uid://m8plw4kg2tcy"]
 
 [ext_resource type="Script" path="res://scripts/StartCutScene.cs" id="1_14o4g"]
 [ext_resource type="Texture2D" uid="uid://byns8k6m4ptr0" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_1.png" id="2_oj56n"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://df36i1slqqnrd" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_4.png" id="5_ywxn6"]
 [ext_resource type="Texture2D" uid="uid://c77utlgko8jve" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_5.png" id="6_rqgma"]
 [ext_resource type="Texture2D" uid="uid://2e7pwmsfuetq" path="res://assets/cut_scenes/start_cut_scene/start_cut_scene_6.png" id="7_fxafe"]
+[ext_resource type="PackedScene" uid="uid://8gnqojqk66bo" path="res://scenes/BackgroundMusicPlayer.tscn" id="8_lbbt3"]
+[ext_resource type="AudioStream" uid="uid://bo5u3obya5upo" path="res://assets/audio/cat sounds/cat_talking.mp3" id="9_nw8h1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m6pgv"]
 animations = [{
@@ -53,13 +55,12 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_aj5uv"]
-resource_name = "StartScene"
+[sub_resource type="InputEventJoypadButton" id="InputEventJoypadButton_cbmih"]
+button_index = 3
+pressed = true
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ohdv"]
-_data = {
-"StartScene": SubResource("Animation_aj5uv")
-}
+[sub_resource type="Shortcut" id="Shortcut_nn2gq"]
+events = [SubResource("InputEventJoypadButton_cbmih")]
 
 [node name="StartCutScene" type="Node2D"]
 script = ExtResource("1_14o4g")
@@ -71,21 +72,22 @@ sprite_frames = SubResource("SpriteFrames_m6pgv")
 animation = &"start"
 
 [node name="SkipButton" type="Button" parent="."]
-offset_left = 1560.0
+offset_left = 1744.0
 offset_top = 984.0
-offset_right = 1889.0
+offset_right = 1896.0
 offset_bottom = 1065.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
 theme_override_styles/hover = SubResource("StyleBoxFlat_4b74x")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1bpgt")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1bpgt")
-text = "SKIP TO END"
+shortcut = SubResource("Shortcut_nn2gq")
+text = "END"
 
 [node name="NextButton" type="Button" parent="."]
-offset_left = 1400.0
+offset_left = 1592.0
 offset_top = 984.0
-offset_right = 1542.0
+offset_right = 1734.0
 offset_bottom = 1065.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
@@ -94,10 +96,14 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_1bpgt")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1bpgt")
 text = "NEXT"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_3ohdv")
-}
+[node name="BackgroundMusicPlayer" parent="." instance=ExtResource("8_lbbt3")]
+stream = ExtResource("9_nw8h1")
+autoplay = false
+
+[node name="AudioTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
 
 [connection signal="pressed" from="SkipButton" to="." method="OnSkipButtonPressed"]
 [connection signal="pressed" from="NextButton" to="." method="OnNextButtonPressed"]

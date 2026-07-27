@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dv3yusfsmynat"]
+[gd_scene load_steps=9 format=3 uid="uid://dv3yusfsmynat"]
 
 [ext_resource type="Script" path="res://scripts/SellPopup.cs" id="1_ivcsa"]
 [ext_resource type="Texture2D" uid="uid://dk7qt7pir208x" path="res://assets/UI/exit_button.png" id="2_482yb"]
+[ext_resource type="Texture2D" uid="uid://ciktrkurgbo8u" path="res://assets/fruits/pineapple.png" id="2_jfagn"]
 [ext_resource type="Texture2D" uid="uid://bx3qfvybnec7c" path="res://assets/UI/exit_button_pressed.png" id="3_m5riv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuqum"]
@@ -55,15 +56,22 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 22
 text = "How many fruits do you want to sell?"
 
+[node name="Border" type="ColorRect" parent="."]
+offset_left = 707.0
+offset_top = 386.0
+offset_right = 1297.0
+offset_bottom = 829.0
+color = Color(0, 0, 0, 1)
+
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -239.0
+offset_left = -249.0
 offset_top = -150.0
-offset_right = 323.0
+offset_right = 334.0
 offset_bottom = 285.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -73,10 +81,12 @@ color = Color(0.873665, 0.76763, 0.535457, 1)
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 0
-offset_left = 208.0
-offset_top = 55.0
-offset_right = 342.0
-offset_bottom = 167.0
+offset_left = 219.0
+offset_top = 43.0
+offset_right = 345.0
+offset_bottom = 205.0
+texture = ExtResource("2_jfagn")
+stretch_mode = 5
 
 [node name="NumberOfItemsToBeSold" type="SpinBox" parent="Background"]
 unique_name_in_owner = true
@@ -122,9 +132,9 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 150.0
+offset_left = 140.0
 offset_top = -115.0
-offset_right = 433.0
+offset_right = 423.0
 offset_bottom = -81.0
 grow_vertical = 0
 theme_override_constants/outline_size = 5

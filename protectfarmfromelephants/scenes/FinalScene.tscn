@@ -1,3 +1,202 @@
-[gd_scene format=3 uid="uid://dkubfth2lqt5x"]
+[gd_scene load_steps=9 format=3 uid="uid://dkubfth2lqt5x"]
+
+[ext_resource type="PackedScene" uid="uid://by43eid8253kv" path="res://scenes/MainMenuButton.tscn" id="1_f7guf"]
+[ext_resource type="Script" path="res://scripts/FinalScene.cs" id="1_gi1f6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4guf"]
+bg_color = Color(0.379373, 0.56117, 0.352012, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aimxa"]
+bg_color = Color(0.221233, 0.344411, 0.202798, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vsgfa"]
+bg_color = Color(0.307691, 0.463856, 0.28235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7ijk"]
+bg_color = Color(0.379373, 0.56117, 0.352012, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vicuh"]
+bg_color = Color(0.221233, 0.344411, 0.202798, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dse5s"]
+bg_color = Color(0.307691, 0.463856, 0.28235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
 
 [node name="FinalScene" type="Node2D"]
+script = ExtResource("1_gi1f6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_right = 1939.0
+offset_bottom = 1085.0
+color = Color(0.400355, 0.583746, 0.591857, 1)
+
+[node name="LevelLabel1" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 256.0
+offset_right = 473.0
+offset_bottom = 325.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Level 1"
+
+[node name="LevelInfoLabel1" type="Label" parent="ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.167527
+anchor_top = 0.483102
+anchor_right = 0.26561
+anchor_bottom = 0.662706
+offset_left = -146.154
+offset_top = -188.166
+offset_right = 177.231
+offset_bottom = -143.036
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 35
+text = "Level 1info"
+metadata/_edit_use_anchors_ = true
+
+[node name="TitleLabel" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -311.5
+offset_right = 300.5
+offset_bottom = 205.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 150
+text = "Your stats for levels"
+
+[node name="MainMenuButton" parent="ColorRect" instance=ExtResource("1_f7guf")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -177.5
+offset_top = -189.0
+offset_right = 142.5
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Main menu"
+
+[node name="CreditsButton" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_left = 1232.0
+offset_top = 896.0
+offset_right = 1520.0
+offset_bottom = 984.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_v4guf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_aimxa")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vsgfa")
+text = "Credits"
+
+[node name="LevelLabel2" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 256.0
+offset_right = 944.0
+offset_bottom = 325.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Level 2"
+
+[node name="LevelInfoLabel2" type="Label" parent="ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.467059
+anchor_top = 0.468356
+anchor_right = 0.577623
+anchor_bottom = 0.662706
+offset_left = -146.154
+offset_top = -188.166
+offset_right = 177.231
+offset_bottom = -143.036
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 35
+text = "Level 2 info"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelLabel3" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 1328.0
+offset_top = 256.0
+offset_right = 1528.0
+offset_bottom = 325.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 50
+text = "Level 3"
+
+[node name="LevelInfoLabel3" type="Label" parent="ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.766591
+anchor_top = 0.468356
+anchor_right = 0.831393
+anchor_bottom = 0.662706
+offset_left = -146.154
+offset_top = -188.166
+offset_right = 177.231
+offset_bottom = -143.036
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 35
+text = "Level 3 info"
+metadata/_edit_use_anchors_ = true
+
+[node name="QuitButton" type="Button" parent="."]
+offset_left = 384.0
+offset_top = 896.0
+offset_right = 658.0
+offset_bottom = 984.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_k7ijk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vicuh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dse5s")
+text = "Quit game"
+
+[connection signal="pressed" from="ColorRect/MainMenuButton" to="." method="OnMainMenuButtonPressed"]
+[connection signal="pressed" from="ColorRect/CreditsButton" to="." method="OnCreditsButtonPressed"]
+[connection signal="pressed" from="QuitButton" to="." method="OnQuitButtonPressed"]

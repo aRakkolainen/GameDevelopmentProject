@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://own1l2qsvex3"]
+[gd_scene load_steps=8 format=3 uid="uid://own1l2qsvex3"]
 
 [ext_resource type="Script" path="res://scripts/Upgrades/UpgradeShop.cs" id="1_fcqlg"]
 [ext_resource type="Texture2D" uid="uid://dk7qt7pir208x" path="res://assets/UI/exit_button.png" id="3_ymr2w"]
 [ext_resource type="Texture2D" uid="uid://bx3qfvybnec7c" path="res://assets/UI/exit_button_pressed.png" id="4_j7clx"]
+[ext_resource type="PackedScene" uid="uid://bcre7xan5g1os" path="res://scenes/SoundEffectPlayer.tscn" id="5_op747"]
 [ext_resource type="PackedScene" uid="uid://bwkv1na22m6s5" path="res://scenes/SimpleInventory.tscn" id="5_s3bp6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r15bv"]
@@ -44,10 +45,10 @@ text = "Upgrade items available"
 process_mode = 3
 z_index = 1
 texture_filter = 1
-offset_left = 469.0
-offset_top = 76.0
-offset_right = 501.0
-offset_bottom = 108.0
+offset_left = 572.0
+offset_top = 74.0
+offset_right = 604.0
+offset_bottom = 106.0
 scale = Vector2(2, 2)
 toggle_mode = true
 texture_normal = ExtResource("3_ymr2w")
@@ -77,12 +78,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -490.0
+offset_left = -450.0
 offset_top = -392.0
-offset_right = 689.0
+offset_right = 669.0
 offset_bottom = 376.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 theme_override_colors/guide_color = Color(0.407843, 0.301961, 0.117647, 1)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -100,7 +103,7 @@ max_text_lines = 5
 auto_height = true
 text_overrun_behavior = 2
 max_columns = 3
-fixed_column_width = 350
+fixed_column_width = 380
 icon_mode = 0
 fixed_icon_size = Vector2i(48, 48)
 
@@ -139,6 +142,8 @@ offset_left = 213.0
 offset_top = 543.0
 offset_right = 933.0
 offset_bottom = 646.0
+
+[node name="SoundEffectPlayer" parent="." instance=ExtResource("5_op747")]
 
 [connection signal="pressed" from="ExitButton" to="." method="OnExitButtonPressed"]
 [connection signal="item_activated" from="UpgradeItems" to="." method="OnUpgradeItemPurchaseClicked"]

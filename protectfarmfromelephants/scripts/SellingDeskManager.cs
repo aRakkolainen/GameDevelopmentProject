@@ -10,7 +10,9 @@ public partial class SellingDeskManager : TextureButton
 
 	[Signal] public delegate void SellPopUpOpenedEventHandler(string sellDeskType, string distractionPlantName);
 
-	
+	/* [Signal] public delegate void PlayedSoundEffectEventHandler(string starter, string effect, int duration); */
+
+	private SoundEffectPlayer soundEffectPlayer;
 
 	private SpinBox fruitAmountToBeSoldSpinBox;
 	private int currentLevel;
@@ -30,6 +32,7 @@ public partial class SellingDeskManager : TextureButton
 		currentLevelData = LevelManager.Instance.GetLevelData(currentLevel);
 		quota_text ??= GetNode<Label>("%QuotaText");
 		fruit_image ??= GetNode<TextureRect>("%Fruit");
+		soundEffectPlayer ??= GetNode<SoundEffectPlayer>("SoundEffectPlayer");
 		if (currentLevelData != null)
 		{
 			string texture= null;
@@ -47,7 +50,7 @@ public partial class SellingDeskManager : TextureButton
 						{
 							texture= GetTexture(distractionPlantUpgrade.GetItemName());
 							distractionPlantName = distractionPlantUpgrade.GetItemName();
-							quotaText = currentLevelData.GetLevelDistractionPlantSellValue() + " extra coins / plant";
+							quotaText = currentLevelData.GetLevelDistractionPlantSellValue() + " coins / plant";
 							quota_text.Text = quotaText;
 					}
 					break;
@@ -104,5 +107,12 @@ public partial class SellingDeskManager : TextureButton
 	public void OnSimpleInventoryFruitsSold()
 	{
 		UpdateLevelQuotaText();
+		soundEffectPlayer.PlaySoundEffect("UI", "sell_item", 4);
+		
+	}
+
+	public void OnDistractionPlantSold(string starter, string effect, int duration)
+	{
+		soundEffectPlayer.PlaySoundEffect(starter, effect, duration);
 	}
 }

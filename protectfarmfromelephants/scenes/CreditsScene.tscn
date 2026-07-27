@@ -1,8 +1,34 @@
-[gd_scene load_steps=2 format=3 uid="uid://b31c4euhi2qco"]
+[gd_scene load_steps=6 format=3 uid="uid://b31c4euhi2qco"]
 
+[ext_resource type="Script" path="res://CreditsScene.cs" id="1_hwtrk"]
 [ext_resource type="PackedScene" uid="uid://by43eid8253kv" path="res://scenes/MainMenuButton.tscn" id="1_pjd42"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sacdh"]
+bg_color = Color(0.379373, 0.56117, 0.352012, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l20ha"]
+bg_color = Color(0.221233, 0.344411, 0.202798, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_07nsb"]
+bg_color = Color(0.307691, 0.463856, 0.28235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
 [node name="CreditsScene" type="Node2D"]
+script = ExtResource("1_hwtrk")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 1923.0
@@ -12,10 +38,10 @@ color = Color(0.400355, 0.583746, 0.591857, 1)
 [node name="Info" type="Label" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.350574
-anchor_top = 0.38725
-anchor_right = 0.711268
-anchor_bottom = 0.674688
+anchor_left = 0.342254
+anchor_top = 0.416743
+anchor_right = 0.702948
+anchor_bottom = 0.758559
 offset_left = -146.154
 offset_top = -188.166
 offset_right = 177.231
@@ -24,7 +50,10 @@ grow_horizontal = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 50
 text = "Music and sound effects: freeSFX 
-https://freesfx.co.uk/ "
+https://freesfx.co.uk/ 
+
+Coding and visual assets:
+Aino \"Aikkuww\" Räkköläinen"
 metadata/_edit_use_anchors_ = true
 
 [node name="TitleLabel" type="Label" parent="ColorRect"]
@@ -47,9 +76,24 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -251.5
-offset_top = -131.0
-offset_right = 251.5
-offset_bottom = -50.0
+offset_left = -113.5
+offset_top = -141.0
+offset_right = 398.5
+offset_bottom = -53.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="QuitButton" type="Button" parent="."]
+offset_left = 504.0
+offset_top = 944.0
+offset_right = 778.0
+offset_bottom = 1025.0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 53
+theme_override_styles/hover = SubResource("StyleBoxFlat_sacdh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l20ha")
+theme_override_styles/normal = SubResource("StyleBoxFlat_07nsb")
+text = "Quit game"
+
+[connection signal="pressed" from="ColorRect/MainMenuButton" to="." method="OnMainMenuButtonPressed"]
+[connection signal="pressed" from="QuitButton" to="." method="OnQuitButtonPressed"]

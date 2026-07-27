@@ -57,7 +57,7 @@ public abstract class PlacedItem
         return ID;
     }
 
-    public string GetType()
+    public string GetItemType()
     {
         return Type;
     }

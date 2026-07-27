@@ -21,6 +21,8 @@ public partial class LevelScript : Node2D
 
     private int spawned_enemies;
     private Node2D changeDay; 
+
+    [Export] ChangeDayPopup _change_day_popup;
     [Export] private AcceptDialog _change_day_dialog;
     [Export] private Player _player;
 
@@ -32,6 +34,15 @@ public partial class LevelScript : Node2D
     [Export] private Godot.Timer _elephant_timer;
 
     [Signal] public delegate void SellPopUpOpenedEventHandler();
+
+    [Signal]
+	public delegate void UpdatedMoneyTextEventHandler();
+
+    [Signal]
+	public delegate void UpdatedWateringcanTextEventHandler();
+
+    [Signal] public delegate void ChangeDayPopupOpenedEventHandler(int ended_day, int sold_quota, int expected_quota, string info_text, string button_text);
+
 
     [Export]
     public PackedScene ElephantScene { get; set; }
@@ -56,13 +67,21 @@ public partial class LevelScript : Node2D
         GetTree().Paused = false;
         GD.Randomize();
         level = LevelManager.Instance.GetLevelData(level_num);
+        if(level_num > 1)
+        {
+            LevelData previous_level = LevelManager.Instance.GetLevelData(level_num);
+            if(previous_level != null)
+            {
+                LevelManager.Instance.AddToTotalMoney(previous_level.GetLevelCurrentMoney());
+                EmitSignal(SignalName.UpdatedMoneyText);
+            }
+        }
+        GD.Print(LevelManager.Instance.GetMoneyAvailable());
         _farmManager = GetNode<FarmManager>("%Farm");
         timer = GetNode<TimeManager>("Timer");
         _elephant_timer = GetNode<Godot.Timer>("ElephantTimer");
-        _change_day_dialog = GetNode<AcceptDialog>("%ChangeDayDialog");
-        _change_day_dialog.CloseRequested += OnDialogCloseRequested;
-        _change_day_dialog.Confirmed += OnDialogConfirmed;
         _sell_popup = GetNode<SellPopup>("SellPopup");
+        _change_day_popup = GetNode<ChangeDayPopup>("ChangeDayPopup");
         if(GetTree() != null)
         {
             if (!timer.IsInsideTree())
@@ -94,22 +113,25 @@ public partial class LevelScript : Node2D
         LevelManager.Instance.SetCurrentDay(LevelManager.Instance.GetCurrentDay()+1);
         int sold_quota = level.GetCurrentQuota();
         int expected_quota = level.GetExpectedQuota();
+        string info_text = "";
+        string button_text = "";
         
         if (timer.GetDaysLeft() > 0)
         {
-            _change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
-            timer.SetCurrentDay(timer.GetCurrentDay()+1);
+            //_change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
             if(sold_quota >= expected_quota)
             {
-                 _change_day_dialog.DialogText = "You reached the quota and passed this level: " + sold_quota + "/" + expected_quota;
-                 _change_day_dialog.OkButtonText = "Move to next level";
+                 info_text = "You reached the quota and passed this level";
+                 button_text = "Move to next level";
             } else
             {
-                _change_day_dialog.DialogText = "Sold fruits: " + sold_quota + "/" + expected_quota;
-                _change_day_dialog.OkButtonText = "Start new day";
+                info_text= "Sold fruits: ";
+                button_text = "Start new day";
                 _player.SetPlayerIsAlive(false); 
                 GetTree().Paused = true;
             }
+            EmitSignal(SignalName.ChangeDayPopupOpened, timer.GetCurrentDay(), sold_quota, expected_quota, info_text, button_text);
+            timer.SetCurrentDay(timer.GetCurrentDay()+1);
 
         } else if (timer.GetDaysLeft() == 0)
         {
@@ -117,21 +139,18 @@ public partial class LevelScript : Node2D
             if (sold_quota >= expected_quota)
         {
              GetTree().Paused = true;
-            GD.Print("You survived and managed to fill the quota!");
-            _change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
-            _change_day_dialog.DialogText = "You reached the quota and passed this week: " + sold_quota + "/" + expected_quota;
-            _change_day_dialog.OkButtonText = "Move to next level";
+            info_text = "You reached the quota and passed this level: ";
+            button_text = "Move to next level";
+            EmitSignal(SignalName.ChangeDayPopupOpened, timer.GetCurrentDay(), sold_quota, expected_quota, info_text, button_text);
+            
             
         } else{
             GD.Print("You failed to fill the quota!");
             LevelManager.Instance.SetPlayerHasFailed(true);
             LevelManager.Instance.LoadScene(Scenes.CutScenes.between_levels_animations_scene);
         }
-        } else {
-                
-            }
-            _change_day_dialog.PopupCentered();
     
+    }
     }
     
     private void OnDialogConfirmed()
@@ -141,7 +160,9 @@ public partial class LevelScript : Node2D
         int expected_quota = level.GetExpectedQuota();
         if (sold_quota >= expected_quota)
         {
+            LevelManager.Instance.GetLevelDataForActiveLevel().SetLevelDayWhenQuotaFilled(LevelManager.Instance.GetCurrentDay());
             LoadInBetweenLevelsAnimation();
+            GetTree()?.Free();
         }
 
         if(timer.GetDaysLeft() == 0)
@@ -218,6 +239,7 @@ public partial class LevelScript : Node2D
         _farmManager.RemoveOldPuddles();
         
         timer.StartTimer(timer.GetDaysLeft());
+        LevelManager.Instance.SetDaysLeft(timer.GetDaysLeft());
         _player.SetPlayerIsAlive(true);
         if(GetTree() != null)
         {
@@ -235,7 +257,7 @@ public partial class LevelScript : Node2D
         {
             _farmManager.RemovePlantAtCoordinates(farm_tile_coordinates[i]);  
         }
-        LevelManager.Instance.ResetLevel();
+        LevelManager.Instance.ResetLevel(LevelManager.Instance.GetCurrentActiveLevel());
     }
 
     public LevelData GetLevelData()
@@ -270,14 +292,11 @@ public partial class LevelScript : Node2D
         Godot.Vector2 worldSpawnPosition = _farmManager.ToGlobal(localSpawnPosition);
         elephant.GlobalPosition = worldSpawnPosition;
         GD.Print("Elephant should spawn at location:" + spawnLocation);
-        //if(spawned_enemies <= total_enemies)
-        //{
+        if(spawned_enemies <= total_enemies)
+        {
 		    AddChild(elephant);
             elephant.CollidedWithFarm += _farmManager.OnElephantCollidedWithFarm;
             elephant.CollidedWithItem += _farmManager.OnElephantCollidedWithItem;
-            //GD.Print("Listeners:", GetSignalConnectionList("CollidedWithFarm").Count);
-            
-
             elephant.Initialize();
             spawned_enemies++;
             if(elephant is Elephant elephantScript)
@@ -287,10 +306,10 @@ public partial class LevelScript : Node2D
                 spawned_elephants.Add(elephant);
             }
              _elephant_timer.Start();
-        //} else
-        //{
-        //    _elephant_timer.Stop();
-        //}
+        } else
+        {
+            _elephant_timer.Stop();
+        }
 
     }
 

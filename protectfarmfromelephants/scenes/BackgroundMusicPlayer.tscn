@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://8gnqojqk66bo"]
+
+[ext_resource type="AudioStream" uid="uid://4diax26lq1wf" path="res://assets/audio/music/background_option_1.mp3" id="1_hdkfw"]
+[ext_resource type="Script" path="res://scripts/BackgroundMusicPlayer.cs" id="2_7eo0q"]
+
+[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D"]
+process_mode = 3
+stream = ExtResource("1_hdkfw")
+volume_db = -20.133
+autoplay = true
+parameters/looping = true
+script = ExtResource("2_7eo0q")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://da2bvcg75chtw"]
+[gd_scene load_steps=43 format=4 uid="uid://da2bvcg75chtw"]
 
 [ext_resource type="Script" path="res://scripts/LevelScript.cs" id="1_g5xdi"]
 [ext_resource type="Texture2D" uid="uid://bgp6nbj4urk8k" path="res://assets/base_tilemap.png" id="2_sysrp"]
@@ -26,7 +26,11 @@
 [ext_resource type="AudioStream" uid="uid://0rlcu2mueqbh" path="res://assets/audio/sound_effects/camp_fire.mp3" id="16_rm83t"]
 [ext_resource type="PackedScene" uid="uid://jj0dt4w4obyt" path="res://ChangeDayDialog.tscn" id="17_a6hci"]
 [ext_resource type="AudioStream" uid="uid://4diax26lq1wf" path="res://assets/audio/music/background_option_1.mp3" id="26_6que6"]
-[ext_resource type="Script" path="res://scripts/BackgroundMusicPlayer.cs" id="27_s1oy4"]
+[ext_resource type="PackedScene" uid="uid://8gnqojqk66bo" path="res://scenes/BackgroundMusicPlayer.tscn" id="26_pqlmb"]
+[ext_resource type="AudioStream" uid="uid://beeq27rt8mc5c" path="res://assets/audio/music/background_option_2.mp3" id="28_1idn3"]
+[ext_resource type="PackedScene" uid="uid://d3dfnivv3dqcg" path="res://scenes/change_day_popup.tscn" id="28_nq38o"]
+[ext_resource type="AudioStream" uid="uid://brsounf7sx4h7" path="res://assets/audio/music/background_music_3.mp3" id="29_2aqye"]
+[ext_resource type="PackedScene" uid="uid://c6ssvy7vshhg1" path="res://scenes/settings_menu_canvas_layer.tscn" id="29_yu0ka"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("2_sysrp")
@@ -80,20 +84,24 @@ texture_region_size = Vector2i(32, 32)
 4:0/1 = 1
 4:0/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 4:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-5:0/next_alternative_id = 2
+5:0/next_alternative_id = 3
 5:0/0 = 0
 5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 5:0/0/custom_data_1 = true
 5:0/0/custom_data_2 = "pineapple"
 5:0/0/custom_data_3 = 3
 5:0/0/custom_data_4 = true
-6:0/next_alternative_id = 2
+5:0/1 = 1
+5:0/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
+6:0/next_alternative_id = 3
 6:0/0 = 0
 6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:0/0/custom_data_1 = true
 6:0/0/custom_data_2 = "melon"
 6:0/0/custom_data_3 = 3
 6:0/0/custom_data_4 = true
+6:0/2 = 2
+6:0/2/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -131,23 +139,32 @@ texture_region_size = Vector2i(32, 32)
 5:3/1 = 1
 5:3/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:3/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:3/next_alternative_id = 2
 6:3/0 = 0
 6:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 6:3/0/custom_data_2 = "mango"
 6:3/0/custom_data_3 = 4
 6:3/0/custom_data_4 = true
+6:3/1 = 1
+6:3/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 3:1/next_alternative_id = 2
 3:1/0 = 0
 3:1/1 = 1
 3:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 3:1/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:1/next_alternative_id = 2
 4:1/0 = 0
+4:1/1 = 1
+4:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:1/next_alternative_id = 2
 5:1/0 = 0
 5:1/1 = 1
 5:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 5:1/1/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:1/next_alternative_id = 2
 6:1/0 = 0
+6:1/1 = 1
+6:1/1/modulate = Color(0.815686, 0.721569, 0.635294, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_87xht"]
 resource_name = "distraction"
@@ -240,6 +257,13 @@ sources/4 = SubResource("TileSetAtlasSource_37ubd")
 sources/5 = SubResource("TileSetAtlasSource_y5gu3")
 sources/6 = SubResource("TileSetAtlasSource_6n3vs")
 sources/1 = SubResource("TileSetAtlasSource_87xht")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_mpe2m"]
+shuffle = true
+stream_count = 3
+stream_0 = ExtResource("26_6que6")
+stream_1 = ExtResource("28_1idn3")
+stream_2 = ExtResource("29_2aqye")
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("timer", "_player", "_sell_popup", "_farmManager", "_elephant_timer")]
 script = ExtResource("1_g5xdi")
@@ -346,21 +370,23 @@ _inventory = NodePath("../CanvasLayer/SimpleInventory")
 wait_time = 70.0
 script = ExtResource("14_t13ud")
 
-[node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
-process_mode = 3
-stream = ExtResource("26_6que6")
-autoplay = true
-parameters/looping = true
-script = ExtResource("27_s1oy4")
+[node name="BackgroundMusicPlayer" parent="." instance=ExtResource("26_pqlmb")]
+stream = SubResource("AudioStreamPlaylist_mpe2m")
 
 [node name="SecondSellDesk" parent="." instance=ExtResource("6_si6ec")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -24.0
+offset_right = -32.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 
+[node name="ChangeDayPopup" parent="." instance=ExtResource("28_nq38o")]
+
+[node name="SettingsMenu" parent="." instance=ExtResource("29_yu0ka")]
+
+[connection signal="ChangeDayPopupOpened" from="." to="ChangeDayPopup" method="OnChangeDayPopUpOpened"]
 [connection signal="pressed" from="Level1Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
+[connection signal="PlayedSoundEffect" from="Level1Map/Farm" to="Player" method="OnSoundEffectStarted"]
 [connection signal="UpdatedInfoText" from="Level1Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
 [connection signal="UpdatedSeedCount" from="Level1Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
@@ -379,12 +405,14 @@ sellDeskType = "distraction plant"
 [connection signal="FruitsSold" from="CanvasLayer/SimpleInventory" to="SellingDesk" method="OnSimpleInventoryFruitsSold"]
 [connection signal="InventoryItemActivatedForUse" from="CanvasLayer/SimpleInventory" to="Player" method="OnInventoryItemActivatedForUse"]
 [connection signal="ItemRemovedFromInventory" from="CanvasLayer/SimpleInventory" to="Player" method="OnInventoryItemRemoved"]
+[connection signal="PlayedSoundEffect" from="CanvasLayer/SimpleInventory" to="SecondSellDesk" method="OnDistractionPlantSold"]
 [connection signal="UpdatedInfoText" from="CanvasLayer/SimpleInventory" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedMoneyText" from="CanvasLayer/SimpleInventory" to="Level info" method="OnUpdatedMoneyText"]
 [connection signal="item_selected" from="CanvasLayer/SimpleInventory" to="CanvasLayer/SimpleInventory" method="OnItemSelected"]
 [connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]
 [connection signal="SoldAllItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldAllItemsFromInventory"]
 [connection signal="SoldNumberOfItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldNumberOfItemsFromInventory"]
+[connection signal="SettingsMenuOpened" from="Level info" to="SettingsMenu" method="OnLevelSettingsMenuOpened"]
 [connection signal="ContinueTimer" from="UpgradeShop" to="." method="OnContinueTimer"]
 [connection signal="PauseTimer" from="UpgradeShop" to="." method="OnPauseTimer"]
 [connection signal="PlayerAddToInventory" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
@@ -394,3 +422,6 @@ sellDeskType = "distraction plant"
 [connection signal="UpdatedSeedCount" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
 [connection signal="UpdatedTimerText" from="Timer" to="Level info" method="OnUpdatedTimerText"]
 [connection signal="SellPopUpOpened" from="SecondSellDesk" to="SellPopup" method="OnSellingDeskSellPopUpOpened"]
+[connection signal="ChangeDayPopupClosed" from="ChangeDayPopup" to="." method="OnDialogConfirmed"]
+[connection signal="UpdatedMusicVolume" from="SettingsMenu" to="BackgroundMusicPlayer" method="OnMusicVolumeChanged"]
+[connection signal="UpdatedSFXVolume" from="SettingsMenu" to="Level1Map/Farm/DistractionAudioPlayer" method="OnSoundEffectVolumeChanged"]

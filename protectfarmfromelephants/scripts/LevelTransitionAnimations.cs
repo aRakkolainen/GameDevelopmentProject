@@ -13,11 +13,18 @@ public partial class LevelTransitionAnimations : Node2D
 	private int frame_number = 0;
 
 	private int max_frames = 0;
+
+	private BackgroundMusicPlayer music_player;
+
+	[Export] AudioStream excited_cat;
+
+	[Export] AudioStream annoyed_cat;
 	public override void _Ready()
 	{
 
 		transition_level_animations = GetNode<AnimatedSprite2D>("BetweenLevelsAnimations");
 		LevelData level_data = LevelManager.Instance.GetLevelDataForActiveLevel();
+		music_player = GetNode<BackgroundMusicPlayer>("BackgroundMusicPlayer");
 		if (level_data != null)
 		{
 			current_level_num = level_data.GetLevelNumber();
@@ -27,8 +34,10 @@ public partial class LevelTransitionAnimations : Node2D
 			if (LevelManager.Instance.GetPlayerHasFailed())
 			{
 				animation_name = "eat_player";
+				music_player.Stream = annoyed_cat;
 			} else
 			{
+				music_player.Stream = excited_cat;
 			switch (current_fruit)
 			{
 				case"pineapple":
@@ -44,6 +53,7 @@ public partial class LevelTransitionAnimations : Node2D
 					break;
 			}
 			}
+				music_player.Play();
 				transition_level_animations.Stop();
 				transition_level_animations.Animation = animation_name;
 				max_frames = frames.GetFrameCount(animation_name);
@@ -68,7 +78,10 @@ public partial class LevelTransitionAnimations : Node2D
         else if (LevelManager.Instance.GetCurrentActiveLevel() == 3)
         {
             LevelManager.Instance.LoadScene(Scenes.Levels.level_3);
-        }
+        } else if(LevelManager.Instance.GetCurrentActiveLevel() > 3)
+			{
+				LevelManager.Instance.LoadScene(Scenes.CutScenes.final_scene);
+			}
 		}
     }
 
