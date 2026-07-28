@@ -125,10 +125,12 @@ public partial class LevelScript : Node2D
             //_change_day_dialog.Title = "Day " + timer.GetCurrentDay() + " has ended!";
             if(sold_quota >= expected_quota)
             {
+                LevelManager.Instance.SetWateringCanTotalLevel(10);
+                LevelManager.Instance.SetWateringCanLevel(0);
                 LevelManager.Instance.GetLevelDataForActiveLevel().SetLevelDayWhenQuotaFilled(LevelManager.Instance.GetCurrentDay()-1);
                  info_text = "You reached the quota and passed this level";
                  button_text = "Move to next level";
-                 if(level_num == 3)
+                 if(LevelManager.Instance.GetCurrentActiveLevel() == 3)
                 {
                     info_text = "Congrats, you won!";
                     button_text = "Finish the game";
@@ -149,8 +151,15 @@ public partial class LevelScript : Node2D
             if (sold_quota >= expected_quota)
         {
              GetTree().Paused = true;
-            info_text = "You reached the quota and passed this level: ";
-            button_text = "Move to next level";
+             if(LevelManager.Instance.GetCurrentActiveLevel() == 3)
+                {
+                    info_text = "Congrats, you won!";
+                    button_text = "Finish the game";
+                } else
+                {
+                    info_text = "You reached the quota and passed this level: ";
+                    button_text = "Move to next level";
+                }
             EmitSignal(SignalName.ChangeDayPopupOpened, timer.GetCurrentDay(), sold_quota, expected_quota, info_text, button_text);
             
             

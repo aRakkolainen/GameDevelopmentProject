@@ -489,10 +489,6 @@ public partial class FarmManager : TileMapLayer
             PlacePlant(mouse_map_pos, plant_type);
         }
         
-        /* if (plants.Count > 0 && plant_index != -1)
-        {
-            PickUpPlant(mouse_map_pos, plant_index);
-        } */
     }
 
 

@@ -11,7 +11,10 @@ public partial class MainMenu : Control
 	public static void OnStartButtonPressed()
 	{
 		LevelManager.Instance.SetCurrentActiveLevel(1);
+		LevelManager.Instance.SetWateringCanTotalLevel(10);
+		LevelManager.Instance.SetWateringCanLevel(0);
 		LevelManager.Instance.InitializeLevelData();
+		
 		LevelManager.Instance.SetGameStarted(true);
 		if(SettingsManager.Instance.GetSkipStartCutScene())
 		{

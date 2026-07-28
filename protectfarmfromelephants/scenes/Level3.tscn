@@ -373,6 +373,7 @@ _inventory = NodePath("../CanvasLayer/SimpleInventory")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 80.0
+autostart = true
 script = ExtResource("22_h0bak")
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]

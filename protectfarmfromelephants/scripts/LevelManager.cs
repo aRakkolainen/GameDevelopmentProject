@@ -283,11 +283,6 @@ public void InitializeLevelData()
 
     }
 
-    private static List<UpgradeItem> GetAllUpgradeItems()
-    {
-        return all_upgrade_items;
-    }
-
     private static List<UpgradeItem> RandomizeUpgradeItemsForLevel(int level_expected_quota)
     {
         GD.Randomize();

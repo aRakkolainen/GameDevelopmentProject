@@ -364,6 +364,7 @@ _inventory = NodePath("../CanvasLayer/SimpleInventory")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 70.0
+autostart = true
 script = ExtResource("19_mogbc")
 
 [node name="BackgroundMusicPlayer" parent="." instance=ExtResource("26_ogk5o")]

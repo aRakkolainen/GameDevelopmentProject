@@ -336,7 +336,6 @@ public partial class SimpleInventory : ItemList
 		{
 			if(quantity > max_stack)
 				{
-				int over_max_stack = 0;
 				int remainder = quantity % max_stack;
 				while(quantity > max_stack)
 					{

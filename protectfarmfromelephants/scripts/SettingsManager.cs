@@ -60,7 +60,7 @@ public partial class SettingsManager : Node
 
     public bool GetSkipStartCutScene()
     {
-        if(Settings["skip_start_cut_scene"] == 1)
+        if(Settings["skip_start_cut_scene"].Equals(1.0f))
         {
             return true;
         } else

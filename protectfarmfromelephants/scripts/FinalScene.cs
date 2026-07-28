@@ -34,6 +34,9 @@ public partial class FinalScene : Node2D
 
 	public static void OnMainMenuButtonPressed()
 	{
+		LevelManager.Instance.ResetLevel(1);
+		LevelManager.Instance.ResetLevel(2);
+		LevelManager.Instance.ResetLevel(3);
 		LevelManager.Instance.LoadScene(Scenes.Menus.main_menu);
 	}
 

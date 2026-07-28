@@ -28,7 +28,6 @@ public partial class ControlsMenu : CanvasLayer
 
 	Label BuyUpgradeItem;
 
-	Dictionary<StringName, string> controls;
 	bool waiting_for_custom_input;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -45,40 +44,6 @@ public partial class ControlsMenu : CanvasLayer
         mouse_controls = new List<StringName>();
 
         ShowControls();
-
-        /* foreach(StringName editableControl in editable_key_controls)
-		{
-			List<String> inputs = new List<string>();
-			foreach(InputEventKey key in InputMap.ActionGetEvents(editableControl))
-			{
-				if(key.AsText() != null)
-				{
-					inputs.Add(key.AsText());
-				}
-			}
-			controls.Add(editableControl, inputs);
-
-		}
-
-		foreach(StringName editableControl in editable_mouse_controls)
-		{
-			List<String> inputs = new List<string>();
-			foreach(InputEventMouseButton mouse in InputMap.ActionGetEvents(editableControl))
-			{
-				if(mouse.AsText() != null)
-				{
-					inputs.Add(mouse.AsText());
-				}
-			}
-			controls.Add(editableControl, inputs);
-
-		}
-
-
-
-		MoveUp.Text = controls.GetValueOrDefault("move_up").ToString(); */
-
-
     }
 
     private void ShowControls()
