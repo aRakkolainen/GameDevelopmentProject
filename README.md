@@ -6,11 +6,12 @@ This 2D, tilemap-based game is about a mouse who is one and only employee on a f
 grow specific amount in each level in specific time or else it gets eaten by the cat. However, this farm is unfortunately located next to travel path of a herd of elephants who are not hostile on purpose, they just happen to destroy 
 some of the crops while walking past the farm. Thus, player has to use creative upgrade items to protect the crops and feed the angry boss.
 ## How to run the project 
-This project is not yet fully functional but it is downloadable.
+Game is now playable, it can be run in Godot 4.3 game editor or through executable found from the following Google Drive Folder (it also includes short teaser trailer made for the course):
+https://drive.google.com/drive/folders/1JloPEnn_UziiuZPF-usnMgStH_YRyhVc?usp=sharing 
 ## Learning goals with this project
 - learn game design and development practices
 - learn godot4 game engine and C#
 - improve my skills in how to apply object-oriented programming into game development
 - learn digital drawing with Krita
 ## Project status
-This is currently ongoing project I am developing individually for my studies. It is not even close to be neat and perfect playable game, but I still want to demonstrate my honest learning journey.
+This is game now demonstrated my original idea and matches the requirements for the course. It also demonstrates my honest learning journey with Godot and C# as code might be a bit messy in some parts.
