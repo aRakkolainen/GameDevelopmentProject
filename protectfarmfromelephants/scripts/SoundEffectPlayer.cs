@@ -24,10 +24,13 @@ public partial class SoundEffectPlayer : AudioStreamPlayer2D
 	[Export] public AudioStream sell_item;
 
 	private Timer sfx_timer;
+    private float volume;
 
     // Called when the node enters the scene tree for the first time.
+
     public override void _Ready()
 	{
+        ChangeVolume();
 		sfx_timer = GetNode<Timer>("SoundEffectTimer");
 		if(sfx_timer != null)
 		{
@@ -43,8 +46,12 @@ public partial class SoundEffectPlayer : AudioStreamPlayer2D
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
-	{
-	}
+    {
+        if(SettingsManager.Instance.GetSoundEffectsVolume() != volume)
+        {
+            ChangeVolume();
+        }
+    }
 
 	public void OnSoundEffectStarted(string starter, string effect, int duration)
     {
@@ -133,7 +140,7 @@ public partial class SoundEffectPlayer : AudioStreamPlayer2D
 
     private void ChangeVolume()
     {
-        float volume = SettingsManager.Instance.GetSoundEffectsVolume() / 100.0f;
+        volume = SettingsManager.Instance.GetSoundEffectsVolume() / 100.0f;
         VolumeDb = Mathf.LinearToDb(volume);
     }
 }

@@ -76,18 +76,18 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -113.5
-offset_top = -141.0
-offset_right = 398.5
-offset_bottom = -53.0
+offset_left = -385.5
+offset_top = -133.0
+offset_right = 126.5
+offset_bottom = -45.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="QuitButton" type="Button" parent="."]
-offset_left = 504.0
-offset_top = 944.0
-offset_right = 778.0
-offset_bottom = 1025.0
+offset_left = 256.0
+offset_top = 952.0
+offset_right = 530.0
+offset_bottom = 1033.0
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 53
 theme_override_styles/hover = SubResource("StyleBoxFlat_sacdh")
@@ -95,5 +95,20 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_l20ha")
 theme_override_styles/normal = SubResource("StyleBoxFlat_07nsb")
 text = "Quit game"
 
+[node name="StatsMenuButton" parent="." instance=ExtResource("1_pjd42")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 1144.0
+offset_top = 952.0
+offset_right = 1663.0
+offset_bottom = 1040.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Show previous stats"
+
 [connection signal="pressed" from="ColorRect/MainMenuButton" to="." method="OnMainMenuButtonPressed"]
 [connection signal="pressed" from="QuitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="pressed" from="StatsMenuButton" to="." method="OnStatsMenuButtonPressed"]

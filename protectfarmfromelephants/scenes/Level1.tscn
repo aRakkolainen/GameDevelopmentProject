@@ -376,7 +376,7 @@ stream = SubResource("AudioStreamPlaylist_mpe2m")
 [node name="SecondSellDesk" parent="." instance=ExtResource("6_si6ec")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -32.0
+offset_right = -25.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 

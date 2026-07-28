@@ -184,6 +184,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_n58rw")
 text = "NEXT"
 
 [node name="BackgroundMusicPlayer" parent="." instance=ExtResource("24_xiabr")]
+volume_db = -14.112
 
 [connection signal="pressed" from="SkipButton" to="." method="OnSkipButtonPressed"]
 [connection signal="pressed" from="NextButton" to="." method="OnNextButtonPressed"]

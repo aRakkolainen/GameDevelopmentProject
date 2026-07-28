@@ -27,6 +27,7 @@ public partial class SettingsMenuCanvasLayer : CanvasLayer
 	[Signal] public delegate void UpdatedMusicVolumeEventHandler();
 
 	[Signal] public delegate void UpdatedSFXVolumeEventHandler();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -50,22 +51,6 @@ public partial class SettingsMenuCanvasLayer : CanvasLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		/* if (Input.IsActionJustPressed("settings"))
-		{
-			int current_level = LevelManager.Instance.GetCurrentActiveLevel();
-			switch(current_level)
-			{
-				case 1:
-					LevelManager.Instance.LoadScene(Scenes.Levels.level_1);
-					break;
-				case 2:
-					LevelManager.Instance.LoadScene(Scenes.Levels.level_2);
-					break;
-				case 3:
-					LevelManager.Instance.LoadScene(Scenes.Levels.level_3);
-					break;
-			}
-		} */
 	}
 
 	public static void OnQuitButtonPressed()

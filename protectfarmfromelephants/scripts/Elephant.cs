@@ -162,7 +162,6 @@ public partial class Elephant : Area2D
 
 	public void OnBodyShapeEntered(Godot.Rid body_rid, Node2D body, int body_shape_index, int local_shape_index)
 	{
-		GD.Print("Entered body", body);
 		if (body is not TileMapLayer tileMap)
 		{
 			return;

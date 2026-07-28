@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=4 uid="uid://c581mkch3llep"]
+[gd_scene load_steps=41 format=4 uid="uid://c581mkch3llep"]
 
 [ext_resource type="Script" path="res://scripts/LevelScript.cs" id="1_o0xrg"]
 [ext_resource type="PackedScene" uid="uid://d0dif54itofdm" path="res://scenes/elephant.tscn" id="2_12b6i"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" path="res://scripts/BackgroundMusicPlayer.cs" id="24_xpvku"]
 [ext_resource type="AudioStream" uid="uid://4diax26lq1wf" path="res://assets/audio/music/background_option_1.mp3" id="26_qmqq8"]
 [ext_resource type="PackedScene" uid="uid://d3dfnivv3dqcg" path="res://scenes/change_day_popup.tscn" id="28_1dgyc"]
+[ext_resource type="PackedScene" uid="uid://c6ssvy7vshhg1" path="res://scenes/settings_menu_canvas_layer.tscn" id="29_duhh7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("3_n1otb")
@@ -359,7 +360,7 @@ theme_override_constants/v_separation = 5
 theme_override_constants/h_separation = 93
 
 [node name="ElephantTimer" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 15.0
 one_shot = true
 autostart = true
 
@@ -371,7 +372,7 @@ autostart = true
 _inventory = NodePath("../CanvasLayer/SimpleInventory")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 70.0
+wait_time = 80.0
 script = ExtResource("22_h0bak")
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer2D" parent="."]
@@ -385,15 +386,18 @@ script = ExtResource("24_xpvku")
 [node name="SecondSellDesk" parent="." instance=ExtResource("14_l3ss6")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -16.0
+offset_right = -8.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 
 [node name="ChangeDayPopup" parent="." instance=ExtResource("28_1dgyc")]
 
+[node name="SettingsMenu" parent="." instance=ExtResource("29_duhh7")]
+
 [connection signal="ChangeDayPopupOpened" from="." to="ChangeDayPopup" method="OnChangeDayPopUpOpened"]
 [connection signal="UpdatedMoneyText" from="." to="Level info" method="OnUpdatedMoneyText"]
 [connection signal="pressed" from="Level3Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
+[connection signal="PlayedSoundEffect" from="Level3Map/Farm" to="Player" method="OnSoundEffectStarted"]
 [connection signal="UpdatedInfoText" from="Level3Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level3Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
 [connection signal="UpdatedSeedCount" from="Level3Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
@@ -419,6 +423,7 @@ sellDeskType = "distraction plant"
 [connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]
 [connection signal="SoldAllItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldAllItemsFromInventory"]
 [connection signal="SoldNumberOfItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldNumberOfItemsFromInventory"]
+[connection signal="SettingsMenuOpened" from="Level info" to="SettingsMenu" method="OnLevelSettingsMenuOpened"]
 [connection signal="ContinueTimer" from="UpgradeShop" to="." method="OnContinueTimer"]
 [connection signal="PauseTimer" from="UpgradeShop" to="." method="OnPauseTimer"]
 [connection signal="PlayerAddToInventory" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]

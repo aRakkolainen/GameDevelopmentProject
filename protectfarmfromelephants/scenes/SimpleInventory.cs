@@ -63,7 +63,6 @@ public partial class SimpleInventory : ItemList
             {
                 var texture = LevelManager.Instance.GetTextureByItemName(currentItem.GetItemName());
                 var icon = (Texture2D)GD.Load(texture);
-				GD.Print(currentItem.GetItemName());
                 Item new_item = new Item(currentItem.GetID(), currentItem.GetItemName(), icon, currentItem.GetMaxQuantity(), currentItem.GetQuantity());
                 AddItem(new_item.Quantity.ToString(), new_item.Icon);
             }
@@ -163,7 +162,6 @@ public partial class SimpleInventory : ItemList
 
 		if (inventory_items != null && inventory_items.Count < 10)
 		{
-			GD.Print("Trying to add item " + item_name + " with quantity " + quantity);
 			AddToInventory(id, item_name, item_type, quantity, max_quantity);
 			Clear();
             DisplayNewItems();
@@ -411,7 +409,6 @@ public partial class SimpleInventory : ItemList
         if (currentQuantity < max && currentQuantity + quantity <= max)
         {
             currentItem.SetQuantity(currentQuantity + quantity);
-            GD.Print("You collected existing item " + currentItem.GetItemName() + " and total quantity is " + currentItem.GetQuantity());
         }
         else if (currentQuantity + quantity >= max)
         {

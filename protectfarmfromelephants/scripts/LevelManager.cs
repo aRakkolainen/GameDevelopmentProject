@@ -198,7 +198,7 @@ public partial class LevelManager : Node
 
     private int default_days = 5;
     private int days_left;
-
+    private bool restart_pressed;
 
     public override void _Ready()
     {
@@ -220,6 +220,7 @@ public void QuitGame()
 public void RestartLevel()
     {
         int current_level = Instance.GetCurrentActiveLevel();
+        SetRestartPressed(true);
 		switch (current_level)
 		{
 			case 1:
@@ -309,9 +310,9 @@ public void InitializeLevelData()
         
         List<UpgradeItem> all_noise_distractions = all_upgrade_items.FindAll(item => item.GetItemType().Equals("distraction"));
         int noise_distractions_count = GD.RandRange(1, all_noise_distractions.Count);
-        int minimum_distraction_item_per_type = (int) (level_expected_quota * 0.10f);
+        int minimum_distraction_item_per_type = 1 + (int) (level_expected_quota * 0.10f);
         int maximum_distraction_item_per_type = (int) (level_expected_quota * 0.15f);
-        RandomizeUpgradeItem(upgrades, all_noise_distractions, noise_distractions_count, 1, maximum_distraction_item_per_type);
+        RandomizeUpgradeItem(upgrades, all_noise_distractions, noise_distractions_count, minimum_distraction_item_per_type, maximum_distraction_item_per_type);
 
         List<UpgradeItem> all_plant_distractions = all_upgrade_items.FindAll(item => item.GetItemType().Equals("distraction_plant"));
         int distraction_plants_count = 1;
@@ -446,11 +447,13 @@ public void ResetLevel(int level_number)
             money_available = level.GetLevelCurrentMoney();
         } else if(level_number > 1)
         {
+            level.SetLevelCurrentMoney(0);
             LevelData previous_level = GetLevelData(current_active_Level-1);
             if(previous_level != null)
             {
-                level.SetLevelCurrentMoney(level.GetLevelStarterMoney() + previous_level.GetLevelCurrentMoney());
-                money_available = level.GetLevelCurrentMoney();
+                int new_money = level.GetLevelStarterMoney() + previous_level.GetLevelCurrentMoney();
+                level.SetLevelCurrentMoney(new_money);
+                money_available = new_money;
             } else
             {
                 level.SetLevelCurrentMoney(level.GetLevelStarterMoney());
@@ -460,9 +463,12 @@ public void ResetLevel(int level_number)
         }
         
         level.SetLevelDayWhenQuotaFilled(0);
+        SetCurrentDay(1);
         SetWateringCanLevel(0);
         SetWateringCanTotalLevel(watering_can_total_default_level);
+        level.GetLevelUpgradeItems().Clear();
         level.SetLevelUpgradeItems(RandomizeUpgradeItemsForLevel(level.GetExpectedQuota()));
+        level.SetLevelUsedUpgradeItemsCount(0);
         UpgradeItem distractionPlant = level.GetLevelUpgradeItems().Find(item => Scenes.Constants.distraction_plant.Equals(item.GetItemType()));
         if(distractionPlant.GetItemName() != null)
         {
@@ -712,6 +718,15 @@ public string GetTextureByItemName(string item_type)
         days_left = days;
     }
 
+    public bool GetRestartPressed()
+    {
+        return restart_pressed;
+    }
+
+    public void SetRestartPressed(bool pressed)
+    {
+       restart_pressed = pressed;
+    }
 }
 
 

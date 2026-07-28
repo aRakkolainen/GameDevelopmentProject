@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://dmy86o0h4u4se"]
+[gd_scene load_steps=40 format=4 uid="uid://dmy86o0h4u4se"]
 
 [ext_resource type="Script" path="res://scripts/LevelScript.cs" id="1_4o5xi"]
 [ext_resource type="Texture2D" uid="uid://b0hmmol7onmo4" path="res://assets/farm_tilemap.png" id="2_3msg5"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" path="res://scenes/TimeManager.cs" id="19_mogbc"]
 [ext_resource type="PackedScene" uid="uid://8gnqojqk66bo" path="res://scenes/BackgroundMusicPlayer.tscn" id="26_ogk5o"]
 [ext_resource type="PackedScene" uid="uid://d3dfnivv3dqcg" path="res://scenes/change_day_popup.tscn" id="28_nh7sg"]
+[ext_resource type="PackedScene" uid="uid://c6ssvy7vshhg1" path="res://scenes/settings_menu_canvas_layer.tscn" id="28_rf28n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fp4n3"]
 texture = ExtResource("3_yc3ud")
@@ -370,15 +371,18 @@ script = ExtResource("19_mogbc")
 [node name="SecondSellDesk" parent="." instance=ExtResource("12_edlx1")]
 offset_left = -160.0
 offset_top = -71.0
-offset_right = -40.0
+offset_right = -32.0
 offset_bottom = -7.0
 sellDeskType = "distraction plant"
 
 [node name="ChangeDayPopup" parent="." instance=ExtResource("28_nh7sg")]
 
+[node name="SettingsMenu" parent="." instance=ExtResource("28_rf28n")]
+
 [connection signal="ChangeDayPopupOpened" from="." to="ChangeDayPopup" method="OnChangeDayPopUpOpened"]
 [connection signal="UpdatedMoneyText" from="." to="Level info" method="OnUpdatedMoneyText"]
 [connection signal="pressed" from="Level2Map/House" to="UpgradeShop" method="OnUpgradeShopPressed"]
+[connection signal="PlayedSoundEffect" from="Level2Map/Farm" to="Player" method="OnSoundEffectStarted"]
 [connection signal="UpdatedInfoText" from="Level2Map/Farm" to="Level info" method="OnUpdatedInfoText"]
 [connection signal="UpdatedItemCount" from="Level2Map/Farm" to="CanvasLayer/SimpleInventory" method="OnUpdatedItemQuantity"]
 [connection signal="UpdatedSeedCount" from="Level2Map/Farm" to="CanvasLayer/SimpleInventory" method="OnFarmUpdatedSeedCount"]
@@ -404,6 +408,7 @@ sellDeskType = "distraction plant"
 [connection signal="timeout" from="ElephantTimer" to="." method="OnElephantTimerTimeout"]
 [connection signal="SoldAllItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldAllItemsFromInventory"]
 [connection signal="SoldNumberOfItemsFromInventory" from="SellPopup" to="CanvasLayer/SimpleInventory" method="OnSellPopupSoldNumberOfItemsFromInventory"]
+[connection signal="SettingsMenuOpened" from="Level info" to="SettingsMenu" method="OnLevelSettingsMenuOpened"]
 [connection signal="ContinueTimer" from="UpgradeShop" to="." method="OnContinueTimer"]
 [connection signal="PauseTimer" from="UpgradeShop" to="." method="OnPauseTimer"]
 [connection signal="PlayerAddToInventory" from="UpgradeShop" to="CanvasLayer/SimpleInventory" method="OnUpdatedPlayerInventory"]
